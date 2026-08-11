@@ -7,6 +7,9 @@
     "default": {
       "pageUrl": "https://clickrmedia.sharepoint.com/sites/dbs-agility-exchange/SitePages/index.aspx?env=WebView&debug=true&noredir=true"
     },
+    "aboutTg": {
+      "pageUrl": "https://clickrmedia.sharepoint.com/sites/dbs-agility-exchange/SitePages/about-tg.aspx?env=WebView&debug=true&noredir=true"
+    },
     "pageChrome": {
       "pageUrl": "https://clickrmedia.sharepoint.com/sites/dbs-agility-exchange/SitePages/index.aspx?debug=true&noredir=true",
       "customActions": {

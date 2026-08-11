@@ -1,0 +1,269 @@
+@font-face {
+  font-family: 'OpenSans-Bold';
+  src: url('../../home/assets/OpenSans-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenSans-SemiBold';
+  src: url('../../home/assets/OpenSans-SemiBold.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenSans-Regular';
+  src: url('../../home/assets/OpenSans-Regular.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenSans-Light';
+  src: url('../../home/assets/OpenSans-Light.woff') format('woff');
+  font-display: swap;
+}
+
+/* Classic about-tg.aspx: body/html #F1EEEE — paint Modern host gaps while About is mounted */
+:global {
+  html:has(body.ae-about-fullwidth),
+  body.ae-about-fullwidth {
+    background-color: #f1eeee !important;
+  }
+
+  body.ae-about-fullwidth {
+    #workbenchPageContent,
+    .CanvasComponent,
+    .CanvasZone,
+    .CanvasSection,
+    .CanvasSection-col,
+    .CanvasLayout,
+    .SPCanvas-canvas,
+    #spPageCanvasContent,
+    [data-automation-id='CanvasZone'],
+    [data-automation-id='CanvasSection'] {
+      max-width: 100% !important;
+      width: 100% !important;
+      background-color: #f1eeee !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+    }
+
+    .ControlZone,
+    .ControlZone--control,
+    .ControlZone-control {
+      margin: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+      background-color: transparent !important;
+    }
+
+    #spSiteHeader,
+    .SPPageChrome,
+    #CommentsWrapper,
+    [data-automation-id='CommentsWrapper'] {
+      background-color: #f1eeee !important;
+    }
+  }
+}
+
+.aboutTg {
+  box-sizing: border-box;
+  background-color: #f1eeee;
+  color: #1e1e1e;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 16px;
+  padding: 0;
+  width: 100%;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p {
+    margin: 0;
+    padding: 0;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  strong {
+    font-family: 'OpenSans-Bold', 'Segoe UI', sans-serif;
+    font-weight: 700;
+  }
+}
+
+/* UIkit .uk-container as border-box: inner 1200px + pad 15/30/40 */
+.mainContainer,
+.container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1230px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  @media screen and (min-width: 40rem) {
+    max-width: 1260px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  @media screen and (min-width: 60rem) {
+    max-width: 1280px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+/* Classic .about-tg .header-banner { padding: 0 } — keep gradient card */
+.headerBanner {
+  background: linear-gradient(0deg, rgba(151, 71, 255, 0) 40.28%, rgba(151, 71, 255, 0.15) 100%),
+    linear-gradient(0deg, #f9f7f8, #f9f7f8);
+  border-radius: 38px;
+  margin-top: 20px;
+  padding: 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  overflow: visible;
+}
+
+.detailContents {
+  width: 100%;
+}
+
+.heroWrap {
+  display: flex;
+  align-items: stretch;
+  gap: 80px;
+  background: #f9f7f8;
+  border-radius: 42px;
+  padding: 15px 45px;
+  margin: 30px 0;
+}
+
+@media screen and (max-width: 640px) {
+  .heroWrap {
+    flex-direction: column;
+    gap: 30px;
+  }
+}
+
+.heroText {
+  max-width: 447px;
+  min-width: 0;
+}
+
+/* Nested under .aboutTg so pad/size beat `.aboutTg h1 { padding:0 }` + SP host heading styles */
+.aboutTg .heroTitle {
+  margin: 0;
+  font-family: 'OpenSans-Light', 'Segoe UI', sans-serif;
+  font-size: 56px;
+  font-weight: 400;
+  color: #1e1e1e;
+  line-height: 1;
+  padding-top: 30px;
+  padding-bottom: 20px;
+}
+
+@media screen and (max-width: 959px) {
+  .aboutTg .heroTitle {
+    font-size: 38px !important;
+  }
+}
+
+.heroImage {
+  width: 50%;
+  margin-left: auto;
+  border-radius: 42px;
+  min-height: 300px;
+  height: auto;
+}
+
+@media screen and (max-width: 640px) {
+  .heroImage {
+    width: 100%;
+  }
+}
+
+.detailList {
+  background: #f9f7f8;
+  padding: 40px 100px;
+  border-radius: 42px;
+  margin-bottom: 30px;
+}
+
+@media screen and (max-width: 959px) {
+  .detailList {
+    padding: 40px 38px;
+  }
+}
+
+/* Classic about-tg override: 24px SemiBold — beat `.aboutTg h2 { padding:0 }` */
+.aboutTg .detailHeading {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 400;
+  font-family: 'OpenSans-SemiBold', 'Segoe UI', sans-serif;
+  color: #1e1e1e;
+  padding-top: 0;
+  padding-bottom: 20px;
+  line-height: 1.5;
+}
+
+.aboutTg .detailList p {
+  margin: 0;
+  padding: 0;
+  color: #1e1e1e;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+}
+
+/* UIkit ul: margin-top/bottom 20px + padding-left 30px (beats classic `* { margin:0 }`) */
+.aboutTg .detailList ul {
+  margin: 20px 0;
+  padding-left: 30px;
+  list-style: disc;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 16px;
+  color: #1e1e1e;
+}
+
+.aboutTg .detailList ul li {
+  color: #1e1e1e;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+}
+
+.aboutTg .detailList strong {
+  font-family: 'OpenSans-Bold', 'Segoe UI', sans-serif;
+  font-weight: 700;
+  color: #1e1e1e;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aboutTg *,
+  .aboutTg *::before,
+  .aboutTg *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
