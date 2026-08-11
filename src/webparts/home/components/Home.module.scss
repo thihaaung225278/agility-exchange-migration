@@ -1,0 +1,564 @@
+@font-face {
+  font-family: 'OpenSans-Bold';
+  src: url('../assets/OpenSans-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenSans-SemiBold';
+  src: url('../assets/OpenSans-SemiBold.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenSans-Regular';
+  src: url('../assets/OpenSans-Regular.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenSans-Light';
+  src: url('../assets/OpenSans-Light.woff') format('woff');
+  font-display: swap;
+}
+
+/* Classic index.aspx: body/html #F1EEEE fills the page — paint Modern host gaps while Home is mounted */
+:global {
+  html:has(body.ae-home-fullwidth),
+  body.ae-home-fullwidth {
+    background-color: #f1eeee !important;
+  }
+
+  body.ae-home-fullwidth {
+    #workbenchPageContent,
+    .CanvasComponent,
+    .CanvasZone,
+    .CanvasSection,
+    .CanvasSection-col,
+    .CanvasLayout,
+    .SPCanvas-canvas,
+    #spPageCanvasContent,
+    [data-automation-id='CanvasZone'],
+    [data-automation-id='CanvasSection'] {
+      max-width: 100% !important;
+      width: 100% !important;
+      background-color: #f1eeee !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+    }
+
+    .ControlZone,
+    .ControlZone--control,
+    .ControlZone-control {
+      margin: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+      background-color: transparent !important;
+    }
+
+    /* Fallback: leftover Modern chrome bands — paint only, do not hide suite/command */
+    #spSiteHeader,
+    .SPPageChrome,
+    #CommentsWrapper,
+    [data-automation-id='CommentsWrapper'] {
+      background-color: #f1eeee !important;
+    }
+  }
+}
+
+.home {
+  box-sizing: border-box;
+  background-color: #f1eeee;
+  color: #1e1e1e;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 16px;
+  padding: 0;
+  width: 100%;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p {
+    margin: 0;
+    padding: 0;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+/* UIkit .uk-container as border-box: inner 1200px + pad 15/30/40 */
+.mainContainer,
+.container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1230px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  @media screen and (min-width: 40rem) {
+    max-width: 1260px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  @media screen and (min-width: 60rem) {
+    max-width: 1280px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+.headerBanner {
+  background: linear-gradient(0deg, rgba(151, 71, 255, 0) 40.28%, rgba(151, 71, 255, 0.15) 100%),
+    linear-gradient(0deg, #f9f7f8, #f9f7f8);
+  border-radius: 38px;
+  margin-top: 20px;
+  padding: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  overflow: visible;
+}
+
+/* —— Banner —— */
+.bannerSlider {
+  display: flex;
+  align-items: center;
+  padding: 60px 0 5px;
+  position: relative;
+}
+
+.bannerSwiper {
+  width: 100%;
+  position: relative;
+}
+
+.slide {
+  width: 100%;
+}
+
+.contentWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 150px;
+  width: 905px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding-bottom: 60px;
+}
+
+@media screen and (max-width: 1024px) {
+  .contentWrapper {
+    width: 100%;
+    gap: 40px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .contentWrapper {
+    flex-direction: column;
+  }
+}
+
+.imageContent {
+  width: 440px;
+  max-width: 440px;
+  flex: 0 1 440px;
+}
+
+.imageContent img {
+  width: 100%;
+  height: auto;
+}
+
+@media screen and (max-width: 959px) {
+  .imageContent {
+    width: 50%;
+    max-width: none;
+    flex: 1 1 50%;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .imageContent {
+    width: 100%;
+    flex: 1 1 100%;
+  }
+}
+
+.textContent {
+  width: calc(100% - 440px - 80px);
+  min-width: 0;
+}
+
+@media screen and (max-width: 959px) {
+  .textContent {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .textContent {
+    width: 100%;
+  }
+}
+
+.bannerTitle {
+  margin: 0;
+  padding: 0;
+  font-size: 56px;
+  font-weight: 400;
+  font-family: 'OpenSans-Light', 'Segoe UI', sans-serif;
+  color: #3a3030;
+  line-height: 1.2;
+}
+
+@media screen and (max-width: 1024px) {
+  .bannerTitle {
+    font-size: 35px;
+  }
+}
+
+/* .home h2 { padding: 0 } is 0,1,1 — must beat it or Knowledge Hub sits flush */
+.home .bannerSubtitle {
+  margin: 0;
+  padding-top: 15px;
+  font-size: 30px;
+  font-weight: 400;
+  font-family: 'OpenSans-SemiBold', 'Segoe UI', sans-serif;
+  color: #ed1c24;
+  line-height: 1.2;
+}
+
+.bannerBody {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  color: #1e1e1e;
+  line-height: 1.5;
+}
+
+.subLabel {
+  padding: 20px 0;
+}
+
+.subLabel p {
+  margin: 0;
+  font-style: italic;
+  font-size: 18px;
+  font-weight: 400;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  color: #1e1e1e;
+  line-height: 1.5;
+}
+
+.subLabel p span {
+  color: #ed1c24;
+}
+
+.bannerRed a {
+  color: #fff;
+  background: #ed1c24;
+  padding: 7px 20px;
+  border-radius: 20px;
+  display: inline-block;
+  margin: 20px 0;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: 'OpenSans-SemiBold', 'Segoe UI', sans-serif;
+  line-height: 1.5;
+  transition: all 0.3s ease;
+}
+
+.bannerRed a:hover {
+  background: #fff;
+  color: #ed1c24;
+}
+
+.swiperPrev,
+.swiperNext {
+  position: absolute;
+  bottom: 0;
+  top: auto;
+  width: 42px;
+  height: 42px;
+  border: none;
+  background-color: transparent;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.swiperPrev {
+  right: 62px;
+  left: auto;
+  background-image: url('../assets/nav-prev.webp');
+}
+
+.swiperNext {
+  right: 12px;
+  left: auto;
+  background-image: url('../assets/nav-next.webp');
+}
+
+.swiperPrev:disabled,
+.swiperNext:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+@media screen and (max-width: 40rem) {
+  .swiperPrev,
+  .swiperNext {
+    display: none;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  margin-top: 8px;
+  padding-bottom: 8px;
+}
+
+.bullet {
+  width: 28px;
+  height: 3px;
+  background: #bbbbbb;
+  border-radius: 3px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.bulletActive {
+  background: #ed1c24;
+}
+
+/* —— Welcome —— */
+.welcomeSec {
+  padding: 30px 0;
+}
+
+.welcomeWrap {
+  border-radius: 38px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.welcomeContent {
+  display: flex;
+  align-items: stretch;
+}
+
+@media screen and (max-width: 59.9375rem) {
+  .welcomeContent {
+    flex-direction: column;
+  }
+}
+
+.welcomeText {
+  min-width: fit-content;
+  padding: 35px 40px;
+}
+
+.welcomeText h2 {
+  font-size: 2.25em;
+  color: #766767;
+  font-style: italic;
+  line-height: 1;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+}
+
+.welcomeText h2 span {
+  color: #ed1c24;
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+.welcomeImage {
+  height: auto;
+  background-size: 100%;
+  border-bottom-right-radius: 38px;
+  border-top-right-radius: 38px;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  width: 55%;
+  margin-left: auto;
+}
+
+@media screen and (max-width: 59.9375rem) {
+  .welcomeImage {
+    height: 180px;
+    width: 100%;
+    border-radius: 0 0 38px 38px;
+  }
+
+  .welcomeText {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 40rem) {
+  .welcomeImage {
+    height: 134px;
+  }
+}
+
+/* —— Cards —— */
+.threeCardSec {
+  padding-bottom: 30px;
+}
+
+.cardLgWrap {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media screen and (min-width: 40rem) {
+  .cardLgWrap {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 60rem) {
+  .cardLgWrap {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.featureCard {
+  padding: 15px;
+  border-radius: 38px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.featureCard img {
+  width: 100%;
+  border-radius: 24px;
+}
+
+.featureCard .cardTitle {
+  margin: 0;
+  padding: 20px 20px 10px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.featureCard .cardTitle a {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #1e1e1e;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+}
+
+.featureCard .cardTitle a:hover {
+  color: #ed1c24;
+}
+
+.featureCard .desc {
+  margin: 0;
+  padding: 0 20px 30px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #766767;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+}
+
+.cardSmWrap {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: 20px;
+  row-gap: 15px;
+}
+
+@media screen and (min-width: 40rem) and (max-width: 59.9375rem) {
+  .cardSmWrap {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.quickCard {
+  padding: 16px 30px;
+  border-radius: 38px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.quickCard a {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #766767;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: color 0.6s ease;
+}
+
+.quickCard a:hover {
+  color: #ed1c24;
+}
+
+.chevron {
+  background: #f5e7e7;
+  padding: 6px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ed1c24;
+  transition: background 0.6s ease, color 0.6s ease;
+  flex-shrink: 0;
+}
+
+.quickCard a:hover .chevron {
+  background: #ed1c24;
+  color: #f5e7e7;
+}
+
+.chevron svg {
+  width: 24px;
+  height: 24px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home *,
+  .home *::before,
+  .home *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

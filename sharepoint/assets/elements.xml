@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  <CustomAction
+    Title="Agile Exchange Page Chrome"
+    Location="ClientSideExtension.ApplicationCustomizer"
+    ClientSideComponentId="351d64f4-b5d2-46a4-9f4f-1f266e273f82"
+    ClientSideComponentProperties="{&quot;homeUrl&quot;:&quot;#&quot;,&quot;newsEventsUrl&quot;:&quot;news-events.aspx&quot;,&quot;aboutUrl&quot;:&quot;about-tg.aspx&quot;,&quot;agility101Url&quot;:&quot;agility-101.aspx&quot;,&quot;jitPackUrl&quot;:&quot;JIT-pack.aspx&quot;,&quot;contactEmail&quot;:&quot;agilityexchange@dbs.com&quot;}">
+  </CustomAction>
+</Elements>

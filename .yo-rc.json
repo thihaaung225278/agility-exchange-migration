@@ -1,0 +1,25 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "whichFolder": "subdir",
+    "solutionName": "agile-exchange-spfx",
+    "environment": "spo",
+    "packageManager": "npm",
+    "skipFeatureDeployment": true,
+    "componentType": "webpart",
+    "template": "react",
+    "componentName": "AgileExchange",
+    "componentDescription": "Agile Exchange client-side web part",
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "18.20.8",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.24.0"
+    },
+    "version": "1.20.0",
+    "libraryName": "agile-exchange-spfx",
+    "libraryId": "ad195e4e-8777-4b67-8739-27833748446f",
+    "solutionShortDescription": "agile-exchange-spfx description",
+    "isDomainIsolated": false
+  }
+}

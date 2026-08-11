@@ -1,0 +1,46 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "agile-exchange-spfx-client-side-solution",
+    "id": "ad195e4e-8777-4b67-8739-27833748446f",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.20.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "agile-exchange-spfx description"
+      },
+      "longDescription": {
+        "default": "agile-exchange-spfx description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "agile-exchange-spfx Feature",
+        "description": "The feature that activates elements of the agile-exchange-spfx solution.",
+        "id": "a409b6cc-879d-42f2-b2f3-0ffab3e99f16",
+        "version": "1.0.0.0",
+        "assets": {
+          "elementManifests": [
+            "elements.xml",
+            "ClientSideInstance.xml"
+          ]
+        }
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/agile-exchange-spfx.sppkg"
+  }
+}
