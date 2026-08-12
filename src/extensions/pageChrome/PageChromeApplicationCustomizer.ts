@@ -100,22 +100,26 @@ export default class PageChromeApplicationCustomizer
     const element: React.ReactElement = React.createElement(
       'div',
       { className: chromeStyles.placeholder },
-      React.createElement(SiteHeader, {
-        homeUrl: properties.homeUrl || 'index.aspx',
-        newsEventsUrl: properties.newsEventsUrl || 'news-events.aspx',
-        aboutUrl: properties.aboutUrl || 'about-tg.aspx',
-        agility101Url: properties.agility101Url || 'agility-101.aspx',
-        jitPackUrl: properties.jitPackUrl || 'JIT-pack.aspx',
-        logoSrc: chromeAssets.logo,
-        iconHome: chromeAssets.iconHome,
-        iconNews: chromeAssets.iconNews,
-        iconAbout: chromeAssets.iconAbout,
-        iconFocus: chromeAssets.iconFocus,
-        iconDd: chromeAssets.iconDd,
-        cardAgileSrc: chromeAssets.cardAgile,
-        cardJitSrc: chromeAssets.cardJit,
-        activeNav: resolveSiteNavKey(window.location.pathname)
-      })
+      React.createElement(
+        'div',
+        { className: chromeStyles.chromeContainer },
+        React.createElement(SiteHeader, {
+          homeUrl: properties.homeUrl || 'index.aspx',
+          newsEventsUrl: properties.newsEventsUrl || 'news-events.aspx',
+          aboutUrl: properties.aboutUrl || 'about-tg.aspx',
+          agility101Url: properties.agility101Url || 'agility-101.aspx',
+          jitPackUrl: properties.jitPackUrl || 'JIT-pack.aspx',
+          logoSrc: chromeAssets.logo,
+          iconHome: chromeAssets.iconHome,
+          iconNews: chromeAssets.iconNews,
+          iconAbout: chromeAssets.iconAbout,
+          iconFocus: chromeAssets.iconFocus,
+          iconDd: chromeAssets.iconDd,
+          cardAgileSrc: chromeAssets.cardAgile,
+          cardJitSrc: chromeAssets.cardJit,
+          activeNav: resolveSiteNavKey(window.location.pathname)
+        })
+      )
     );
 
     ReactDom.render(element, this._topPlaceholder.domElement);

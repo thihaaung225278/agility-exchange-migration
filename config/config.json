@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
   "version": "2.0",
   "bundles": {
-    "agile-exchange-web-part": {
+    "agility-101-web-part": {
       "components": [
         {
-          "entrypoint": "./lib/webparts/agileExchange/AgileExchangeWebPart.js",
-          "manifest": "./src/webparts/agileExchange/AgileExchangeWebPart.manifest.json"
+          "entrypoint": "./lib/webparts/agility101/Agility101WebPart.js",
+          "manifest": "./src/webparts/agility101/Agility101WebPart.manifest.json"
         }
       ]
     },
@@ -45,7 +45,7 @@
   },
   "externals": {},
   "localizedResources": {
-    "AgileExchangeWebPartStrings": "lib/webparts/agileExchange/loc/{locale}.js",
+    "Agility101WebPartStrings": "lib/webparts/agility101/loc/{locale}.js",
     "HomeWebPartStrings": "lib/webparts/home/loc/{locale}.js",
     "AboutTgWebPartStrings": "lib/webparts/aboutTg/loc/{locale}.js",
     "NewsEventsWebPartStrings": "lib/webparts/newsEvents/loc/{locale}.js",

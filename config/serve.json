@@ -5,7 +5,7 @@
   "ipAddress": "0.0.0.0",
   "serveConfigurations": {
     "default": {
-      "pageUrl": "https://clickrmedia.sharepoint.com/sites/dbs-agility-exchange/SitePages/news-events.aspx?env=WebView&debug=true&noredir=true"
+      "pageUrl": "https://clickrmedia.sharepoint.com/sites/dbs-agility-exchange/SitePages/agility-101.aspx?env=WebView&debug=true&noredir=true"
     },
     "home": {
       "pageUrl": "https://clickrmedia.sharepoint.com/sites/dbs-agility-exchange/SitePages/index.aspx?env=WebView&debug=true&noredir=true"
@@ -15,6 +15,9 @@
     },
     "newsEvents": {
       "pageUrl": "https://clickrmedia.sharepoint.com/sites/dbs-agility-exchange/SitePages/news-events.aspx?env=WebView&debug=true&noredir=true"
+    },
+    "agility101": {
+      "pageUrl": "https://clickrmedia.sharepoint.com/sites/dbs-agility-exchange/SitePages/agility-101.aspx?env=WebView&debug=true&noredir=true"
     },
     "pageChrome": {
       "pageUrl": "https://clickrmedia.sharepoint.com/sites/dbs-agility-exchange/SitePages/index.aspx?debug=true&noredir=true",

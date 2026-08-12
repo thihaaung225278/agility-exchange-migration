@@ -29,6 +29,29 @@
   width: 100%;
 }
 
+/* Classic header.aspx nests .uk-container — Top placeholder header needs the same width */
+.chromeContainer {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1230px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  @media screen and (min-width: 40rem) {
+    max-width: 1260px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  @media screen and (min-width: 60rem) {
+    max-width: 1280px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
 .siteHeader,
 .siteFooter {
   box-sizing: border-box;
@@ -53,7 +76,9 @@
   }
 }
 
+/* UIkit .uk-container as border-box — Home/News/Agility101 parity */
 .siteFooter {
+  box-sizing: border-box;
   width: 100%;
   max-width: 1230px;
   margin-left: auto;

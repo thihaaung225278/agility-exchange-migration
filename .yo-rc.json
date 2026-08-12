@@ -7,7 +7,7 @@
     "skipFeatureDeployment": true,
     "componentType": "webpart",
     "template": "react",
-    "componentName": "AgileExchange",
+    "componentName": "Agility101",
     "componentDescription": "Agile Exchange client-side web part",
     "plusBeta": false,
     "isCreatingSolution": true,

@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
   "id": "b4d4dcfe-44ae-45fb-9e58-21dd0f61d356",
-  "alias": "AgileExchangeWebPart",
+  "alias": "Agility101WebPart",
   "componentType": "WebPart",
 
   // The "*" signifies that the version should be taken from the package.json
@@ -18,11 +18,17 @@
   "preconfiguredEntries": [{
     "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Advanced
     "group": { "default": "Advanced" },
-    "title": { "default": "AgileExchange" },
-    "description": { "default": "Agile Exchange client-side web part" },
+    "title": { "default": "Agility 101" },
+    "description": { "default": "Agility 101 learning page with classic-style tabs and mindset content." },
     "officeFabricIconFontName": "Page",
     "properties": {
-      "description": "AgileExchange"
+      "homeUrl": "#",
+      "newsEventsUrl": "news-events.aspx",
+      "aboutUrl": "about-tg.aspx",
+      "agility101Url": "agility-101.aspx",
+      "jitPackUrl": "JIT-pack.aspx",
+      "contactEmail": "agilityexchange@dbs.com",
+      "renderOwnChrome": true
     }
   }]
 }

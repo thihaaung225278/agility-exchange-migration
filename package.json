@@ -13,7 +13,8 @@
     "serve": "gulp serve",
     "serve:news": "gulp serve --config=newsEvents",
     "serve:about": "gulp serve --config=aboutTg",
-    "serve:home": "gulp serve --config=home"
+    "serve:home": "gulp serve --config=home",
+    "serve:agility101": "gulp serve --config=agility101"
   },
   "dependencies": {
     "@fluentui/react": "^8.106.4",
