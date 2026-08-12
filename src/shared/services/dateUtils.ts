@@ -210,42 +210,26 @@ export function readViewParam(): string | undefined {
   if (typeof window === 'undefined' || !window.location || !window.location.search) {
     return undefined;
   }
-  const raw = window.location.search.charAt(0) === '?'
-    ? window.location.search.substring(1)
-    : window.location.search;
-  const parts = raw.split('&');
-  for (let i = 0; i < parts.length; i++) {
-    const kv = parts[i].split('=');
-    if (decodeURIComponent(kv[0]) === 'view' && kv[1]) {
-      return decodeURIComponent(kv[1]);
-    }
-  }
-  return undefined;
+  const view = new URLSearchParams(window.location.search).get('view');
+  return view || undefined;
+}
+
+/** Valid `?view=YYYY-MM-DD` from the current URL, if any. */
+export function readValidViewYmd(): string | undefined {
+  const view = readViewParam();
+  return view && isValidYmd(view) ? view : undefined;
 }
 
 export function writeViewParam(ymd: string | undefined, today: string): void {
   if (typeof window === 'undefined' || !window.history || !window.location) {
     return;
   }
-  const raw = window.location.search.charAt(0) === '?'
-    ? window.location.search.substring(1)
-    : window.location.search;
-  const parts = raw ? raw.split('&') : [];
-  const next: string[] = [];
-  for (let i = 0; i < parts.length; i++) {
-    if (!parts[i]) {
-      continue;
-    }
-    const kv = parts[i].split('=');
-    if (decodeURIComponent(kv[0]) === 'view') {
-      continue;
-    }
-    next.push(parts[i]);
-  }
+  const params = new URLSearchParams(window.location.search);
+  params.delete('view');
   if (ymd && ymd !== today) {
-    next.push('view=' + encodeURIComponent(ymd));
+    params.set('view', ymd);
   }
-  const search = next.length ? '?' + next.join('&') : '';
+  const search = params.toString() ? '?' + params.toString() : '';
   window.history.replaceState(null, '', window.location.pathname + search + window.location.hash);
 }
 

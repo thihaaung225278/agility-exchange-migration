@@ -14,9 +14,8 @@ import {
   formatLongDay,
   formatMonthShort,
   indexOfYmd,
-  isValidYmd,
   monthsOfYear,
-  readViewParam,
+  readValidViewYmd,
   startOfMonthYmd,
   todayYmd,
   writeViewParam,
@@ -86,16 +85,17 @@ const EventsView: React.FC<IEventsViewProps> = (props) => {
   const [boundsStatus, setBoundsStatus] = React.useState<'loading' | 'ready' | 'error'>('loading');
   const [startBound, setStartBound] = React.useState<string | undefined>();
   const [endBound, setEndBound] = React.useState<string | undefined>();
-  const [cursorYmd, setCursorYmd] = React.useState<string>(today);
+  const [cursorYmd, setCursorYmd] = React.useState(() => readValidViewYmd() ?? todayYmd());
   const [monthEvents, setMonthEvents] = React.useState<IEventItem[]>([]);
   const [eventDays, setEventDays] = React.useState<string[]>([]);
-  const [selectedYmd, setSelectedYmd] = React.useState<string>(today);
+  const [selectedYmd, setSelectedYmd] = React.useState(() => readValidViewYmd() ?? todayYmd());
   const [monthStatus, setMonthStatus] = React.useState<'loading' | 'ready' | 'error'>('loading');
   const [openDd, setOpenDd] = React.useState<'month' | 'year' | undefined>();
   const monthRef = React.useRef<HTMLDivElement>(null);
   const yearRef = React.useRef<HTMLDivElement>(null);
   const swiperRef = React.useRef<SwiperInstance | null>(null);
   const syncingFromSwiper = React.useRef(false);
+  const urlSyncReady = React.useRef(false);
 
   React.useEffect(() => {
     const onDoc = (e: MouseEvent): void => {
@@ -123,6 +123,7 @@ const EventsView: React.FC<IEventsViewProps> = (props) => {
 
   React.useEffect(() => {
     let cancelled = false;
+    const initialView = readValidViewYmd();
     setBoundsStatus('loading');
     getEventDateBounds(props.spHttpClient, props.webAbsoluteUrl, props.listTitle)
       .then((bounds) => {
@@ -131,10 +132,9 @@ const EventsView: React.FC<IEventsViewProps> = (props) => {
         }
         setStartBound(bounds.startYmd);
         setEndBound(bounds.endYmd);
-        const view = readViewParam();
         let next = today;
-        if (view && isValidYmd(view)) {
-          next = view;
+        if (initialView) {
+          next = initialView;
         }
         if (bounds.endYmd && compareYmd(next, bounds.endYmd) > 0) {
           next = bounds.endYmd;
@@ -151,6 +151,10 @@ const EventsView: React.FC<IEventsViewProps> = (props) => {
           // Bounds failed — do not invent today's year in the year control.
           setStartBound(undefined);
           setEndBound(undefined);
+          if (initialView) {
+            setCursorYmd(initialView);
+            setSelectedYmd(initialView);
+          }
           setBoundsStatus('ready');
         }
       });
@@ -178,8 +182,9 @@ const EventsView: React.FC<IEventsViewProps> = (props) => {
         if (days.length) {
           // Classic: default first event day; URL ?view= overrides when that day is in month.
           let pick = days[0];
-          const view = readViewParam();
-          if (view && isValidYmd(view)) {
+          const view = readValidViewYmd();
+          const cursorMonth = cursorYmd.substring(0, 7);
+          if (view && view.substring(0, 7) === cursorMonth) {
             const viewIdx = indexOfYmd(days, view);
             if (viewIdx >= 0) {
               pick = days[viewIdx];
@@ -187,12 +192,16 @@ const EventsView: React.FC<IEventsViewProps> = (props) => {
           }
           setSelectedYmd(pick);
         }
-        setMonthStatus('ready');
+        if (!cancelled) {
+          urlSyncReady.current = true;
+          setMonthStatus('ready');
+        }
       })
       .catch(() => {
         if (!cancelled) {
           setMonthEvents([]);
           setEventDays([]);
+          urlSyncReady.current = true;
           setMonthStatus('error');
         }
       });
@@ -204,6 +213,9 @@ const EventsView: React.FC<IEventsViewProps> = (props) => {
   }, [boundsStatus, cursorYmd, props.spHttpClient, props.webAbsoluteUrl, props.listTitle, today]);
 
   React.useEffect(() => {
+    if (!urlSyncReady.current) {
+      return;
+    }
     writeViewParam(selectedYmd, today);
   }, [selectedYmd, today]);
 
