@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "ec3668a1-9dc2-42c9-8e1b-8d358b8d7c6a",
+  "alias": "NewsEventsWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart", "SharePointFullPage"],
+  "supportsFullBleed": true,
+  "supportsThemeVariants": true,
+  "preconfiguredEntries": [{
+    "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+    "group": { "default": "Agile Exchange" },
+    "title": { "default": "News & Events" },
+    "description": { "default": "Agility Exchange News & Events page (migrated from classic news-events.aspx)" },
+    "officeFabricIconFontName": "News",
+    "properties": {
+      "homeUrl": "#",
+      "newsEventsUrl": "news-events.aspx",
+      "aboutUrl": "about-tg.aspx",
+      "agility101Url": "agility-101.aspx",
+      "jitPackUrl": "JIT-pack.aspx",
+      "newsDetailUrl": "news-detail.aspx",
+      "yammerUrl": "https://www.yammer.com/dbs.com/#/threads/inGroup?type=in_group&feedId=9349680&view=all",
+      "newsListTitle": "News",
+      "eventsListTitle": "Agility Exchange Events",
+      "contactEmail": "agilityexchange@dbs.com",
+      "renderOwnChrome": true
+    }
+  }]
+}

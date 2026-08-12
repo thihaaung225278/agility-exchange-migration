@@ -33,6 +33,14 @@
           "manifest": "./src/webparts/aboutTg/AboutTgWebPart.manifest.json"
         }
       ]
+    },
+    "news-events-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/newsEvents/NewsEventsWebPart.js",
+          "manifest": "./src/webparts/newsEvents/NewsEventsWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -40,6 +48,7 @@
     "AgileExchangeWebPartStrings": "lib/webparts/agileExchange/loc/{locale}.js",
     "HomeWebPartStrings": "lib/webparts/home/loc/{locale}.js",
     "AboutTgWebPartStrings": "lib/webparts/aboutTg/loc/{locale}.js",
+    "NewsEventsWebPartStrings": "lib/webparts/newsEvents/loc/{locale}.js",
     "PageChromeApplicationCustomizerStrings": "lib/extensions/pageChrome/loc/{locale}.js"
   }
 }

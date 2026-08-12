@@ -1,0 +1,1366 @@
+@font-face {
+  font-family: 'OpenSans-Bold';
+  src: url('../../home/assets/OpenSans-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenSans-SemiBold';
+  src: url('../../home/assets/OpenSans-SemiBold.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenSans-Regular';
+  src: url('../../home/assets/OpenSans-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenSans-Light';
+  src: url('../../home/assets/OpenSans-Light.woff') format('woff');
+  font-display: swap;
+}
+
+:global {
+  html:has(body.ae-news-fullwidth),
+  body.ae-news-fullwidth {
+    background-color: #f1eeee !important;
+  }
+
+  body.ae-news-fullwidth {
+    #workbenchPageContent,
+    .CanvasComponent,
+    .CanvasZone,
+    .CanvasSection,
+    .CanvasSection-col,
+    .CanvasLayout,
+    .SPCanvas-canvas,
+    #spPageCanvasContent,
+    [data-automation-id='CanvasZone'],
+    [data-automation-id='CanvasSection'] {
+      max-width: 100% !important;
+      width: 100% !important;
+      background-color: #f1eeee !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+    }
+
+    .ControlZone,
+    .ControlZone--control,
+    .ControlZone-control {
+      margin: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+      background-color: transparent !important;
+    }
+
+    #spSiteHeader,
+    .SPPageChrome,
+    #CommentsWrapper,
+    [data-automation-id='CommentsWrapper'] {
+      background-color: #f1eeee !important;
+    }
+  }
+}
+
+.newsEvents {
+  box-sizing: border-box;
+  background-color: #f1eeee;
+  color: #1e1e1e;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 16px;
+  padding: 0;
+  width: 100%;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p {
+    margin: 0;
+    padding: 0;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  button {
+    font-family: inherit;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid #ed1c24;
+    outline-offset: 2px;
+  }
+}
+
+.mainContainer,
+.container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1230px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  @media screen and (min-width: 40rem) {
+    max-width: 1260px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  @media screen and (min-width: 60rem) {
+    max-width: 1280px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+.headerBanner {
+  background: linear-gradient(0deg, rgba(237, 28, 36, 0) 40.28%, rgba(237, 28, 36, 0.15) 100%), #f9f7f8;
+  border-radius: 38px;
+  margin-top: 20px;
+  padding: 12px 12px 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  overflow: visible;
+}
+
+.newsBanner {
+  padding-top: 20px;
+}
+
+.heroRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 150px;
+  width: 905px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 1024px) {
+  .heroRow {
+    gap: 30px;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .heroRow {
+    flex-direction: column;
+  }
+}
+
+.heroImageWrap {
+  width: 500px;
+  max-width: 100%;
+}
+
+@media screen and (max-width: 1024px) {
+  .heroImageWrap {
+    width: 350px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .heroImageWrap {
+    width: 100%;
+  }
+}
+
+.heroText {
+  margin-bottom: 40px;
+}
+
+@media screen and (max-width: 640px) {
+  .heroText {
+    text-align: center;
+    width: 100%;
+  }
+}
+
+.newsEvents .heroText h1 {
+  color: #3a3030;
+  font-size: 56px;
+  font-family: 'OpenSans-Light', 'Segoe UI', sans-serif;
+  font-weight: 400;
+  line-height: 1;
+}
+
+@media screen and (max-width: 1024px) {
+  .newsEvents .heroText h1 {
+    font-size: 35px;
+  }
+}
+
+.filterWrapper {
+  padding: 30px 0;
+}
+
+.sectionWrap {
+  /* Classic: .section-wrap — clips Yammer notch right overhang */
+  overflow: hidden;
+  border-radius: 0;
+}
+
+.filterContent {
+  position: relative;
+}
+
+.subnav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  list-style: none;
+  margin: 0 0 0 -20px;
+  padding: 0;
+  gap: 0;
+  column-gap: 0;
+  row-gap: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.subnavItem {
+  flex: none;
+  width: calc(100% / 3);
+  padding-left: 20px;
+  margin: 0;
+  position: relative;
+  text-align: center;
+}
+
+/* Classic: .uk-subnav li a — literal typography + spacing SoT */
+.newsEvents .subnav button {
+  position: relative;
+  z-index: 2;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 0;
+  height: auto;
+  margin: 0;
+  border: none;
+  border-radius: 42px;
+  background: #FFFFFF;
+  box-shadow: none;
+  color: #766767;
+  text-align: center;
+  text-decoration: none;
+  text-transform: capitalize;
+  text-indent: 0;
+  /* Classic family name (weight via separate faces). SP antialias makes Regular look thin — restore subpixel. */
+  font-family: 'OpenSans-Regular', sans-serif;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-variant: normal;
+  font-synthesis: none;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+  line-height: normal;
+  letter-spacing: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+  padding: 12px 20px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.newsEvents .subnav button.tabActive {
+  background: #FFFFFF;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  position: relative;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  color: #766767;
+  font-family: 'OpenSans-Regular', sans-serif;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-height: 1.5;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
+@media screen and (max-width: 640px) {
+  .newsEvents .subnav button {
+    font-size: 18px;
+    padding: 12px 10px;
+    position: relative;
+    z-index: 2;
+  }
+}
+
+/* Classic: .uk-subnav li div — hidden until active tab */
+.tabNotch {
+  display: none;
+  width: calc(100% + 30px);
+  height: 100px;
+  background: #FFFFFF;
+  position: absolute;
+  right: -30px;
+  top: 51px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media screen and (max-width: 640px) {
+  .tabNotch {
+    top: 40px;
+  }
+}
+
+.newsEvents .subnav button.tabActive + .tabNotch {
+  display: block;
+}
+
+/* Classic: li div::before */
+.tabNotch::before {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  right: 0px;
+  top: 0px;
+  background-image: radial-gradient(circle at 102% 0, #F1EEEE 0%, #F1EEEE 30px, white 30px);
+}
+
+/* Classic: li div::after */
+.tabNotch::after {
+  content: '';
+  background-image: radial-gradient(circle at -2% 0, #F1EEEE 0%, #F1EEEE 30px, white 30px);
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: -9px;
+}
+
+/*
+ * Gap under inactive pills (classic floating look).
+ * Active tab still merges via .tabNotch white bridge (height 100px) across this gap.
+ */
+.panelStack {
+  position: relative;
+  z-index: 0;
+  margin-top: 20px;
+}
+
+.panelStack > [hidden] {
+  display: none;
+}
+
+.newsContentsWrap {
+  background: #ffffff;
+  padding: 20px 40px;
+  border-radius: 30px;
+}
+
+.contentsWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 64px;
+  padding-top: 10px;
+}
+
+@media screen and (max-width: 959px) {
+  .contentsWrap {
+    flex-direction: column;
+  }
+}
+
+.contentsNewsWrap {
+  min-height: 650px;
+}
+
+.contentDesc {
+  width: 50%;
+  min-width: 0;
+}
+
+@media screen and (max-width: 959px) {
+  .contentDesc {
+    width: 100%;
+  }
+}
+
+.fullWidth {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.label {
+  font-size: 24px;
+  color: #ed1c24;
+  text-transform: uppercase;
+  letter-spacing: 3.5px;
+}
+
+.newsEvents .eventsHeroTitle {
+  padding: 25px 0;
+  padding-top: 0;
+  font-size: 48px;
+  line-height: 48px;
+  font-family: 'OpenSans-Light', 'Segoe UI', sans-serif;
+  font-weight: 300;
+  color: #1e1e1e;
+}
+
+@media screen and (max-width: 640px) {
+  .newsEvents .eventsHeroTitle {
+    font-size: 24px;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+}
+
+.newsEvents .featuredTitle {
+  padding: 0 0 25px;
+  font-size: 48px;
+  line-height: 48px;
+  font-family: 'OpenSans-Light', 'Segoe UI', sans-serif;
+  font-weight: 300;
+  color: #1e1e1e;
+}
+
+.newsEvents .featuredTitle a {
+  font-family: 'OpenSans-SemiBold', 'Segoe UI', sans-serif;
+  font-size: 32px;
+  color: #1e1e1e;
+}
+
+@media screen and (max-width: 640px) {
+  .newsEvents .featuredTitle,
+  .newsEvents .featuredTitle a {
+    font-size: 24px;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    line-height: 1.5;
+  }
+}
+
+.desc {
+  font-size: 20px;
+  line-height: 27px;
+  color: #1e1e1e;
+}
+
+.newsDate {
+  padding-bottom: 20px;
+  font-size: 20px;
+}
+
+.btnLink {
+  margin-top: 40px;
+}
+
+.btnLink a {
+  color: #ffffff;
+  background: #ed1c24;
+  font-size: 14px;
+  border-radius: 24px;
+  padding: 10px 20px;
+  font-family: 'OpenSans-SemiBold', 'Segoe UI', sans-serif;
+}
+
+.btnLink a:hover {
+  color: #ed1c24;
+  background: #f5e7e7;
+}
+
+.btnLinkDetail {
+  margin: 30px 0;
+}
+
+.imgWrap {
+  display: inline-block;
+  border-radius: 42px;
+  overflow: hidden;
+  width: 50%;
+  margin-bottom: 20px;
+}
+
+.imgWrap img {
+  width: 100%;
+}
+
+@media screen and (max-width: 959px) {
+  .imgWrap {
+    width: 100%;
+  }
+}
+
+.contentImg {
+  width: 50%;
+  border-radius: 42px;
+  object-fit: cover;
+}
+
+@media screen and (max-width: 959px) {
+  .contentImg {
+    width: 100%;
+  }
+}
+
+.oneCard {
+  display: flex;
+  background: #ffffff;
+  border-radius: 42px;
+  margin-top: 20px;
+  padding: 20px 40px;
+  gap: 40px;
+  align-items: center;
+  min-height: 520px;
+}
+
+@media screen and (max-width: 959px) {
+  .oneCard {
+    flex-direction: column;
+  }
+}
+
+.cardContents {
+  width: 50%;
+  min-width: 0;
+}
+
+@media screen and (max-width: 959px) {
+  .cardContents {
+    width: 100%;
+  }
+}
+
+.newsEvents .cardContents h4 {
+  padding-bottom: 15px;
+}
+
+.newsEvents .cardContents h4 a {
+  font-family: 'OpenSans-SemiBold', 'Segoe UI', sans-serif;
+  font-size: 32px;
+  color: #1e1e1e;
+}
+
+.cardContents p {
+  font-size: 20px;
+}
+
+.oneCard > a {
+  display: inline-block;
+  width: 50%;
+  border-radius: 42px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.newImgWrapper {
+  width: 100%;
+}
+
+.newImgWrapper img {
+  width: 100%;
+}
+
+@media screen and (max-width: 959px) {
+  .oneCard > a {
+    width: 100%;
+  }
+}
+
+.calendarCard {
+  display: flex;
+  overflow: hidden;
+  margin: 24px 0;
+  border-radius: 38px;
+  background: radial-gradient(98.39% 162.27% at 50% 141.46%, rgba(151, 71, 255, 0) 70.14%, rgba(151, 71, 255, 0.15) 100%),
+    linear-gradient(0deg, #f9f7f8, #f9f7f8);
+}
+
+@media screen and (max-width: 1200px) {
+  .calendarCard {
+    margin-bottom: 0;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .calendarCard {
+    flex-direction: column;
+  }
+}
+
+.calCardLeft {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (max-width: 640px) {
+  .calCardLeft {
+    width: 100%;
+    margin-top: 40px;
+    justify-content: flex-start;
+    margin-left: 40px;
+  }
+}
+
+.newsEvents .calCardLeft h3 {
+  font-size: 48px;
+  line-height: 48px;
+  color: #1e1e1e;
+  font-family: 'OpenSans-Light', 'Segoe UI', sans-serif;
+  font-weight: 300;
+}
+
+@media screen and (max-width: 640px) {
+  .newsEvents .calCardLeft h3 {
+    font-size: 24px;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+}
+
+.calCardRight {
+  width: 60%;
+}
+
+@media screen and (max-width: 640px) {
+  .calCardRight {
+    width: 100%;
+  }
+}
+
+.showOnMobile {
+  display: none;
+}
+
+.hideOnMobile {
+  display: block;
+}
+
+@media screen and (max-width: 1200px) {
+  .showOnMobile {
+    display: block;
+  }
+
+  .hideOnMobile {
+    display: none;
+  }
+}
+
+.calWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px; /* classic .cal-wrapper */
+  align-items: stretch; /* left column fills height so date strip sits above events */
+}
+
+@media screen and (max-width: 1200px) {
+  .calWrapper {
+    flex-direction: column;
+  }
+}
+
+.calLeft {
+  width: 836px; /* classic .cal-wrapper .wrap */
+  flex: 0 0 836px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.calLeft .dateSlide {
+  margin-top: auto; /* pin strip to bottom → white notch meets eventsContents */
+}
+
+@media screen and (max-width: 1200px) {
+  .calLeft {
+    order: 2;
+    width: 100%;
+    flex: 1 1 auto;
+  }
+}
+
+.calView {
+  width: calc(100% - 836px - 25px); /* classic .cal-view-wrapper */
+  flex: 1 1 auto;
+  max-width: 100%;
+  min-width: 0;
+  margin: 24px 0;
+}
+
+@media screen and (max-width: 1200px) {
+  .calView {
+    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+.dateDropdowns {
+  display: flex;
+  gap: 10px;
+  position: relative;
+  z-index: 5;
+}
+
+.eventDd {
+  flex: 1;
+  position: relative;
+  min-width: 0;
+}
+
+/* Must beat `.newsEvents button { background: none }` (closed + open stay white) */
+button.selectedVal {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  background: #ffffff;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 42px;
+  padding: 10px 15px;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #766767;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  box-shadow: none;
+}
+
+button.selectedVal:hover,
+button.selectedVal:active,
+button.selectedVal[aria-expanded='true'] {
+  background: #ffffff;
+  background-color: #ffffff;
+}
+
+button.selectedVal:focus-visible {
+  outline: 0.125rem solid #ed1c24;
+  outline-offset: 0.125rem;
+  background: #ffffff;
+  background-color: #ffffff;
+}
+
+.ddLabel {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  font-size: 18px;
+  color: #766767;
+}
+
+.ddChevron {
+  flex: none;
+  background: #f5e7e7;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ed1c24;
+  transition: transform 0.2s ease;
+}
+
+.ddChevron svg {
+  display: block;
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+button.selectedVal[aria-expanded='true'] .ddChevron {
+  transform: rotate(180deg);
+}
+
+.ddList {
+  position: absolute;
+  z-index: 20;
+  left: 0;
+  right: 0;
+  margin: 5px 0 0;
+  padding: 0;
+  list-style: none;
+  border-radius: 20px;
+  background: #ffffff;
+  background-color: #ffffff;
+  isolation: isolate;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  max-height: 15rem;
+  overflow-y: auto;
+}
+
+.ddList li {
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+}
+
+.ddList button {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  border: none;
+  background: #ffffff;
+  text-align: left;
+  padding: 10px 20px;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #1e1e1e;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.ddList button:hover {
+  background: #faf6f6;
+}
+
+.ddList button:focus-visible {
+  outline: 0.125rem solid #ed1c24;
+  outline-offset: -0.125rem;
+}
+
+.ddList button.ddSelected {
+  color: #ed1c24 !important;
+  font-family: 'OpenSans-Bold', 'Segoe UI', sans-serif !important;
+  background: #f5e7e7 !important;
+  background-color: #f5e7e7 !important;
+  pointer-events: none;
+}
+
+.monthCal {
+  margin-top: 10px; /* classic #calendar */
+  height: 360px; /* classic .fc-scrollgrid-liquid */
+  background: #ffffff;
+  border-radius: 42px;
+  padding: 30px 30px 25px;
+  box-shadow: 0 2px 12px rgba(30, 30, 30, 0.04);
+}
+
+.calHead,
+.calBody {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.calDow {
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.7); /* classic .fc-col-header-cell-cushion */
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.calCell {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1px 0;
+  cursor: default;
+  background: transparent;
+  border: none;
+}
+
+.calNum {
+  position: relative;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.65); /* classic .fc-daygrid-day-number */
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.isToday .calNum::before {
+  content: '';
+  position: absolute;
+  top: -0.45rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0.25rem;
+  height: 0.25rem;
+  background: #ed1c24;
+  border-radius: 100%;
+}
+
+.isEvent {
+  background: #ffffff;
+  border-top: 1.5px solid #ed1c24;
+  border-bottom: 3.5px solid #ed1c24;
+  cursor: default;
+  pointer-events: none;
+}
+
+.isPast.isEvent {
+  border-color: rgba(237, 28, 36, 0.25);
+}
+
+.isStart {
+  border-left: 1.5px solid #ed1c24;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+
+.isEnd {
+  border-right: 1.5px solid #ed1c24;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.isSingle {
+  border-left: 1.5px solid #ed1c24;
+  border-right: 1.5px solid #ed1c24;
+  border-radius: 16px;
+}
+
+.isBetween {
+  border-radius: 0;
+}
+
+.outMonth .calNum {
+  color: #d1d1d1;
+}
+
+.outMonth {
+  opacity: 1;
+}
+
+.dateSlide {
+  background: #ffffff;
+  padding: 12px 58px;
+  border-radius: 42px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Classic .date-slide::after — white notch under center (centeredSlides) */
+.hasEvents::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-bottom: 25px solid #ffffff;
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hasEvents {
+  margin-bottom: 24px;
+}
+
+.emptyEvents {
+  min-height: 75px;
+  cursor: not-allowed;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* Classic .swiper.date-swiper */
+.dateSwiper {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  list-style: none;
+}
+
+.dateSwiper :global(.swiper-wrapper) {
+  align-items: center;
+}
+
+.dateSwiper :global(.swiper-slide) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+}
+
+.dateSlideItem {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  box-sizing: border-box;
+}
+
+/* Classic .swiper-slide span — exact tokens from _news-events.sass */
+.stripDayLabel {
+  min-width: max-content;
+  width: 100%;
+  display: block;
+  text-align: center;
+  font-size: 20px;
+  line-height: normal;
+  letter-spacing: normal;
+  padding: 10px 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-weight: 400;
+  color: #1e1e1e;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-sizing: border-box;
+}
+
+.stripDayLabel:hover {
+  color: #ed1c24;
+}
+
+.stripDayLabel:focus-visible {
+  outline: 2px solid #ed1c24;
+  outline-offset: 2px;
+  border-radius: 50px;
+}
+
+/* Classic .swiper-slide-active span */
+.dateSwiper :global(.swiper-slide-active) .stripDayLabel {
+  min-width: max-content;
+  background: #f5e7e7;
+  color: #ed1c24;
+  border-radius: 50px;
+  font-family: 'OpenSans-SemiBold', 'Segoe UI', sans-serif;
+  font-weight: 600;
+}
+
+.dateSwiper :global(.swiper-slide-active) .stripDayLabel:hover {
+  color: #ed1c24;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stripDayLabel {
+    transition: none;
+  }
+}
+
+/* Classic .outer-swiper — nav buttons absolute inside .date-slide */
+.outerSwiper {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/*
+ * Beat `.newsEvents button { background: none }` — same pattern as button.selectedVal
+ * Classic: 36px circle, #F5E7E7 bg, vertically centered in pill
+ */
+.dateSlide .stripNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 11;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #f5e7e7;
+  color: #ed1c24;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.6s ease, color 0.6s ease;
+  box-sizing: border-box;
+  pointer-events: auto;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.dateSlide .stripPrev {
+  left: 10px;
+  right: auto;
+}
+
+.dateSlide .stripNext {
+  right: 10px;
+  left: auto;
+}
+
+.dateSlide .stripNav:hover:not(:disabled) {
+  background: #ed1c24;
+  color: #ffffff;
+}
+
+.dateSlide .stripNav:hover:not(:disabled) .stripNavIcon {
+  color: #ffffff;
+}
+
+.dateSlide .stripNav:disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+  background: #f5e7e7;
+}
+
+.dateSlide .stripNav:focus-visible {
+  outline: 2px solid #ed1c24;
+  outline-offset: 2px;
+}
+
+.stripNavIcon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  color: inherit;
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dateSlide .stripNav {
+    transition: none;
+  }
+}
+
+.eventsContents {
+  background: #ffffff;
+  padding: 3rem 3rem 0;
+  border-radius: 42px;
+  position: relative;
+  box-shadow: 0 0.125rem 0.75rem rgba(30, 30, 30, 0.04);
+}
+
+.eventRow {
+  display: flex;
+  gap: 40px;
+  padding-bottom: 56px;
+}
+
+@media screen and (max-width: 959px) {
+  .eventRow {
+    flex-direction: column;
+  }
+}
+
+.eventWhen {
+  width: 200px;
+  display: flex;
+  flex-shrink: 0;
+}
+
+.lineWrap {
+  width: 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background: #1e1e1e;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.line {
+  width: 1px;
+  height: 88px;
+  background: #1e1e1e;
+}
+
+.dateText {
+  width: calc(100% - 44px);
+  font-size: 20px;
+  color: #1e1e1e;
+  margin-top: 5px;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+}
+
+.dateText sup {
+  font-size: 11px;
+}
+
+.dash {
+  height: 1px;
+  width: 18px;
+  background: #1e1e1e;
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+.eventBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.newsEvents .eventTitle {
+  font-size: 32px;
+  font-family: 'OpenSans-SemiBold', 'Segoe UI', sans-serif;
+  font-weight: 400;
+  margin-bottom: 20px;
+  color: #1e1e1e;
+}
+
+.eventMeta {
+  font-size: 20px;
+  color: #1e1e1e;
+}
+
+.eventActions {
+  width: 160px;
+  flex-shrink: 0;
+}
+
+.saveTheDate,
+.join {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  font-size: 18px;
+  font-family: 'OpenSans-SemiBold', 'Segoe UI', sans-serif;
+  transition: 0.3s ease;
+}
+
+.saveTheDate {
+  color: #ed1c24;
+  margin-bottom: 15px;
+  cursor: default;
+}
+
+.join {
+  color: #1e1e1e;
+}
+
+.join:hover {
+  text-decoration: underline;
+}
+
+.timePastEvent {
+  opacity: 0.5;
+}
+
+.timePastEvent .eventActions {
+  display: none;
+}
+
+.emptyEvent {
+  color: #ed1c24;
+  font-size: 24px;
+  text-align: center;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-30px);
+}
+
+.statusMsg {
+  padding: 24px;
+  text-align: center;
+  color: #766767;
+  font-size: 18px;
+}
+
+.yammerBlock {
+  padding: 10px 0 20px;
+}
+
+.yammerText {
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  margin-bottom: 12px;
+  font-size: 24px !important;
+  color: #766767;
+  text-align: center;
+}
+
+.yammerText a {
+  color: #766767;
+}
+
+.yammerText a:hover {
+  color: #ed1c24;
+}
+
+.yammerIcons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 auto;
+  gap: 20px;
+  padding: 50px 15px;
+}
+
+.yammerItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+}
+
+.yammerImg {
+  width: auto;
+  height: auto;
+  margin-bottom: 12px;
+}
+
+.yammerItem span {
+  font-size: 16px;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .newsEvents *,
+  .newsEvents *::before,
+  .newsEvents *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
