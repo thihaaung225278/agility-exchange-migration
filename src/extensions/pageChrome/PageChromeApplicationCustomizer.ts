@@ -101,7 +101,7 @@ export default class PageChromeApplicationCustomizer
       'div',
       { className: chromeStyles.placeholder },
       React.createElement(SiteHeader, {
-        homeUrl: properties.homeUrl || '#',
+        homeUrl: properties.homeUrl || 'index.aspx',
         newsEventsUrl: properties.newsEventsUrl || 'news-events.aspx',
         aboutUrl: properties.aboutUrl || 'about-tg.aspx',
         agility101Url: properties.agility101Url || 'agility-101.aspx',

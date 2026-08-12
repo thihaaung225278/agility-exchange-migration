@@ -126,8 +126,9 @@
 
 .navCenter li a,
 .navCenter li a:visited {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  gap: 5px;
   min-height: 64px;
   padding: 0 15px;
   color: #1e1e1e;
@@ -149,10 +150,15 @@
   outline-offset: 0.125rem;
 }
 
+.navCenter li a span {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
 .navCenter li a span img {
   width: 24px;
-  margin-right: 5px;
-  margin-top: 1px;
+  display: block;
 }
 
 .axLower {

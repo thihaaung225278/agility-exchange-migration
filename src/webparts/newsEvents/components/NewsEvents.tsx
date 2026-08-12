@@ -5,6 +5,7 @@ import NewsHeader from './NewsHeader';
 import NewsFooter from './NewsFooter';
 import EventsView from './EventsView';
 import NewsView from './NewsView';
+import NewsDetailView from './NewsDetailView';
 import { chromeAssets } from '../../../shared/chrome/chromeAssets';
 import { usePageChromeFlags } from '../../../shared/pageChrome';
 import { isSafeJoinUrl } from '../../../shared/services/dateUtils';
@@ -18,6 +19,18 @@ const yammerPoll = require('../assets/yammer-poll.webp');
 /* eslint-enable @typescript-eslint/no-var-requires */
 
 type TabKey = 'events' | 'news' | 'yammer';
+
+function readNewsDetailId(): number | undefined {
+  if (typeof window === 'undefined' || !window.location || !window.location.search) {
+    return undefined;
+  }
+  const raw = new URLSearchParams(window.location.search).get('id');
+  if (!raw || !/^\d+$/.test(raw)) {
+    return undefined;
+  }
+  const value = parseInt(raw, 10);
+  return value > 0 ? value : undefined;
+}
 
 const NewsEvents: React.FC<INewsEventsProps> = (props) => {
   const {
@@ -56,6 +69,48 @@ const NewsEvents: React.FC<INewsEventsProps> = (props) => {
   const showHeader = renderOwnChrome && chromeFlags.showHeader;
   const showFooter = renderOwnChrome && chromeFlags.showFooter;
   const safeYammer = isSafeJoinUrl(yammerUrl);
+  const detailItemId = React.useMemo(() => readNewsDetailId(), []);
+
+  if (detailItemId) {
+    return (
+      <div className={styles.newsEvents}>
+        <section>
+          <div className={styles.mainContainer}>
+            <div className={`${styles.headerBanner} ${styles.detailHeaderBanner}`}>
+              {showHeader && (
+                <NewsHeader
+                  homeUrl={homeUrl}
+                  newsEventsUrl={newsEventsUrl}
+                  aboutUrl={aboutUrl}
+                  agility101Url={agility101Url}
+                  jitPackUrl={jitPackUrl}
+                  logoSrc={chromeAssets.logo}
+                  iconHome={chromeAssets.iconHome}
+                  iconNews={chromeAssets.iconNews}
+                  iconAbout={chromeAssets.iconAbout}
+                  iconFocus={chromeAssets.iconFocus}
+                  iconDd={chromeAssets.iconDd}
+                  cardAgileSrc={chromeAssets.cardAgile}
+                  cardJitSrc={chromeAssets.cardJit}
+                  activeNav="news"
+                />
+              )}
+            </div>
+          </div>
+        </section>
+
+        <NewsDetailView
+          spHttpClient={spHttpClient}
+          webAbsoluteUrl={webAbsoluteUrl}
+          listTitle={newsListTitle}
+          newsEventsUrl={newsEventsUrl}
+          itemId={detailItemId}
+        />
+
+        {showFooter && <NewsFooter contactEmail={contactEmail} mailIconSrc={chromeAssets.iconMail} />}
+      </div>
+    );
+  }
 
   return (
     <div className={styles.newsEvents}>

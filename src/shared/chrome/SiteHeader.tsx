@@ -3,6 +3,34 @@ import styles from './Chrome.module.scss';
 
 export type SiteNavKey = 'home' | 'news' | 'about';
 
+function getLastSegment(value: string): string {
+  const [pathOnly] = value.split(/[?#]/, 1);
+  const clean = pathOnly.replace(/\/+$/, '');
+  const segment = clean.substring(clean.lastIndexOf('/') + 1).toLowerCase();
+  const dotIndex = segment.lastIndexOf('.');
+
+  return dotIndex > 0 ? segment.substring(0, dotIndex) : segment;
+}
+
+function resolveActiveState(targetUrl: string, fallbackKey: SiteNavKey, activeNav?: SiteNavKey): boolean {
+  if (typeof window === 'undefined') {
+    return activeNav === fallbackKey;
+  }
+
+  const currentSegment = getLastSegment(window.location.pathname);
+  const targetSegment = getLastSegment(targetUrl);
+
+  if (!currentSegment || currentSegment === 'index' || currentSegment === 'default') {
+    return fallbackKey === 'home' && (!targetSegment || targetSegment === 'index' || targetSegment === 'default');
+  }
+
+  if (targetSegment) {
+    return currentSegment === targetSegment;
+  }
+
+  return activeNav === fallbackKey;
+}
+
 export interface ISiteHeaderProps {
   homeUrl: string;
   newsEventsUrl: string;
@@ -26,6 +54,9 @@ const SiteHeader: React.FC<ISiteHeaderProps> = (props) => {
   const [mobileFocusOpen, setMobileFocusOpen] = React.useState(false);
   const focusRef = React.useRef<HTMLDivElement>(null);
   const activeNav = props.activeNav || 'home';
+  const isHomeActive = resolveActiveState(props.homeUrl, 'home', activeNav);
+  const isNewsActive = resolveActiveState(props.newsEventsUrl, 'news', activeNav);
+  const isAboutActive = resolveActiveState(props.aboutUrl, 'about', activeNav);
 
   React.useEffect(() => {
     const onDocClick = (e: MouseEvent): void => {
@@ -88,20 +119,20 @@ const SiteHeader: React.FC<ISiteHeaderProps> = (props) => {
           </a>
 
           <ul className={styles.navCenter}>
-            <li className={activeNav === 'home' ? styles.navActive : undefined}>
-              <a href={props.homeUrl} data-active="home" aria-current={activeNav === 'home' ? 'page' : undefined}>
+            <li className={isHomeActive ? styles.navActive : undefined}>
+              <a href={props.homeUrl} data-active="home" aria-current={isHomeActive ? 'page' : undefined}>
                 <span><img src={props.iconHome} alt="" /></span>
                 HOME
               </a>
             </li>
-            <li className={activeNav === 'news' ? styles.navActive : undefined}>
-              <a href={props.newsEventsUrl} data-active="news-events" aria-current={activeNav === 'news' ? 'page' : undefined}>
+            <li className={isNewsActive ? styles.navActive : undefined}>
+              <a href={props.newsEventsUrl} data-active="news-events" aria-current={isNewsActive ? 'page' : undefined}>
                 <span><img src={props.iconNews} alt="" /></span>
                 News &amp; Events
               </a>
             </li>
-            <li className={activeNav === 'about' ? styles.navActive : undefined}>
-              <a href={props.aboutUrl} data-active="about-tg" aria-current={activeNav === 'about' ? 'page' : undefined}>
+            <li className={isAboutActive ? styles.navActive : undefined}>
+              <a href={props.aboutUrl} data-active="about-tg" aria-current={isAboutActive ? 'page' : undefined}>
                 <span><img src={props.iconAbout} alt="" /></span>
                 <span>ABOUT A<span className={styles.axLower}>x</span></span>
               </a>
@@ -156,18 +187,18 @@ const SiteHeader: React.FC<ISiteHeaderProps> = (props) => {
             ×
           </button>
           <ul className={styles.offcanvasList}>
-            <li className={activeNav === 'home' ? styles.navActive : undefined}>
-              <a href={props.homeUrl} data-active="home" aria-current={activeNav === 'home' ? 'page' : undefined} onClick={() => setMobileOpen(false)}>
+            <li className={isHomeActive ? styles.navActive : undefined}>
+              <a href={props.homeUrl} data-active="home" aria-current={isHomeActive ? 'page' : undefined} onClick={() => setMobileOpen(false)}>
                 <span><img src={props.iconHome} alt="" /></span>Home
               </a>
             </li>
-            <li className={activeNav === 'news' ? styles.navActive : undefined}>
-              <a href={props.newsEventsUrl} data-active="news-events" aria-current={activeNav === 'news' ? 'page' : undefined} onClick={() => setMobileOpen(false)}>
+            <li className={isNewsActive ? styles.navActive : undefined}>
+              <a href={props.newsEventsUrl} data-active="news-events" aria-current={isNewsActive ? 'page' : undefined} onClick={() => setMobileOpen(false)}>
                 <span><img src={props.iconNews} alt="" /></span>News &amp; Events
               </a>
             </li>
-            <li className={activeNav === 'about' ? styles.navActive : undefined}>
-              <a href={props.aboutUrl} data-active="about-tg" aria-current={activeNav === 'about' ? 'page' : undefined} onClick={() => setMobileOpen(false)}>
+            <li className={isAboutActive ? styles.navActive : undefined}>
+              <a href={props.aboutUrl} data-active="about-tg" aria-current={isAboutActive ? 'page' : undefined} onClick={() => setMobileOpen(false)}>
                 <span><img src={props.iconAbout} alt="" /></span>
                 <span>About A<span className={styles.axLower}>x</span></span>
               </a>

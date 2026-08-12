@@ -12,6 +12,10 @@ export interface INewsItem {
   imageUrl?: string;
 }
 
+export interface INewsDetailItem extends INewsItem {
+  bodyContent: string;
+}
+
 interface IAttachmentFile {
   ServerRelativeUrl?: string;
 }
@@ -88,6 +92,45 @@ export async function getPublishedNews(
   }
 
   return items;
+}
+
+export async function getPublishedNewsDetail(
+  client: SPHttpClient,
+  webAbsoluteUrl: string,
+  listTitle: string,
+  itemIdValue: number
+): Promise<INewsDetailItem | undefined> {
+  const web = webAbsoluteUrl.replace(/\/$/, '');
+  const title = escapeODataString(listTitle);
+  const endpoint =
+    web +
+    "/_api/web/lists/getbytitle('" + title + "')" +
+    '/items?$select=Id,Title,Description,NewsDate,isFeatured,BodyContent,Attachments,AttachmentFiles' +
+    '&$expand=AttachmentFiles' +
+    "&$filter=Status eq 'Published' and Id eq " + itemIdValue +
+    '&$top=1';
+
+  const json = await getSpJson<INewsListResponse>(client, endpoint);
+  const row = (json.value || [])[0];
+  if (!row) {
+    return undefined;
+  }
+
+  const id = itemId(row);
+  if (!id) {
+    return undefined;
+  }
+
+  return {
+    id,
+    title: row.Title || '',
+    description: row.Description || '',
+    newsDate: row.NewsDate || undefined,
+    isFeatured: parseYesNo(row.isFeatured) === true,
+    hasBody: !!(row.BodyContent && String(row.BodyContent).trim()),
+    imageUrl: firstAttachmentUrl(row),
+    bodyContent: row.BodyContent || ''
+  };
 }
 
 export function pickFeaturedNews(items: INewsItem[]): INewsItem | undefined {
