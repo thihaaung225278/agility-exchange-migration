@@ -371,7 +371,8 @@
  */
 .panelStack {
   position: relative;
-  z-index: 0;
+  /* Above .tabNotch (z-index: 1) so panel copy is not painted over by the white bridge */
+  z-index: 2;
   margin-top: 20px;
 }
 
@@ -1309,25 +1310,52 @@ button.selectedVal[aria-expanded='true'] .ddChevron {
 }
 
 .yammerBlock {
-  padding: 10px 0 20px;
+  /* Classic: content lives in .news-contents-wrap only — no extra wrapper padding */
+  padding: 0;
+  margin: 0;
 }
 
-.yammerText {
+/* Classic: .contents-wrap-fullwith p + .yammer-text — beat .newsEvents p { margin: 0 } reset */
+.newsEvents p.yammerText {
   font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
-  margin-bottom: 12px;
+  margin: 0 0 12px;
+  padding: 0;
   font-size: 24px !important;
+  font-weight: normal;
+  /* Classic: UIKit html { line-height: 1.5 } — yammer-text sets size only */
+  line-height: 1.5;
+  letter-spacing: normal;
   color: #766767;
   text-align: center;
+  overflow: visible;
+  font-synthesis: none;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
 }
 
-.yammerText a {
-  color: #766767;
+/* Classic: UIKit default link (.uk-link, a) — SP antialias makes Regular look thin */
+.newsEvents .yammerText a {
+  color: #1e87f0;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: normal;
+  line-height: inherit;
+  letter-spacing: inherit;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+  font-synthesis: none;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
 }
 
-.yammerText a:hover {
-  color: #ed1c24;
+.newsEvents .yammerText a:hover {
+  color: #0f6ecd;
+  text-decoration: underline;
 }
 
+/* Classic: .four-icons.yammer-four-icons */
 .yammerIcons {
   display: flex;
   flex-wrap: wrap;
@@ -1337,6 +1365,7 @@ button.selectedVal[aria-expanded='true'] .ddChevron {
   padding: 50px 15px;
 }
 
+/* Classic: .four-icons .wrapper */
 .yammerItem {
   display: flex;
   flex-direction: column;
@@ -1344,16 +1373,22 @@ button.selectedVal[aria-expanded='true'] .ddChevron {
   width: 200px;
 }
 
+/* Classic: .yammer-four-icons .wrapper .img-wrap */
 .yammerImg {
   width: auto;
   height: auto;
   margin-bottom: 12px;
 }
 
-.yammerItem span {
-  font-size: 16px;
+/* Classic: .yammer-four-icons .wrapper span — inherits UIKit line-height: 1.5 */
+.newsEvents .yammerItem span {
+  font-size: 16px !important;
   font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
   text-align: center;
+  color: #666666;
 }
 
 @media (prefers-reduced-motion: reduce) {
