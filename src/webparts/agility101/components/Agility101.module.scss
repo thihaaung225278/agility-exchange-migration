@@ -196,11 +196,14 @@ $shadow-soft: 0 1.5rem 3rem rgba(58, 48, 48, 0.08);
   animation: fadeUp 420ms ease;
 }
 
-/* Classic .left-content — width 740px; image ~496px centered (no shrink → computed 740) */
+/* Banner left column — locked at 727px (measured classic parity target) */
 .heroImageWrap {
-  flex: 0 0 740px;
-  width: 740px;
-  max-width: 740px;
+  flex: 0 0 727px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: 727px;
+  min-width: 727px;
+  max-width: 727px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -212,10 +215,10 @@ $shadow-soft: 0 1.5rem 3rem rgba(58, 48, 48, 0.08);
   }
 }
 
-/* Classic .right-content — calc(100% - 740px); gap stays on .heroCard (20px) */
+/* Right column — remainder after 727px left; gap stays on .heroCard (20px) */
 .heroContent {
   flex: 1 1 auto;
-  width: calc(100% - 740px);
+  width: calc(100% - 727px);
   display: flex;
   align-items: center;
   min-width: 0;
@@ -1561,7 +1564,10 @@ $outer-tab-shape-overhang: 30px;
   /* Classic +respond(1200px): banner columns 50% / 50% */
   .heroImageWrap {
     flex: 1 1 50%;
+    flex-shrink: 1;
     width: 50%;
+    min-width: 0;
+    max-width: none;
   }
 
   .heroContent {
@@ -1748,7 +1754,10 @@ $outer-tab-shape-overhang: 30px;
   .heroImageWrap,
   .heroContent {
     flex: 1 1 100%;
+    flex-shrink: 1;
     width: 100%;
+    min-width: 0;
+    max-width: none;
   }
 
   .heroImageWrap img {
