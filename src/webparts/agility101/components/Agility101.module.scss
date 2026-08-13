@@ -397,14 +397,21 @@ $outer-tab-shape-overhang: 30px;
 }
 
 /*
- * Classic What tab: no full white outer wrap.
- * White = inner-tab-titles + inner-tab-content-wrapper only;
- * Values accordion sits on page bg (#F1EEEE) as a sibling.
+ * Classic outer-tab-content-li: transparent shell.
+ * White = .outer-tab-contents (topicPanel / innerTabs+innerPanel) only;
+ * .read-more-div sits on page bg (#F1EEEE) as a sibling.
  */
-.outerPanelWhat {
+.outerPanelOnPage {
   background: transparent;
   overflow: visible;
   border-radius: 0;
+}
+
+/* Classic .outer-tab-contents — white card, padding 25px 0, radius 42px */
+.topicPanel {
+  background: $panel-bg;
+  padding: 25px 0;
+  border-radius: $outer-tab-radius;
 }
 
 /* Classic .inner-tab-titles — padding 25px 0, gap 20px (px = host rem-safe) */
@@ -585,10 +592,6 @@ $outer-tab-shape-overhang: 30px;
   }
 }
 
-.topicPanel {
-  padding: 1.5rem 1rem 1rem;
-}
-
 .topicHeading {
   margin: 0 0 0.625rem;
   color: $text-main;
@@ -609,39 +612,74 @@ $outer-tab-shape-overhang: 30px;
   text-align: center;
 }
 
+/*
+ * Classic .outer-tab-content-li-2 .outer-tab-contents
+ * h3: 24px OpenSans-Regular / #1E1E1E / lh 1.5 / mb 10px
+ * h3 span: OpenSans-Light + .text-red-color (color only)
+ * p: 16px OpenSans-Regular / #766767 / mb 0
+ */
+.whyTopicHeading {
+  margin: 0 0 10px;
+  color: $text-main;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+
+  .textRed {
+    font-family: 'OpenSans-Light', 'Segoe UI', sans-serif;
+    font-weight: 300;
+  }
+}
+
+.whyTopicLead {
+  margin: 0;
+  color: $text-muted;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+}
+
+/* Classic .four-icons / .three-icons — gap 50px, pad 50px 15px, item 200px, icon 60px */
 .iconRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 3.125rem;
+  gap: 50px;
   justify-content: center;
   list-style: none;
   margin: 0;
-  padding: 3.125rem 0.9375rem;
+  padding: 50px 15px;
 }
 
 .iconItem {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 12.5rem;
+  width: 200px;
 
   span {
     color: $text-main;
     font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
-    font-size: 0.875rem;
+    font-size: 14px;
     line-height: 1.4;
+    letter-spacing: normal;
     text-align: center;
   }
 }
 
 .iconWrap {
-  width: 3.75rem;
-  height: 3.75rem;
-  margin-bottom: 0.75rem;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 0;
 
   img {
     width: 100%;
-    height: 100%;
+    height: auto;
     object-fit: contain;
   }
 }
@@ -653,15 +691,16 @@ $outer-tab-shape-overhang: 30px;
   background: transparent;
 }
 
-.outerPanelWhat > .readMore {
-  /* Classic .read-more-div: margin-top 24px (from .readMore) + padding 6px 0 16px */
-  padding-bottom: 1.5rem;
+.outerPanelOnPage > .readMore {
+  /* Classic .read-more-div padding-bottom 16px */
+  padding-bottom: 1rem;
 }
 
 .readMoreButtonWrap {
   text-align: center;
 }
 
+/* Classic .read-more-button — 14px / 24px radius / 10px 20px / margin 30px 0 20px */
 .readMoreButton {
   margin: 1.875rem 0 1.25rem;
   padding: 0.625rem 1.25rem;
@@ -674,7 +713,7 @@ $outer-tab-shape-overhang: 30px;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.3;
-  transition: opacity 180ms ease;
+  transition: opacity 0.3s ease;
 
   &:hover {
     opacity: 0.7;
@@ -696,26 +735,13 @@ $outer-tab-shape-overhang: 30px;
   opacity: 1;
 }
 
+/* Classic .read-more-content — no side padding (0 50px is commented out in classic) */
 .readMoreContent {
   overflow: hidden;
   min-height: 0;
-  padding: 0 1.5rem 0.5rem;
-  /* Classic is not inside SP canvas antialias — restore subpixel like NewsEvents */
+  padding: 0;
   -webkit-font-smoothing: auto;
   -moz-osx-font-smoothing: auto;
-
-  /* Values / Practices accordion must match container width (classic accordion-cards-section) */
-  &:has(.valuesAccordion),
-  &:has(.practicesAccordion),
-  &:has(.practiceCompare) {
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  /* Classic .read-more-content has no extra pad; grid-wrapper owns 24px 0 */
-  &:has(.principlesGrid) {
-    padding: 0;
-  }
 
   h4 {
     margin: 1.25rem 0 0.625rem;
@@ -727,11 +753,13 @@ $outer-tab-shape-overhang: 30px;
     letter-spacing: normal;
   }
 
+  /* Classic .read-more-content p — 16px Regular, mb 12px, #1E1E1E */
   p {
     margin: 0 0 0.75rem;
     color: $text-main;
     font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
     font-size: 1rem;
+    font-weight: 400;
     line-height: 1.5;
     letter-spacing: normal;
   }
@@ -743,18 +771,15 @@ $outer-tab-shape-overhang: 30px;
     letter-spacing: normal;
   }
 
-  /* Classic .read-more-content has no extra padding (0 50px is commented out) */
-  &:has(.fakeTable) {
-    padding: 0;
-  }
-
+  /* Classic .read-more-content ul — 16px Regular, disc, mb 30px (UA list indent) */
   ul {
     margin: 0 0 1.875rem;
-    padding-left: 1.25rem;
+    padding-left: 2.5rem;
     color: $text-main;
     font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
     font-size: 1rem;
-    line-height: 1.7;
+    font-weight: 400;
+    line-height: 1.5;
     list-style: disc;
   }
 
@@ -776,11 +801,6 @@ $outer-tab-shape-overhang: 30px;
     font-weight: bold;
     line-height: 1.5;
   }
-}
-
-.readMoreItalic {
-  font-style: italic;
-  text-align: center;
 }
 
 .howDiagram {
@@ -1484,14 +1504,20 @@ $outer-tab-shape-overhang: 30px;
   }
 }
 
+/* Classic .text-align-center / .text-italic / .text-red-color */
 .textAlignCenter {
-  text-align: center;
+  text-align: center !important;
   letter-spacing: normal;
 }
 
 .textItalic {
-  font-style: italic;
+  font-style: italic !important;
   letter-spacing: normal;
+}
+
+/* Color only — do not use .accentText (SemiBold) for classic text-red-color */
+.textRed {
+  color: $accent-red !important;
 }
 
 .textSemibold {
@@ -1710,8 +1736,12 @@ $outer-tab-shape-overhang: 30px;
     border-radius: 30px;
   }
 
-  .outerPanelWhat {
+  .outerPanelOnPage {
     border-radius: 0;
+  }
+
+  .topicPanel {
+    border-radius: 30px;
   }
 
   .innerTabs {
@@ -1786,13 +1816,14 @@ $outer-tab-shape-overhang: 30px;
     font-size: 1rem;
   }
 
+  /* Classic .four-icons / .three-icons — no @640 override; keep 50/15/200/60 */
   .iconRow {
-    gap: 1.5rem;
-    padding: 1.5rem 0.5rem;
+    gap: 50px;
+    padding: 50px 15px;
   }
 
   .iconItem {
-    width: 8.75rem;
+    width: 200px;
   }
 
   .howDiagram img {
@@ -1805,12 +1836,7 @@ $outer-tab-shape-overhang: 30px;
   }
 
   .readMoreContent {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-
-    &:has(.principlesGrid) {
-      padding: 0;
-    }
+    padding: 0;
   }
 
   .comparisonTitleWrap {

@@ -849,11 +849,7 @@ const Agility101: React.FC<IAgility101Props> = (props) => {
             </div>
 
             <div
-              className={
-                activeOuterTab === 'what'
-                  ? `${styles.outerPanel} ${styles.outerPanelWhat}`
-                  : styles.outerPanel
-              }
+              className={`${styles.outerPanel} ${styles.outerPanelOnPage}`}
               id={`outer-panel-${activeOuterTab}`}
               role="tabpanel"
               aria-labelledby={`outer-tab-${activeOuterTab}`}
@@ -970,25 +966,31 @@ const Agility101: React.FC<IAgility101Props> = (props) => {
             )}
 
             {activeOuterTab === 'why' && (
-              <div className={styles.topicPanel}>
-                <h3 className={styles.topicHeading}>
-                  <span className={styles.accentText}>WHY</span> DOES DBS NEED ENTERPRISE AGILITY?
-                </h3>
-                <p className={`${styles.topicLead} ${styles.accentText}`}>Our world has evolved...</p>
-                <p className={styles.topicLead}>There are disruptive forces that are changing the world</p>
-                <TopicIconRow items={whyForceIcons} />
-                <p className={styles.topicLead}>which results in...</p>
-                <TopicIconRow items={whyResultIcons} />
+              <>
+                {/* Classic .outer-tab-content-li-2 .outer-tab-contents — white intro card only */}
+                <div className={styles.topicPanel}>
+                  <h3 className={styles.whyTopicHeading}>
+                    <span className={styles.textRed}>WHY</span> DOES DBS NEED ENTERPRISE AGILITY?
+                  </h3>
+                  <p className={`${styles.whyTopicLead} ${styles.textRed}`}>Our world has evolved...</p>
+                  <p className={styles.whyTopicLead}>There are disruptive forces that are changing the world</p>
+                  <TopicIconRow items={whyForceIcons} />
+                  <p className={styles.whyTopicLead}>which results in...</p>
+                  <TopicIconRow items={whyResultIcons} />
+                </div>
+                {/* Classic .read-more-div — sibling on page bg (#F1EEEE) */}
                 <ReadMoreSection
                   expanded={whyExpanded}
                   controlsId="why-read-more"
                   onToggle={() => setWhyExpanded((prev: boolean) => !prev)}
                 >
-                  <p className={styles.readMoreItalic}>We now live in an environment that is</p>
-                  <p className={`${styles.topicLead} ${styles.accentText}`}>
+                  <p className={`${styles.textItalic} ${styles.textAlignCenter}`}>
+                    We now live in an environment that is
+                  </p>
+                  <p className={`${styles.textAlignCenter} ${styles.textRed}`}>
                     Volatile, Uncertain, Complex and Ambiguous (VUCA).
                   </p>
-                  <p className={styles.accentText}>
+                  <p className={styles.textRed}>
                     In response, we need to change the way we work as a 22,000 person &apos;start-up&apos; to achieve our ambition of becoming #BBIW.
                   </p>
                   <p>We want to</p>
@@ -998,30 +1000,34 @@ const Agility101: React.FC<IAgility101Props> = (props) => {
                     ))}
                   </ul>
                 </ReadMoreSection>
-              </div>
+              </>
             )}
 
             {activeOuterTab === 'how' && (
-              <div className={styles.topicPanel}>
-                <div className={styles.innerContent}>
-                  <div className={styles.innerCopy}>
-                    <h3 className={styles.howHeading}>
-                      <span className={styles.accentText}>HOW</span> CAN DBS ACHIEVE ENTERPRISE AGILITY
-                    </h3>
-                    <p>
-                      At DBS, we strive to achieve enterprise agility by changing the way we work, through embracing the Agile mindset, values, principles and leveraging on a set of practices and tools.
-                    </p>
-                    <p>
-                      Agile is a <span className={styles.accentText}>way of working</span> for teams to collaborate to get work done and deliver products &amp; services, based on mindset, values, principles, practices and tools, that drive business value &amp; mitigate risks.
-                    </p>
-                    <p>
-                      The journey towards achieving Enterprise Agility is also supported by enablers such as platform governance and funding.
-                    </p>
-                  </div>
-                  <div className={styles.innerVisual}>
-                    <img src={innerTabImg} alt="Agile mindset, values, principles, practices and tools illustration" />
+              <>
+                {/* Classic .outer-tab-contents — white intro card only */}
+                <div className={styles.topicPanel}>
+                  <div className={styles.innerContent}>
+                    <div className={styles.innerCopy}>
+                      <h3 className={styles.howHeading}>
+                        <span className={styles.accentText}>HOW</span> CAN DBS ACHIEVE ENTERPRISE AGILITY
+                      </h3>
+                      <p>
+                        At DBS, we strive to achieve enterprise agility by changing the way we work, through embracing the Agile mindset, values, principles and leveraging on a set of practices and tools.
+                      </p>
+                      <p>
+                        Agile is a <span className={styles.accentText}>way of working</span> for teams to collaborate to get work done and deliver products &amp; services, based on mindset, values, principles, practices and tools, that drive business value &amp; mitigate risks.
+                      </p>
+                      <p>
+                        The journey towards achieving Enterprise Agility is also supported by enablers such as platform governance and funding.
+                      </p>
+                    </div>
+                    <div className={styles.innerVisual}>
+                      <img src={innerTabImg} alt="Agile mindset, values, principles, practices and tools illustration" />
+                    </div>
                   </div>
                 </div>
+                {/* Classic .read-more-div — sibling on page bg */}
                 <ReadMoreSection
                   expanded={howExpanded}
                   controlsId="how-read-more"
@@ -1055,7 +1061,7 @@ const Agility101: React.FC<IAgility101Props> = (props) => {
                     The ultimate objective is for DBS to deliver the right outcome at the right time for our customers through end-to-end adoption of the Agile way of working.
                   </p>
                 </ReadMoreSection>
-              </div>
+              </>
             )}
             </div>
           </div>
