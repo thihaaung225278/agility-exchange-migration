@@ -41,6 +41,14 @@
           "manifest": "./src/webparts/newsEvents/NewsEventsWebPart.manifest.json"
         }
       ]
+    },
+    "jit-pack-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/jitPack/JitPackWebPart.js",
+          "manifest": "./src/webparts/jitPack/JitPackWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -49,6 +57,7 @@
     "HomeWebPartStrings": "lib/webparts/home/loc/{locale}.js",
     "AboutTgWebPartStrings": "lib/webparts/aboutTg/loc/{locale}.js",
     "NewsEventsWebPartStrings": "lib/webparts/newsEvents/loc/{locale}.js",
+    "JitPackWebPartStrings": "lib/webparts/jitPack/loc/{locale}.js",
     "PageChromeApplicationCustomizerStrings": "lib/extensions/pageChrome/loc/{locale}.js"
   }
 }

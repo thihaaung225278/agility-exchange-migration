@@ -1,0 +1,1512 @@
+@font-face {
+  font-family: 'OpenSans-Bold';
+  src: url('../../home/assets/OpenSans-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenSans-SemiBold';
+  src: url('../../home/assets/OpenSans-SemiBold.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenSans-Regular';
+  src: url('../../home/assets/OpenSans-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenSans-Light';
+  src: url('../../home/assets/OpenSans-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+$page-bg: #f1eeee;
+$panel-bg: #ffffff;
+$card-bg: #f9f7f8;
+$text-strong: #3a3030;
+$text-main: #1e1e1e;
+$text-muted: #766767;
+$accent-red: #ed1c24;
+$accent-purple: #9747ff;
+$border-soft: #eaeaea;
+$shadow-soft: 0 1.5rem 3rem rgba(58, 48, 48, 0.08);
+$accordion-pill-bg: #fefbfc;
+$accordion-chevron-bg: #f4f4f4;
+
+/* Classic JIT outer tabs — taller than Agility101 (61px) */
+$outer-tab-gutter: 20px;
+$outer-tab-height: 90px;
+$outer-tab-radius: 42px;
+$outer-tab-shape-overhang: 30px;
+$outer-tab-shape-top: 80px;
+
+/* Banner column widths — measured classic JIT parity (live left ≈ 681px; CSS source listed 700px) */
+$banner-left-width: 681px;
+$banner-left-width-1200: 600px;
+$banner-right-width: calc(50% - 100px);
+
+/* Card radial fills (classic odd/even) */
+$card-red-fill: radial-gradient(
+  98.39% 162.27% at 50% 141.46%,
+  rgba(237, 28, 36, 0) 70.14%,
+  rgba(237, 28, 36, 0.15) 100%
+),
+  var(--card, #f9f7f8);
+$card-violet-fill: radial-gradient(
+  98.39% 162.27% at 50% 141.46%,
+  rgba(151, 71, 255, 0) 70.14%,
+  rgba(151, 71, 255, 0.15) 100%
+),
+  var(--card, #f9f7f8);
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Paint the full modern canvas like the classic page while this web part is mounted */
+:global {
+  html:has(body.ae-jitpack-fullwidth),
+  body.ae-jitpack-fullwidth {
+    background-color: $page-bg !important;
+  }
+
+  body.ae-jitpack-fullwidth {
+    #workbenchPageContent,
+    .CanvasComponent,
+    .CanvasZone,
+    .CanvasZone--default,
+    .CanvasSection,
+    .CanvasSection--default,
+    .CanvasSection-col,
+    .CanvasLayout,
+    .SPCanvas-canvas,
+    #spPageCanvasContent,
+    [data-automation-id='CanvasZone'],
+    [data-automation-id='CanvasSection'],
+    [data-automation-id='CanvasSection-SectionContainer'],
+    [data-automation-id='CanvasZone-SectionContainer'] {
+      max-width: 100% !important;
+      width: 100% !important;
+      background-color: $page-bg !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      padding-top: 0 !important;
+      padding-right: 0 !important;
+      padding-bottom: 0 !important;
+      padding-left: 0 !important;
+    }
+
+    .ControlZone,
+    .ControlZone--control,
+    .ControlZone-control,
+    .spAppAndPropertyPanelContainer .ControlZone {
+      margin: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      background-color: transparent !important;
+    }
+
+    #spSiteHeader,
+    .SPPageChrome,
+    #CommentsWrapper,
+    [data-automation-id='CommentsWrapper'] {
+      background-color: $page-bg !important;
+    }
+  }
+}
+
+.jitPack {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  background: $page-bg;
+  color: $text-main;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  /* Classic body, html — font-size 16px; no explicit line-height */
+  font-size: 16px;
+  line-height: normal;
+  letter-spacing: normal;
+  /* Do not use overflow:hidden here — it clips centered containers vs classic */
+  overflow: visible;
+  /* Accordion chevron: override via --ae-accordion-arrow on a parent if needed */
+  --ae-accordion-arrow: url('../assets/accordion-arrow.png');
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  button,
+  a {
+    &:focus-visible {
+      outline: 0.125rem solid $accent-red;
+      outline-offset: 0.1875rem;
+    }
+  }
+}
+
+/* UIkit .uk-container as border-box: inner 1200px + pad 15/30/40 */
+.mainContainer,
+.container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1230px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  @media screen and (min-width: 40rem) {
+    max-width: 1260px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  @media screen and (min-width: 60rem) {
+    max-width: 1280px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+/*
+ * Classic stack above purple card:
+ * .agility-101-banner margin-top 20px + .header-banner margin-top 20px = 40px
+ * Classic .JIT-banner .header-banner: position relative; padding-top/bottom 0
+ * (L/R stay 12px from base .header-banner padding shorthand)
+ */
+.headerBanner {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  background: linear-gradient(0deg, rgba(151, 71, 255, 0) 40.28%, rgba(151, 71, 255, 0.15) 100%),
+    linear-gradient(0deg, #f9f7f8, #f9f7f8);
+  border-radius: 38px;
+  margin-top: 40px;
+  margin-bottom: 24px;
+  /* Classic .JIT-banner .header-banner: padding-top/bottom 0; L/R 12px from base */
+  padding: 0 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  overflow: visible;
+
+  /*
+   * Classic .JIT-banner .header-banner header
+   * position:absolute; width:100%; left:0; padding:0 12px; top:12px
+   * (all breakpoints — matches classic style.css)
+   */
+  :global(header[data-ae-site-chrome='header']) {
+    position: absolute;
+    top: 12px;
+    left: 0;
+    width: 100%;
+    padding: 0 12px;
+    z-index: 6;
+    box-sizing: border-box;
+  }
+}
+
+.tabsSection {
+  margin-bottom: 24px;
+  animation: fadeUp 420ms ease;
+}
+
+/* Classic .banner-card */
+.heroCard {
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+  animation: fadeUp 420ms ease;
+}
+
+/* Classic .JIT-banner .banner-card .left-content — measured 681px; justify center */
+.heroImageWrap {
+  flex: 0 0 $banner-left-width;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: $banner-left-width;
+  max-width: $banner-left-width;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  /* Classic UIkit: img max-width 100%; natural size centered in column */
+  img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Classic .JIT-banner .right-content — width: calc(50% - 100px); margin-left: auto */
+.heroContent {
+  flex: 1 1 auto;
+  width: $banner-right-width;
+  max-width: $banner-right-width;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 0;
+}
+
+.heroCopy {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * Classic .agility-101-banner … .content-wrapper h1
+ * color #3A3030; font-size 56px; OpenSans-Light; margin-bottom 25px
+ */
+.jitPack .heroCopy h1 {
+  margin: 0 0 25px;
+  padding: 0;
+  font-family: 'OpenSans-Light', 'Segoe UI', sans-serif;
+  font-size: 56px;
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: normal;
+  color: $text-strong;
+}
+
+/*
+ * Classic banner p: global margin 0 + color #766767; font 16px / OpenSans-Regular
+ * (spacing between lines comes from line-height, not margin — until @959)
+ */
+.heroBody {
+  margin: 0;
+  padding: 0;
+  color: $text-muted;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+}
+
+/* Classic .tab-questions .tabs — clip titles+contents together */
+.tabs {
+  position: relative;
+  overflow: hidden;
+}
+
+.outerTabs {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 0;
+  margin: 0 0 0 (-$outer-tab-gutter);
+  padding: 0;
+  list-style: none;
+  position: relative;
+  overflow: visible;
+}
+
+.outerTabItem {
+  flex: 1 1 0;
+  position: relative;
+  min-width: 0;
+  padding-left: $outer-tab-gutter;
+  z-index: 1;
+}
+
+.outerTabItemActive {
+  z-index: 2;
+}
+
+.outerTab {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: $outer-tab-height;
+  padding: 0;
+  border: 0;
+  border-radius: $outer-tab-radius;
+  background: $panel-bg;
+  color: $text-muted;
+  cursor: pointer;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-transform: capitalize;
+  transition: color 180ms ease;
+
+  &:hover {
+    color: $accent-red;
+  }
+}
+
+.outerTabActive {
+  color: $accent-red;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-weight: 400;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Classic: .outer-tab-titles li.uk-active div — top: 80px for 90px tabs */
+.outerTabShape {
+  display: none;
+  width: calc(100% + #{$outer-tab-shape-overhang});
+  height: 100px;
+  background: $panel-bg;
+  position: absolute;
+  right: -$outer-tab-shape-overhang;
+  top: $outer-tab-shape-top;
+  z-index: 0;
+  pointer-events: none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    right: 0;
+    top: 0;
+    background-image: radial-gradient(
+      circle at 102% 0,
+      $page-bg 0%,
+      $page-bg 30px,
+      $panel-bg 30px
+    );
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: -9px;
+    top: 0;
+    background-image: radial-gradient(
+      circle at -2% 0,
+      $page-bg 0%,
+      $page-bg 30px,
+      $panel-bg 30px
+    );
+  }
+}
+
+.outerTabItemActive .outerTabShape {
+  display: block;
+}
+
+.outerPanel {
+  position: relative;
+  z-index: 2;
+  margin-top: 20px;
+  border-radius: $outer-tab-radius;
+  background: $panel-bg;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+/*
+ * Classic outer-tab-content-li: transparent shell.
+ * White lives on innerTabs / innerPanel / trainingPanel / guildPanel.
+ */
+.outerPanelOnPage {
+  background: transparent;
+  overflow: visible;
+  border-radius: 0;
+}
+
+/* Classic .inner-tab-titles — white, padding 25px 0 */
+.innerTabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin: 0;
+  padding: 25px 0;
+  background: $panel-bg;
+  border-top-left-radius: $outer-tab-radius;
+  border-top-right-radius: $outer-tab-radius;
+}
+
+/*
+ * Classic JIT .inner-tab-titles li a — width: auto; padding: 0 24px
+ * (Agility101 uses fixed 161×58 — JIT labels are longer)
+ */
+.innerTab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-sizing: border-box;
+  width: auto;
+  min-width: 0;
+  height: 58px;
+  min-height: 58px;
+  padding: 0 24px;
+  margin: 0;
+  border: 1px solid $border-soft;
+  border-radius: 30px;
+  background-color: transparent;
+  color: $text-muted;
+  cursor: pointer;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-transform: none;
+  transition: color 0.1s ease-in-out;
+
+  &:hover:not(.innerTabActive) {
+    background-color: transparent;
+    border-color: $border-soft;
+
+    span {
+      color: #666666;
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid $accent-red;
+    outline-offset: 2px;
+  }
+
+  span {
+    pointer-events: none;
+    color: inherit;
+    transition: color 0.1s ease-in-out;
+  }
+}
+
+/* Classic SVG intrinsic sizes — do not force width/height on SVG */
+.innerTabIcon {
+  display: block;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.innerTabActive {
+  border-color: $accent-red;
+  background-color: transparent;
+  font-family: 'OpenSans-SemiBold', 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  background-image: linear-gradient(90.16deg, $accent-red 0%, $accent-purple 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
+  .innerTabIcon path {
+    stroke: url(#aeJitInnerTabIconGrad);
+  }
+}
+
+.innerTab.innerTabActive,
+.innerTab.innerTabActive:hover {
+  background-color: transparent;
+  background-image: linear-gradient(90.16deg, $accent-red 0%, $accent-purple 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  border-color: $accent-red;
+
+  span {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .innerTabIcon path {
+    stroke: url(#aeJitInnerTabIconGrad);
+  }
+}
+
+.innerPanel {
+  background: $panel-bg;
+  border-bottom-left-radius: 42px;
+  border-bottom-right-radius: 42px;
+  overflow: hidden;
+}
+
+/* Classic .inner-tab-content-wrapper — gap 24px; padding 0 16px 16px; left max 596px */
+.innerContent {
+  display: grid;
+  grid-template-columns: minmax(0, 596px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+  padding: 0 16px 16px;
+}
+
+.innerCopy {
+  /* Classic .contents — padding 0 28px */
+  padding: 0 28px;
+
+  h3 {
+    margin: 0 0 10px;
+    color: $text-main;
+    font-family: 'OpenSans-Light', 'Segoe UI', sans-serif;
+    font-size: 48px;
+    font-weight: 300;
+    line-height: 1.5;
+    letter-spacing: normal;
+  }
+
+  p {
+    margin: 0 0 12px;
+    color: $text-main;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: normal;
+  }
+}
+
+.innerVisual {
+  align-self: center;
+  width: 100%;
+  min-width: 0;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* Classic .img-content border-radius 30px */
+    border-radius: 30px;
+    object-fit: contain;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Accordion + cards (classic .accordion-cards-section)                        */
+/* -------------------------------------------------------------------------- */
+
+.accordionSection {
+  margin-bottom: 24px;
+}
+
+.accordion {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.accordionItem {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: transparent;
+  overflow: visible;
+}
+
+.accordionTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 24px;
+  border: 0;
+  border-radius: 42px;
+  background: $accordion-pill-bg;
+  color: $text-muted;
+  cursor: pointer;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: left;
+  text-transform: capitalize;
+  transition: color 180ms ease;
+
+  &:focus-visible {
+    outline: 0.125rem solid $accent-red;
+    outline-offset: 0.125rem;
+  }
+}
+
+.accordionItemOpen .accordionTitle {
+  color: $accent-red;
+}
+
+/* Classic UIkit .uk-accordion-title::before — 1.4em circle + accordion-arrow.png */
+.accordionChevron {
+  flex: none;
+  width: 1.4em;
+  height: 1.4em;
+  margin: 0;
+  border-radius: 50%;
+  background-color: $accordion-chevron-bg;
+  background-image: var(--ae-accordion-arrow, url('../assets/accordion-arrow.png'));
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 14px 8px;
+  transition: transform 300ms ease;
+}
+
+.accordionItemOpen .accordionChevron {
+  transform: rotate(-180deg);
+}
+
+.accordionPanel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 320ms ease,
+    opacity 240ms ease;
+}
+
+.accordionPanelOpen {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.accordionBody {
+  overflow: hidden;
+  min-height: 0;
+  margin: 0;
+  padding: 24px 36px;
+
+  em {
+    color: $text-main;
+    font-style: italic;
+  }
+
+  h4 {
+    margin: 20px 0 10px;
+    color: $text-main;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  p {
+    margin: 0 0 12px;
+    color: $text-main;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  ul {
+    margin: 0 0 30px;
+    padding-left: 24px;
+    color: $text-main;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: normal;
+    list-style: disc;
+  }
+
+  a {
+    color: $accent-red;
+    text-decoration: underline;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+}
+
+/* Card grid inside accordion body / tools panels */
+.cardWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.shortCard,
+.longCard {
+  background: $accordion-pill-bg;
+  border-radius: 38px;
+  height: 200px;
+}
+
+.shortCard {
+  width: calc(100% / 4 - 25px);
+  overflow: hidden;
+
+  &:nth-child(odd) {
+    background: $card-red-fill;
+  }
+
+  &:nth-child(even) {
+    background: $card-violet-fill;
+  }
+}
+
+.longCard {
+  width: calc(100% / 2 - 15px);
+
+  &:nth-child(odd) {
+    background: $card-red-fill;
+  }
+
+  &:nth-child(even) {
+    background: $card-violet-fill;
+  }
+}
+
+.cardInner {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  border-radius: 38px;
+  overflow: hidden;
+}
+
+.shortCard .cardInner {
+  display: block;
+}
+
+.cardLeft {
+  width: calc(100% - 335px);
+  padding: 30px 36px;
+  min-width: 0;
+}
+
+.cardRight {
+  width: 335px;
+  height: 100%;
+  flex: none;
+}
+
+.cardBgImg {
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+}
+
+.cardTitle,
+.shortCardTitle {
+  margin: 0;
+  padding: 0;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: $text-muted;
+}
+
+.cardTitle {
+  max-width: 160px;
+}
+
+.shortCardTitle {
+  padding: 36px;
+  max-width: none;
+}
+
+.textPositionBottom {
+  display: flex;
+  height: 100%;
+  align-items: flex-end;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Additional information                                                      */
+/* -------------------------------------------------------------------------- */
+
+.additionalInfo {
+  padding: 0 16px 16px;
+}
+
+.additionalInfoHeading {
+  margin: 20px 0 50px;
+  color: $text-main;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.additionalInfoGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  text-align: center;
+  color: $text-main;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  gap: 0;
+}
+
+.additionalInfoColumn {
+  min-width: 0;
+  padding: 0 10px;
+}
+
+.additionalInfoColumnHeading {
+  border-bottom: 1px solid $text-main;
+  color: $text-main;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  text-align: center;
+  padding-bottom: 10px;
+  margin: 0 0 10px;
+}
+
+.additionalInfoItem {
+  margin: 0 0 8px;
+  padding: 0;
+  color: $text-main;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Classic .btn-link.btn-link-detail */
+.btnLink {
+  margin: 30px 0;
+
+  a,
+  button,
+  span {
+    display: inline-block;
+    margin: 0;
+    padding: 10px 20px;
+    border: 0;
+    border-radius: 24px;
+    background: $accent-red;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: 'OpenSans-SemiBold', 'Segoe UI', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.3;
+    text-decoration: none;
+    transition: color 180ms ease, background-color 180ms ease;
+  }
+
+  a,
+  button {
+    &:hover {
+      color: $accent-red;
+      background: #f5e7e7;
+    }
+
+    &:focus-visible {
+      outline: 0.125rem solid $accent-red;
+      outline-offset: 0.1875rem;
+    }
+  }
+
+  /* Classic empty Material href — non-interactive */
+  span[aria-disabled='true'] {
+    cursor: default;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Training / Guild outer content panels                                       */
+/* Classic .outer-tab-content — padding 20px 40px; bottom radius 42px          */
+/* -------------------------------------------------------------------------- */
+
+.trainingPanel,
+.guildPanel {
+  background: $panel-bg;
+  position: relative;
+  padding: 20px 40px;
+  border-bottom-left-radius: 42px;
+  border-bottom-right-radius: 42px;
+
+  h3,
+  .trainingHeading {
+    margin: 20px 0 10px;
+    padding: 0;
+    color: $text-main;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  p {
+    margin: 0 0 12px;
+    color: $text-main;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  /* Classic .outer-tab-content ul { margin: 0 } — no list padding */
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.trainingHeading {
+  margin: 20px 0 10px;
+  padding: 0;
+  color: $text-main;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.trainingHint {
+  margin: 0 0 12px;
+  color: $text-main;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/*
+ * Agile Training text accordion — classic .accordion-cards-section > ul.accordion
+ * Title/body tokens from _JIT-traing-pack.sass (.uk-accordion-title / .accordion-text-contents)
+ * Scoped here so PackAccordion (Self-help cards) is untouched.
+ */
+.textAccordion {
+  margin: 0;
+  /* User/classic parity — no list padding */
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  /* Classic UIkit: .uk-accordion > :nth-child(n+2) { margin-top: 20px } */
+  gap: 20px;
+}
+
+.textAccordionItem {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: transparent;
+  overflow: visible;
+}
+
+.textAccordionTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 24px;
+  border: 0;
+  border-radius: 42px;
+  background: $accordion-pill-bg;
+  color: $text-muted;
+  cursor: pointer;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: capitalize;
+  transition: color 180ms ease;
+
+  &:focus-visible {
+    outline: 2px solid $accent-red;
+    outline-offset: 2px;
+  }
+
+  /* Classic UIkit ::before size (1.4em) — JIT sass only overrides image/bg */
+  .accordionChevron {
+    flex: none;
+    width: 1.4em;
+    height: 1.4em;
+    margin: 0;
+    border-radius: 50%;
+    background-color: $accordion-chevron-bg;
+    background-image: var(--ae-accordion-arrow, url('../assets/accordion-arrow.png'));
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 14px 8px;
+    transition: transform 300ms ease;
+  }
+}
+
+/* Classic li.uk-open .uk-accordion-title { color: #ED1C24 } */
+.textAccordionItem.accordionItemOpen .textAccordionTitle {
+  color: $accent-red;
+}
+
+.textAccordionItem.accordionItemOpen .accordionChevron {
+  transform: rotate(-180deg);
+}
+
+/*
+ * Collapse shell (direct child of .accordionPanel 0fr grid).
+ * Padding must NOT live here — padded 0fr children leave residual height when closed
+ * (classic UIkit hides content entirely → title-to-title spacing = 20px only).
+ */
+.textAccordionBody {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Classic .accordion-text-contents — padding 24px 36px (clipped when panel closed) */
+.textAccordionBodyInner {
+  margin: 0;
+  padding: 24px 36px;
+
+  em {
+    color: $text-main;
+    font-style: italic;
+  }
+
+  h4 {
+    margin: 20px 0 10px;
+    color: $text-main;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: normal;
+  }
+
+  p {
+    margin: 0 0 12px;
+    color: $text-main;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: normal;
+  }
+
+  /* Classic .text-content-ul */
+  ul {
+    margin: 0 0 30px;
+    padding-left: 24px;
+    color: $text-main;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: normal;
+    list-style: disc;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  /*
+   * Classic UIkit body links: a { color: #1e87f0 } / hover #0f6ecd
+   * Scoped under training body — PackAccordion / global .digifyLink unchanged
+   */
+  a,
+  .digifyLink {
+    color: #1e87f0;
+    text-decoration: none;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+
+    &:hover {
+      color: #0f6ecd;
+      text-decoration: underline;
+      opacity: 1;
+    }
+  }
+}
+
+/* Classic .two-grid-contents (IBF / funding blocks) */
+.twoGrid {
+  background: $panel-bg;
+  border-radius: 42px;
+  margin: 0 0 24px;
+
+  > h2 {
+    margin: 0;
+    padding: 40px 40px 0;
+    text-align: center;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: $accent-red;
+  }
+
+  /* Optional inner columns — React can nest uk-width equivalents */
+  display: block;
+}
+
+.twoGrid :global(.uk-grid),
+.twoGrid > div[class*='grid'] {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+}
+
+.twoGrid .textContent,
+.twoGrid [class*='text-content'] {
+  margin-bottom: 24px;
+}
+
+.twoGrid h3 {
+  margin: 0 0 12px;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: $accent-red;
+}
+
+.twoGrid p {
+  margin: 0 0 12px;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 16px;
+  color: $text-main;
+}
+
+.twoGrid ul {
+  margin: 0 0 30px;
+  padding-left: 24px;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: $text-main;
+  list-style: disc;
+}
+
+/* Loading / status */
+.loadingWrap {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.loadingImg {
+  width: 50px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.errorMsg,
+.emptyMsg {
+  margin: 16px 0;
+  padding: 12px 16px;
+  color: $text-main;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.errorMsg {
+  color: $accent-red;
+}
+
+.textBold {
+  font-family: 'OpenSans-Bold', 'Segoe UI', sans-serif !important;
+  font-weight: 700;
+}
+
+.digifyLink {
+  color: $accent-red;
+  text-decoration: underline;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 0.0625rem;
+  height: 0.0625rem;
+  padding: 0;
+  margin: -0.0625rem;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Responsive — classic JIT breakpoints                                        */
+/* -------------------------------------------------------------------------- */
+
+/* Classic .JIT-banner @1200 — left 600px; right 50% */
+@media (max-width: 1200px) {
+  .heroImageWrap {
+    flex: 0 0 $banner-left-width-1200;
+    width: $banner-left-width-1200;
+    max-width: $banner-left-width-1200;
+  }
+
+  .heroContent {
+    width: 50%;
+    max-width: 50%;
+  }
+
+  .innerContent {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Classic .contents padding stays 0 28px at 1200 — do not shrink */
+  .innerTabs {
+    gap: 5px;
+    margin: 0;
+  }
+
+  .shortCard {
+    width: calc(100% / 4 - 25px);
+  }
+
+  .cardLeft {
+    width: 50%;
+    padding: 30px 36px;
+  }
+
+  .cardRight {
+    width: 50%;
+  }
+
+  .additionalInfoGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Classic +respond(960px): outer tab font 18px; .contents h3 → 25px Regular */
+@media (max-width: 960px) {
+  .outerTab {
+    font-size: 18px;
+  }
+
+  .innerCopy h3 {
+    font-size: 25px;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: normal;
+  }
+}
+
+/* Classic +screen-959 */
+@media (max-width: 959px) {
+  .heroCard {
+    flex-direction: column;
+  }
+
+  .heroImageWrap {
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
+
+  .heroContent {
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    padding-bottom: 30px;
+    padding-left: 20px;
+  }
+
+  /* Classic .JIT-banner … h1 @959 */
+  .jitPack .heroCopy h1 {
+    font-size: 46px !important;
+    margin-top: 50px;
+    margin-bottom: 17px;
+  }
+
+  /* Classic .JIT-banner … p @959 */
+  .heroBody {
+    margin: 0 0 7px;
+  }
+
+  .innerContent {
+    grid-template-columns: 1fr;
+  }
+
+  .shortCard {
+    width: calc(100% / 2 - 15px);
+  }
+
+  .longCard {
+    width: 100%;
+  }
+
+  .additionalInfoGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .twoGrid :global(.uk-grid),
+  .twoGrid > div[class*='grid'] {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .container,
+  .mainContainer {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .heroImageWrap img {
+    width: 100%;
+  }
+
+  /* Classic JIT outer tabs @640 — height 60px / font 16px / radius 30 */
+  .outerTab {
+    height: 60px;
+    font-size: 16px;
+    border-radius: 30px;
+    text-align: center;
+  }
+
+  .outerTabActive {
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+  }
+
+  .outerTabShape {
+    top: 50px;
+  }
+
+  .outerPanel {
+    border-radius: 30px;
+  }
+
+  .outerPanelOnPage {
+    border-radius: 0;
+  }
+
+  .innerTabs {
+    padding: 25px 0;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+  }
+
+  .innerPanel {
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+  }
+
+  .innerTab {
+    width: calc(50% - 5px);
+    min-width: 0;
+    height: 50px;
+    min-height: 50px;
+    padding: 0 12px;
+    font-size: 16px;
+  }
+
+  /* Classic .inner-tab-content-wrapper @940 column; .contents @640 padding 0; gap stays 24px */
+  .innerContent {
+    gap: 24px;
+    padding: 0 16px 16px;
+  }
+
+  .innerCopy {
+    padding: 0;
+
+    /* Classic intro p stays 20px at mobile (shared wrapper); h3 already 25px @960 */
+    p {
+      font-size: 20px;
+      line-height: 1.5;
+      letter-spacing: normal;
+    }
+  }
+
+  .shortCard {
+    width: 100%;
+  }
+
+  .longCard {
+    width: 100%;
+  }
+
+  /* Classic JIT has no @640 accordion/card/title size overrides — keep desktop tokens */
+  .cardLeft {
+    width: 50%;
+    padding: 30px 36px;
+  }
+
+  .cardRight {
+    width: 50%;
+  }
+
+  .additionalInfoGrid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .btnLink {
+    margin: 20px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroCard,
+  .tabsSection,
+  .outerTab,
+  .innerTab,
+  .accordionPanel,
+  .accordionChevron,
+  .textAccordionTitle,
+  .btnLink a,
+  .btnLink button {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 1;
+      transform: none;
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

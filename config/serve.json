@@ -19,6 +19,9 @@
     "agility101": {
       "pageUrl": "https://clickrmedia.sharepoint.com/sites/dbs-agility-exchange/SitePages/agility-101.aspx?env=WebView&debug=true&noredir=true"
     },
+    "jitPack": {
+      "pageUrl": "https://clickrmedia.sharepoint.com/sites/dbs-agility-exchange/SitePages/JIT-pack.aspx?env=WebView&debug=true&noredir=true"
+    },
     "pageChrome": {
       "pageUrl": "https://clickrmedia.sharepoint.com/sites/dbs-agility-exchange/SitePages/index.aspx?debug=true&noredir=true",
       "customActions": {
