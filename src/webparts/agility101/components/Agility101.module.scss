@@ -386,6 +386,17 @@ $outer-tab-shape-overhang: 30px;
   overflow: hidden;
 }
 
+/*
+ * Classic What tab: no full white outer wrap.
+ * White = inner-tab-titles + inner-tab-content-wrapper only;
+ * Values accordion sits on page bg (#F1EEEE) as a sibling.
+ */
+.outerPanelWhat {
+  background: transparent;
+  overflow: visible;
+  border-radius: 0;
+}
+
 .innerTabs {
   display: flex;
   flex-wrap: wrap;
@@ -393,6 +404,9 @@ $outer-tab-shape-overhang: 30px;
   gap: 1.25rem;
   padding: 1.5rem 1rem;
   background: $panel-bg;
+  /* Join active outer-tab white shape into the What intro card */
+  border-top-left-radius: $outer-tab-radius;
+  border-top-right-radius: $outer-tab-radius;
 }
 
 .innerTab {
@@ -434,7 +448,11 @@ $outer-tab-shape-overhang: 30px;
 }
 
 .innerPanel {
+  /* Classic .inner-tab-content-wrapper — white intro card only */
   background: $panel-bg;
+  border-bottom-left-radius: 2.625rem;
+  border-bottom-right-radius: 2.625rem;
+  overflow: hidden;
 }
 
 .innerContent {
@@ -443,8 +461,6 @@ $outer-tab-shape-overhang: 30px;
   gap: 1.5rem;
   align-items: center;
   padding: 0 1rem 1rem;
-  border-bottom-left-radius: 2.625rem;
-  border-bottom-right-radius: 2.625rem;
 }
 
 .innerCopy {
@@ -553,6 +569,14 @@ $outer-tab-shape-overhang: 30px;
 .readMore {
   margin-top: 1.5rem;
   padding: 0.375rem 0 1rem;
+  /* Sit on $page-bg — do not inherit a white panel behind Values accordion */
+  background: transparent;
+}
+
+.outerPanelWhat > .readMore {
+  /* Classic read-more-div sibling of white intro — page #F1EEEE shows between pills */
+  margin-top: 0.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .readMoreButtonWrap {
@@ -597,6 +621,14 @@ $outer-tab-shape-overhang: 30px;
   min-height: 0;
   padding: 0 1.5rem 0.5rem;
 
+  /* Values / Practices accordion must match container width (classic accordion-cards-section) */
+  &:has(.valuesAccordion),
+  &:has(.practicesAccordion),
+  &:has(.practiceCompare) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   h4 {
     margin: 1.25rem 0 0.625rem;
     color: $text-main;
@@ -623,6 +655,24 @@ $outer-tab-shape-overhang: 30px;
     line-height: 1.7;
     list-style: disc;
   }
+
+  /* Beat `.readMoreContent ul { list-style: disc; padding-left }` — Why/How bullets stay */
+  ul.valuesAccordionList,
+  ul.principlesList,
+  ul.practicesAccordionList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  h5 {
+    margin: 0 0 0.75rem;
+    color: $accent-red;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.3;
+  }
 }
 
 .readMoreItalic {
@@ -639,6 +689,453 @@ $outer-tab-shape-overhang: 30px;
     max-width: 100%;
     height: auto;
     margin: 0 auto;
+  }
+}
+
+/* Classic What → Principle read-more grid — sits on page #F1EEEE like Values */
+.principlesGrid {
+  margin: 0;
+  padding: 1.5rem 0 0.5rem;
+  width: 100%;
+  background: transparent;
+}
+
+.principlesList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem 1.25rem;
+}
+
+.principleItem {
+  display: flex;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: transparent;
+
+  &::marker {
+    content: none;
+  }
+}
+
+.principleIcon {
+  flex: 0 0 3.125rem;
+  width: 3.125rem;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+.principleCopy {
+  flex: 1 1 auto;
+  min-width: 0;
+
+  h5 {
+    margin: 0 0 0.75rem;
+    color: $accent-red;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+
+  p {
+    margin: 0;
+    color: $text-main;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+}
+
+/* Classic What → Values accordion — bg only on title pills (#FEFBFC), not whole li */
+.valuesAccordion {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.valuesAccordionList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  /* UIKit accordion sibling gap ≈ 20px — closed panels must not add extra height */
+  gap: 1.25rem;
+}
+
+.valuesAccordionItem {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+
+  &::marker {
+    content: none;
+  }
+}
+
+.valuesAccordionTitle {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1.5rem;
+  /* Classic what-values chevron sits in the right padding lane */
+  padding-right: 4.5rem;
+  border: 0;
+  border-radius: 2.625rem;
+  background: #fefbfc;
+  color: #766767;
+  cursor: pointer;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  text-align: left;
+  text-transform: capitalize;
+  transition: color 180ms ease;
+
+  &:focus-visible {
+    outline: 0.125rem solid $accent-red;
+    outline-offset: 0.125rem;
+  }
+}
+
+.valuesAccordionItemOpen .valuesAccordionTitle {
+  color: $accent-red;
+}
+
+.valuesTitleLeft {
+  order: 1;
+  flex: 2 1 0;
+  min-width: 0;
+  color: $accent-red;
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+
+.valuesAccImg {
+  order: 2;
+  flex: 0 0 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  width: 5rem;
+  max-width: 5rem;
+
+  img {
+    display: block;
+    width: 3.75rem;
+    height: auto;
+  }
+}
+
+.valuesTitleRight {
+  order: 3;
+  flex: 2 1 0;
+  min-width: 0;
+}
+
+.valuesGrayTitle {
+  display: block;
+  /* Classic .what-values .gray-title — leave chevron lane clear */
+  max-width: calc(100% - 0.25rem);
+  color: #766767;
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+
+/* Classic ::before chevron — 50px circle; open = solid red + white arrow */
+.valuesChevron {
+  position: absolute;
+  top: 50%;
+  right: 2.25rem;
+  flex: none;
+  width: 3.125rem;
+  height: 3.125rem;
+  margin: 0;
+  border-radius: 50%;
+  background-color: #f4f4f4;
+  background-image: url('../assets/accordion-arrow.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 0.875rem 0.5rem;
+  transform: translateY(-50%);
+  transition:
+    transform 300ms ease,
+    background-color 180ms ease;
+}
+
+.valuesAccordionItemOpen .valuesChevron {
+  background-color: $accent-red;
+  background-image: none;
+  transform: translateY(-50%) rotate(-180deg);
+
+  /* White down-chevron (rotates to up when open) — PNG is red-only */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.625rem;
+    height: 0.625rem;
+    margin-top: -0.2rem;
+    border-right: 0.125rem solid #ffffff;
+    border-bottom: 0.125rem solid #ffffff;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+}
+
+.valuesAccordionPanel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  /* Closed: no residual height from body padding */
+  transition:
+    grid-template-rows 320ms ease,
+    opacity 240ms ease;
+}
+
+.valuesAccordionPanelOpen {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.valuesAccordionBody {
+  overflow: hidden;
+  min-height: 0;
+  /* Classic .accordion-text-contents — padding only when open (0fr collapse safe) */
+  margin: 0;
+  padding: 0;
+  background: transparent;
+
+  p {
+    margin: 0 0 0.75rem;
+    color: $text-main;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  h4 {
+    margin: 1.25rem 0 0.625rem;
+    color: $text-main;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+}
+
+.valuesAccordionPanelOpen .valuesAccordionBody {
+  padding: 1.5rem 2.25rem;
+}
+
+/* Classic What → Practices: Doing / Being Agile two-column compare */
+.practiceCompare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 0 0 1.5rem;
+  padding: 0;
+}
+
+.practiceCompareCard {
+  min-width: 0;
+  background: transparent;
+
+  h5 {
+    margin: 0 0 0.75rem;
+    color: $accent-red;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+
+  p {
+    margin: 0;
+    color: $text-main;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+}
+
+/* Classic accordion-cards-section — title pills #FEFBFC on page bg */
+.practicesAccordion {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background: transparent;
+}
+
+.practicesAccordionList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.practicesAccordionItem {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+
+  &::marker {
+    content: none;
+  }
+}
+
+.practicesAccordionTitle {
+  display: flex;
+  align-items: center;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1.5rem;
+  padding-right: 4.5rem;
+  border: 0;
+  border-radius: 2.625rem;
+  background: #fefbfc;
+  color: #766767;
+  cursor: pointer;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  text-align: left;
+  text-transform: capitalize;
+  transition: color 180ms ease;
+
+  &:focus-visible {
+    outline: 0.125rem solid $accent-red;
+    outline-offset: 0.125rem;
+  }
+}
+
+.practicesAccordionItemOpen .practicesAccordionTitle {
+  color: $accent-red;
+}
+
+.practicesTitleText {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.practicesChevron {
+  position: absolute;
+  top: 50%;
+  right: 2.25rem;
+  flex: none;
+  width: 3.125rem;
+  height: 3.125rem;
+  margin: 0;
+  border-radius: 50%;
+  background-color: #f4f4f4;
+  background-image: url('../assets/accordion-arrow.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 0.875rem 0.5rem;
+  transform: translateY(-50%);
+  transition:
+    transform 300ms ease,
+    background-color 180ms ease;
+}
+
+.practicesAccordionItemOpen .practicesChevron {
+  background-color: $accent-red;
+  background-image: none;
+  transform: translateY(-50%) rotate(-180deg);
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.625rem;
+    height: 0.625rem;
+    margin-top: -0.2rem;
+    border-right: 0.125rem solid #ffffff;
+    border-bottom: 0.125rem solid #ffffff;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+}
+
+.practicesAccordionPanel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 320ms ease,
+    opacity 240ms ease;
+}
+
+.practicesAccordionPanelOpen {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.practicesAccordionBody {
+  overflow: hidden;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+
+  p {
+    margin: 0 0 0.75rem;
+    color: $text-main;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  ul {
+    margin: 0 0 1.875rem;
+    padding-left: 1.25rem;
+    color: $text-main;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    list-style: disc;
+  }
+}
+
+.practicesAccordionPanelOpen .practicesAccordionBody {
+  padding: 1.5rem 2.25rem;
+}
+
+.videoContainer {
+  position: relative;
+  width: 100%;
+  max-width: 35rem;
+  margin: 1rem auto 0;
+  aspect-ratio: 16 / 9;
+
+  iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
   }
 }
 
@@ -1009,6 +1506,31 @@ $outer-tab-shape-overhang: 30px;
       max-height: 18rem;
     }
   }
+
+  .valuesAccImg {
+    justify-content: center;
+  }
+
+  .valuesAccordionTitle {
+    gap: 1.25rem;
+  }
+
+  .valuesGrayTitle {
+    max-width: 100%;
+  }
+
+  .valuesChevron {
+    right: 0.625rem;
+  }
+
+  .practicesChevron {
+    right: 0.625rem;
+  }
+
+  .practiceCompare {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1047,9 +1569,20 @@ $outer-tab-shape-overhang: 30px;
     border-radius: 30px;
   }
 
+  .outerPanelWhat {
+    border-radius: 0;
+  }
+
   .innerTabs {
     gap: 0.5rem;
     padding: 1rem 0.75rem;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+  }
+
+  .innerPanel {
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
   }
 
   .innerTab {
@@ -1117,6 +1650,17 @@ $outer-tab-shape-overhang: 30px;
     width: 100%;
   }
 
+  .principlesList {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .principleCopy {
+    h5 {
+      font-size: 1.25rem;
+    }
+  }
+
   .readMoreContent {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
@@ -1166,6 +1710,76 @@ $outer-tab-shape-overhang: 30px;
       text-align: left;
     }
   }
+
+  .valuesAccordionTitle {
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 0.9375rem 2.75rem 0.9375rem 0.9375rem;
+    font-size: 1.25rem;
+    border-radius: 1.875rem;
+  }
+
+  .valuesTitleLeft,
+  .valuesTitleRight {
+    width: 100%;
+    flex: none;
+    text-align: center;
+    font-size: 1.25rem;
+  }
+
+  .valuesGrayTitle {
+    max-width: 100%;
+    margin: 0 auto;
+    font-size: 1.25rem;
+  }
+
+  .valuesAccImg {
+    width: auto;
+    max-width: none;
+    flex: none;
+
+    img {
+      width: 3rem;
+    }
+  }
+
+  .valuesChevron {
+    right: 0.625rem;
+    width: 2.1875rem;
+    height: 2.1875rem;
+    background-size: 0.75rem 0.4375rem;
+  }
+
+  .valuesAccordionPanelOpen .valuesAccordionBody {
+    padding: 1rem 1.25rem;
+  }
+
+  .practicesAccordionTitle {
+    padding: 0.9375rem 2.75rem 0.9375rem 0.9375rem;
+    font-size: 1.25rem;
+    border-radius: 1.875rem;
+  }
+
+  .practicesTitleText {
+    font-size: 1.25rem;
+  }
+
+  .practicesChevron {
+    right: 0.625rem;
+    width: 2.1875rem;
+    height: 2.1875rem;
+    background-size: 0.75rem 0.4375rem;
+  }
+
+  .practicesAccordionPanelOpen .practicesAccordionBody {
+    padding: 1rem 1.25rem;
+  }
+
+  .practiceCompareCard {
+    h5 {
+      font-size: 1.25rem;
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1179,7 +1793,11 @@ $outer-tab-shape-overhang: 30px;
   .comparisonCard,
   .textCard,
   .readMoreButton,
-  .readMorePanel {
+  .readMorePanel,
+  .valuesAccordionPanel,
+  .valuesChevron,
+  .practicesAccordionPanel,
+  .practicesChevron {
     animation: none !important;
     transition: none !important;
   }

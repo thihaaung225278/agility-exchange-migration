@@ -26,7 +26,29 @@ const threeIcon3 = require('../assets/three-icon-3.webp') as string;
 const howContentImg = require('../assets/how-content-img.webp') as string;
 const fixedBrainImg = require('../assets/fixed.webp') as string;
 const growthBrainImg = require('../assets/growth.webp') as string;
+const valueIcon1Left = require('../assets/value-icon-1-left.png') as string;
+const valueIcon1Right = require('../assets/value-icon-1-right.png') as string;
+const valueIcon2Left = require('../assets/value-icon-2-left.png') as string;
+const valueIcon2Right = require('../assets/value-icon-2-right.png') as string;
+const valueIcon3Left = require('../assets/value-icon-3-left.png') as string;
+const valueIcon3Right = require('../assets/value-icon-3-right.png') as string;
+const valueIcon4Left = require('../assets/value-icon-4-left.png') as string;
+const valueIcon4Right = require('../assets/value-icon-4-right.png') as string;
+const principleIcon1 = require('../assets/principle-icon-1.png') as string;
+const principleIcon2 = require('../assets/principle-icon-2.png') as string;
+const principleIcon3 = require('../assets/principle-icon-3.png') as string;
+const principleIcon4 = require('../assets/principle-icon-4.png') as string;
+const principleIcon5 = require('../assets/principle-icon-5.png') as string;
+const principleIcon6 = require('../assets/principle-icon-6.png') as string;
+const principleIcon7 = require('../assets/principle-icon-7.png') as string;
+const principleIcon8 = require('../assets/principle-icon-8.png') as string;
+const principleIcon9 = require('../assets/principle-icon-9.png') as string;
+const principleIcon10 = require('../assets/principle-icon-10.png') as string;
+const principleIcon11 = require('../assets/principle-icon-11.png') as string;
+const principleIcon12 = require('../assets/principle-icon-12.png') as string;
 /* eslint-enable @typescript-eslint/no-var-requires */
+
+const AGILE_ORIGINS_VIDEO_URL = 'https://www.youtube.com/embed/AsFMHnSfI2I?si=rcB1XYte1z5frAAC';
 
 type OuterTabKey = 'what' | 'why' | 'how';
 type InnerTabKey = 'mindset' | 'values' | 'principle' | 'practice';
@@ -54,9 +76,325 @@ const mindsetParagraphs: string[] = [
   'At the enterprise level, it is a culture: the way we succeed at getting things done. It is also commonly described as a Growth Mindset and contrasted with a Fixed Mindset.'
 ];
 
-const placeholderParagraphs: string[] = [
-  'The agile mindset is the foundation that supports the values, principles, practices, and tools that allows us to deliver work in an agile way. It helps us to imagine, design, and deliver solutions to complex problems faster, better, and cheaper than traditional approaches.',
-  'At the enterprise level, it is a culture: the way we succeed at getting things done. It is also commonly described as a Growth Mindset and contrasted with a Fixed Mindset.'
+const valuesParagraphs: string[] = [
+  'There are 4 values, prescribed by the Agile manifesto.',
+  'These values drive the agile culture and ground all the principles and practices.',
+  'The manifesto was created in 2001 as a way to deal with the problems of that age. Software projects often took years to deliver their first piece of value. By then, these no longer fulfilled the needs of the customers or end users. Hence, a group of people who founded more nimble software development approaches, came together to create the agile manifesto to address the issue. The manifesto consists of 4 values and 12 principles.'
+];
+
+const principleParagraphs: string[] = [
+  'The 4 values are supported by 12 principles as a guide to expected behaviour and practices.'
+];
+
+const practiceParagraphs: string[] = [
+  'Agile practices come in different flavours and are constantly evolving. As a learning organization, we need to continue to reflect and adapt while implementing those practices at our own areas of work.',
+  'While Agile Practices are more visible and larger in number, Agile Principles and Values are much larger in impact and are stable guiding principles that will help ground the right behaviours and mindset when implementing these practices. Hence while practising Agile, it is important we understand the difference between "Being Agile" and "Doing Agile".'
+];
+
+interface IPracticeAccordionItem {
+  key: string;
+  title: string;
+  paragraphs: string[];
+  bullets?: string[];
+  bulletsIntro?: string;
+}
+
+const practiceAccordionItems: IPracticeAccordionItem[] = [
+  {
+    key: 'retrospective',
+    title: 'Retrospective',
+    paragraphs: [
+      'A retrospective is a reflective assessment of the work over a defined time period with the intention of evolving the way the team works.',
+      'Specifically we do Retrospectives at the end of a sprint, prior to Sprint Planning. The actions that come out of it need to feed into the Sprint Plan. When you do it may depend on who wants to attend.',
+      'At the very least Retrospectives should be done at least once per sprint.'
+    ]
+  },
+  {
+    key: 'stand-ups',
+    title: 'Stand Ups',
+    paragraphs: [
+      'A Stand Up is also commonly known as a daily huddle. It is where opportunities to collaborate, share or help each other are discovered.',
+      'Stand Ups realise the principles of flexibility by adjusting the way we work, collaboration by working together to change the way we work, transparency of what we are working on and how it is progressing. In doing Stand Ups, we want to ensure that the team as a whole is working on the most valuable work for the customer.'
+    ]
+  },
+  {
+    key: 'backlog',
+    title: 'Backlog Management',
+    paragraphs: [
+      'Teams need a single backlog of work to pull work from. This backlog needs be kept relevant and of a manageable size. Backlog should be prioritised based on business value and risk and relative estimates exists for next 2 sprints. Backlog should also be regularly groomed (preferably for each sprint planning meeting).'
+    ]
+  },
+  {
+    key: 'product-ownership',
+    title: 'Product Ownership',
+    paragraphs: [
+      'The Product Owner is the one and only person responsible for managing the Product Backlog and ensuring the value of the work the team performs. This person maintains the Product Backlog and ensures that it is visible to everyone.',
+      'The Product Owner turns customer needs into a Vision, Roadmap, then a Product Backlog.'
+    ]
+  },
+  {
+    key: 'visualisation',
+    title: 'Visualisation',
+    paragraphs: [
+      'Using big visible charts/kanban boards is a powerful practice used to raise the visibility of work.',
+      'Visual boards'
+    ],
+    bullets: [
+      'Create an environment of trust, courage and honesty by pushing the information out into the open rather than hiding information in files',
+      'Create a shared understanding amongst the team of the state of work',
+      'Create transparency of progress, work-type, ownership, risks, issues',
+      'Foster shared accountability for completion of work (intrinsic motivation)',
+      'Reduce reporting effort by replacing the need for additional status reports',
+      'Provide a central point of reference/discuss for team meetings'
+    ]
+  },
+  {
+    key: 'cross-functional',
+    title: 'Cross-functional Team',
+    paragraphs: [
+      'A cross-functional team is made of individuals with different skills, from different functions or departments within an organization. These individuals should possess the necessary skill-sets to execute all that is required to deliver value to the customers. Additional SMEs may be co-opted into the team from time to time to augment the required skills.',
+      'The cross-functional team should be persistent, autonomous, empowered and self-organising. The point is to bring people with different expertise together to solve a problem, or explore a potential solution in the way improves collaboration, communication and minimise handovers.'
+    ]
+  },
+  {
+    key: 'sprint-review',
+    title: 'Sprint Review/Showcase',
+    paragraphs: [
+      'A Sprint Review/Showcase is a demonstration of the valuable things we have created in this sprint. The Sprint Review is a core ceremony that should happen at the end of every sprint.'
+    ]
+  },
+  {
+    key: 'co-location',
+    title: 'Co-location',
+    paragraphs: [
+      'Co-location is the key to having face-to-face communication on a daily basis.'
+    ],
+    bulletsIntro: 'The distinguishing features of true co-location:',
+    bullets: [
+      'Team members sit together in the same office most of the time.',
+      "Teams are integrated and x-functional, i.e. everyone in the value chain sits together including Product Owner, business SME's, developers, testers, business analysts, UI designers."
+    ]
+  },
+  {
+    key: 'sprint-management',
+    title: 'Sprint Management',
+    paragraphs: ['Sprint management refers to the key responsibilities of a Scrum Master, the agile process owner.'],
+    bulletsIntro: 'The Scrum Master is responsible for',
+    bullets: [
+      'Removing impediments',
+      'Coaching the team for high performance',
+      'Protecting the team',
+      'Supporting the team to make their work transparent to stakeholders',
+      'Building trust within the team and with the customers',
+      "Ensuring the teams successes and failures are celebrated",
+      'Ensuring dependencies between teams are kept in sync and risk are managed'
+    ]
+  },
+  {
+    key: 'work-breakdown',
+    title: 'Work Breakdown',
+    paragraphs: [
+      'Work breakdown is the process of subdividing a problem/initiative into its constituent parts to be able to form meaningful patterns, identifying important subcomponents and relationships between them.'
+    ],
+    bulletsIntro: "It's a good idea to break down pieces of work until they are of a manageable size:",
+    bullets: [
+      'To obtain a better understanding of the problem/solution spaces',
+      'To be better able to estimate the amount of effort needed to create a solution',
+      'To better understand the dependencies, constraints and unseen details of the system under discussion',
+      'To facilitate continuous delivery (earlier and faster)',
+      'To more effectively schedule and build the pieces of the proposed solution',
+      'To visualise work'
+    ]
+  },
+  {
+    key: 'risk-management',
+    title: 'Agile Risk Management',
+    paragraphs: [
+      'A Risk is any event that - should it happen - will prevent you from achieving your goal.',
+      'Risk management addresses uncertainty and increases the likelihood of successful outcomes.'
+    ]
+  },
+  {
+    key: 'adaptive-planning',
+    title: 'Adaptive Planning',
+    paragraphs: [
+      'Adaptive planning is about the collaborative identification, definition and planning of work and deliverables.',
+      "Release and sprint planning produces an achievable plan that the team is confident to deliver. Work planned is regularly achieved with only small variations in progress. An overall (long-term) plan is maintainted and accurately reflects the team's understanding of work, timing, resources, dependencies, etc. sliders are used to inform planning. The long-term plan is adjusted every sprint and agreed with customer(s)."
+    ]
+  },
+  {
+    key: 'distributed-delivery',
+    title: 'Distributed Delivery',
+    paragraphs: [
+      'Distributed Delivery is about managing a delivery team across different geographic locations.',
+      "There should be equal participation from the whole distributed team, where hands-off between geographical locations are minimised and specific actions exist to increase every team member's capability."
+    ]
+  }
+];
+
+const practiceCompareItems: Array<{ title: string; description: string }> = [
+  {
+    title: 'Doing Agile',
+    description: 'Applying the practices without the mindset and understanding of the principles behind the "why"'
+  },
+  {
+    title: 'Being Agile',
+    description:
+      'Internalising the mindset, values and principles, then applying and tailoring the right practices to the situations as they arise'
+  }
+];
+
+interface IPrincipleItem {
+  key: string;
+  title: string;
+  description: string;
+  icon: string;
+}
+
+const principleItems: IPrincipleItem[] = [
+  {
+    key: 'motivated',
+    title: 'Motivated Individuals',
+    description:
+      'Build projects around motivated individuals. Give them the environment and support they need, and trust them to get the job done.',
+    icon: principleIcon1
+  },
+  {
+    key: 'self-organising',
+    title: 'Self-Organising Teams',
+    description: 'The best architectures, requirements, and designs emerge from self-organizing teams.',
+    icon: principleIcon2
+  },
+  {
+    key: 'customer',
+    title: 'Customer Satisfaction',
+    description:
+      'Our highest priority is to satisfy the customer through early and continuous delivery of valuable software.',
+    icon: principleIcon3
+  },
+  {
+    key: 'working-software',
+    title: 'Working Software',
+    description: 'Working software is the primary measure of progress.',
+    icon: principleIcon4
+  },
+  {
+    key: 'frequent-delivery',
+    title: 'Frequent Delivery of Value',
+    description:
+      'Deliver working software frequently, from a couple of weeks to a couple of months, with a preference to the shorter timescale.',
+    icon: principleIcon5
+  },
+  {
+    key: 'welcome-change',
+    title: 'Welcome Change',
+    description:
+      "Welcome changing requirements, even late in development. Agile processes harness change for the customer's competitive advantage.",
+    icon: principleIcon6
+  },
+  {
+    key: 'collaboration',
+    title: 'Collaboration',
+    description: 'Business people and developers must work together daily throughout the project.',
+    icon: principleIcon7
+  },
+  {
+    key: 'sustainable-pace',
+    title: 'Sustainable Pace',
+    description:
+      'Agile processes promote sustainable development. The sponsors, developers, and users should be able to maintain a constant pace indefinitely.',
+    icon: principleIcon8
+  },
+  {
+    key: 'face-to-face',
+    title: 'Face-to-Face Conversation',
+    description:
+      'The most efficient and effective method of conveying information to and within a development team is face-to-face conversation.',
+    icon: principleIcon9
+  },
+  {
+    key: 'simplicity',
+    title: 'Simplicity',
+    description: 'Simplicity--the art of maximizing the amount of work not done--is essential.',
+    icon: principleIcon10
+  },
+  {
+    key: 'technical-excellence',
+    title: 'Technical Excellence',
+    description: 'Continuous attention to technical excellence and good design enhances agility.',
+    icon: principleIcon11
+  },
+  {
+    key: 'continuous-improvement',
+    title: 'Continuous Improvement',
+    description:
+      'At regular intervals, the team reflects on how to become more effective, then tunes and adjusts its behavior accordingly.',
+    icon: principleIcon12
+  }
+];
+
+interface IValueAccordionItem {
+  key: string;
+  leftTitle: string;
+  rightTitle: string;
+  leftIcon: string;
+  rightIcon: string;
+  paragraphs: string[];
+  italicNote?: string;
+  videoHeading?: string;
+  videoUrl?: string;
+}
+
+const valueAccordionItems: IValueAccordionItem[] = [
+  {
+    key: 'individuals',
+    leftTitle: 'Individuals and interactions',
+    rightTitle: 'over processes and tools',
+    leftIcon: valueIcon1Left,
+    rightIcon: valueIcon1Right,
+    paragraphs: [
+      'Teams of people build software systems, and to do that they need to work together effectively - including but not limited to programmers, testers, project managers, modelers, and your customers.',
+      'Who do you think would develop a better system: five software developers and with their own tools working together in a single room or five low-skilled "hamburger flippers" with a well-defined process, the most sophisticated tools available, and the best offices money could buy? If the project was reasonably complex my money would be on the software developers, wouldn\'t yours?',
+      'The point is that the most important factors that you need to consider are the people and how they work together because if you don\'t get that right the best tools and processes won\'t be of any use. Tools and processes are important, it\'s just that they\'re not as important as working together effectively. Remember the old adage, a fool with a tool is still a fool. This can be difficult for management to accept because they often want to believe that people and time, or men and months, are interchangeable.'
+    ]
+  },
+  {
+    key: 'customer',
+    leftTitle: 'Customer collaboration',
+    rightTitle: 'over contract negotiation',
+    leftIcon: valueIcon2Left,
+    rightIcon: valueIcon2Right,
+    paragraphs: [
+      'Only your customers can tell you what they want. Yes, they likely do not have the skills to exactly specify the system. Yes, they likely won\'t get it right the first time. Working together with your customers is hard, but that\'s the reality of the job.',
+      'Having a contract with your customers is important, having an understanding of everyone\'s rights and responsibilities may form the foundation of that contract, but a contract isn\'t a substitute for communication. Successful developers work closely with their customers, they invest the effort to discover what their customers need, and they educate their customers along the way.'
+    ]
+  },
+  {
+    key: 'software',
+    leftTitle: 'Working software',
+    rightTitle: 'over comprehensive documentation',
+    leftIcon: valueIcon3Left,
+    rightIcon: valueIcon3Right,
+    paragraphs: [
+      'When you ask a user whether they would want a fifty-page document describing what you intend to build or the actual software itself, what do you think they\'ll pick? Probably the software itself.',
+      'If that is the case, doesn\'t it make more sense to work in such a manner that you produce software quickly and often, giving your users what they prefer? Furthermore, users will have a significantly easier time understanding any software that you produce rather than complex technical diagrams describing its internal workings or describing an abstraction of its usage.',
+      'Documentation has its place, written properly, it is a valuable guide for people\'s understanding of how and why a system is built and how to work with the system. However, never forget that the primary goal of software development is to create software, not documents - otherwise it would be called documentation development, wouldn\'t it?'
+    ],
+    italicNote:
+      'On a side note, time has moved on and although we still apply Agile for software development it can be used to deliver anything. So when you see "working software" think of it more as "valuable outcomes".'
+  },
+  {
+    key: 'change',
+    leftTitle: 'Responding to change',
+    rightTitle: 'over following a plan',
+    leftIcon: valueIcon4Left,
+    rightIcon: valueIcon4Right,
+    paragraphs: [
+      'Note that even though we value the ones on the left more, it does not mean the values on the right are not important. Focusing on the left results in better outcomes.'
+    ],
+    videoHeading: 'Watch this quick video to learn more about the origins of Agile',
+    videoUrl: AGILE_ORIGINS_VIDEO_URL
+  }
 ];
 
 const fixedMindsetPoints: string[] = [
@@ -91,9 +429,9 @@ const mindsetShiftRows: Array<{ from: string; to: string }> = [
 
 const innerTabItems: IInnerTabItem[] = [
   { key: 'mindset', label: 'Mindset', icon: iconMindset, title: 'Agile Foundation', paragraphs: mindsetParagraphs },
-  { key: 'values', label: 'Values', icon: iconValues, title: 'Agile Foundation 2', paragraphs: placeholderParagraphs },
-  { key: 'principle', label: 'Principle', icon: iconPrinciple, title: 'Agile Foundation 3', paragraphs: placeholderParagraphs },
-  { key: 'practice', label: 'Practice', icon: iconPractice, title: 'Agile Foundation 4', paragraphs: placeholderParagraphs }
+  { key: 'values', label: 'Values', icon: iconValues, title: 'Agile Foundation 2', paragraphs: valuesParagraphs },
+  { key: 'principle', label: 'Principle', icon: iconPrinciple, title: '', paragraphs: principleParagraphs },
+  { key: 'practice', label: 'Practices', icon: iconPractice, title: '', paragraphs: practiceParagraphs }
 ];
 
 const outerTabs: IOuterTabItem[] = [
@@ -174,6 +512,155 @@ const ReadMoreSection: React.FC<IReadMoreSectionProps> = ({ expanded, controlsId
   </div>
 );
 
+interface IValuesAccordionProps {
+  openKeys: string[];
+  onToggle: (key: string) => void;
+}
+
+const ValuesAccordion: React.FC<IValuesAccordionProps> = ({ openKeys, onToggle }) => (
+  <section className={styles.valuesAccordion} aria-label="Agile manifesto values">
+    <ul className={styles.valuesAccordionList}>
+      {valueAccordionItems.map((item: IValueAccordionItem) => {
+        const isOpen = openKeys.indexOf(item.key) >= 0;
+        const panelId = `value-panel-${item.key}`;
+        const buttonId = `value-button-${item.key}`;
+        return (
+          <li key={item.key} className={isOpen ? `${styles.valuesAccordionItem} ${styles.valuesAccordionItemOpen}` : styles.valuesAccordionItem}>
+            <button
+              type="button"
+              id={buttonId}
+              className={styles.valuesAccordionTitle}
+              aria-expanded={isOpen}
+              aria-controls={panelId}
+              onClick={() => onToggle(item.key)}
+            >
+              <span className={styles.valuesTitleLeft}>{item.leftTitle}</span>
+              <span className={styles.valuesAccImg} aria-hidden="true">
+                <img src={item.leftIcon} alt="" />
+                <img src={item.rightIcon} alt="" />
+              </span>
+              <span className={styles.valuesTitleRight}>
+                <span className={styles.valuesGrayTitle}>{item.rightTitle}</span>
+              </span>
+              <span className={styles.valuesChevron} aria-hidden="true" />
+            </button>
+            <div
+              id={panelId}
+              role="region"
+              aria-labelledby={buttonId}
+              className={isOpen ? `${styles.valuesAccordionPanel} ${styles.valuesAccordionPanelOpen}` : styles.valuesAccordionPanel}
+              aria-hidden={!isOpen}
+            >
+              <div className={styles.valuesAccordionBody}>
+                {item.paragraphs.map((paragraph: string, index: number) => (
+                  <p key={`${item.key}-p-${index}`}>{paragraph}</p>
+                ))}
+                {item.italicNote && <p className={styles.textItalic}>{item.italicNote}</p>}
+                {item.videoHeading && item.videoUrl && isOpen && (
+                  <>
+                    <h4>{item.videoHeading}</h4>
+                    <div className={styles.videoContainer}>
+                      <iframe
+                        src={item.videoUrl}
+                        title="YouTube video player — origins of Agile"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen={true}
+                        loading="lazy"
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+);
+
+const PrinciplesGrid: React.FC = () => (
+  <section className={styles.principlesGrid} aria-label="Twelve Agile principles">
+    <ul className={styles.principlesList}>
+      {principleItems.map((item: IPrincipleItem) => (
+        <li key={item.key} className={styles.principleItem}>
+          <div className={styles.principleIcon} aria-hidden="true">
+            <img src={item.icon} alt="" />
+          </div>
+          <div className={styles.principleCopy}>
+            <h5>{item.title}</h5>
+            <p>{item.description}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+);
+
+interface IPracticesAccordionProps {
+  openKeys: string[];
+  onToggle: (key: string) => void;
+}
+
+const PracticesAccordion: React.FC<IPracticesAccordionProps> = ({ openKeys, onToggle }) => (
+  <section className={styles.practicesAccordion} aria-label="Agile practices">
+    <ul className={styles.practicesAccordionList}>
+      {practiceAccordionItems.map((item: IPracticeAccordionItem) => {
+        const isOpen = openKeys.indexOf(item.key) >= 0;
+        const panelId = `practice-panel-${item.key}`;
+        const buttonId = `practice-button-${item.key}`;
+        return (
+          <li
+            key={item.key}
+            className={
+              isOpen
+                ? `${styles.practicesAccordionItem} ${styles.practicesAccordionItemOpen}`
+                : styles.practicesAccordionItem
+            }
+          >
+            <button
+              type="button"
+              id={buttonId}
+              className={styles.practicesAccordionTitle}
+              aria-expanded={isOpen}
+              aria-controls={panelId}
+              onClick={() => onToggle(item.key)}
+            >
+              <span className={styles.practicesTitleText}>{item.title}</span>
+              <span className={styles.practicesChevron} aria-hidden="true" />
+            </button>
+            <div
+              id={panelId}
+              role="region"
+              aria-labelledby={buttonId}
+              className={
+                isOpen
+                  ? `${styles.practicesAccordionPanel} ${styles.practicesAccordionPanelOpen}`
+                  : styles.practicesAccordionPanel
+              }
+              aria-hidden={!isOpen}
+            >
+              <div className={styles.practicesAccordionBody}>
+                {item.paragraphs.map((paragraph: string, index: number) => (
+                  <p key={`${item.key}-p-${index}`}>{paragraph}</p>
+                ))}
+                {item.bulletsIntro && <p>{item.bulletsIntro}</p>}
+                {item.bullets && item.bullets.length > 0 && (
+                  <ul>
+                    {item.bullets.map((bullet: string) => (
+                      <li key={bullet}>{bullet}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+);
+
 const Agility101: React.FC<IAgility101Props> = (props) => {
   const {
     homeUrl,
@@ -196,6 +683,29 @@ const Agility101: React.FC<IAgility101Props> = (props) => {
   const [whyExpanded, setWhyExpanded] = React.useState<boolean>(false);
   const [howExpanded, setHowExpanded] = React.useState<boolean>(false);
   const [mindsetExpanded, setMindsetExpanded] = React.useState<boolean>(false);
+  const [valuesExpanded, setValuesExpanded] = React.useState<boolean>(false);
+  const [principleExpanded, setPrincipleExpanded] = React.useState<boolean>(false);
+  const [practiceExpanded, setPracticeExpanded] = React.useState<boolean>(false);
+  const [openValueKeys, setOpenValueKeys] = React.useState<string[]>(['individuals']);
+  const [openPracticeKeys, setOpenPracticeKeys] = React.useState<string[]>(['retrospective']);
+
+  const toggleValueAccordion = React.useCallback((key: string): void => {
+    setOpenValueKeys((prev: string[]) => {
+      if (prev.indexOf(key) >= 0) {
+        return prev.filter((item: string) => item !== key);
+      }
+      return prev.concat([key]);
+    });
+  }, []);
+
+  const togglePracticeAccordion = React.useCallback((key: string): void => {
+    setOpenPracticeKeys((prev: string[]) => {
+      if (prev.indexOf(key) >= 0) {
+        return prev.filter((item: string) => item !== key);
+      }
+      return prev.concat([key]);
+    });
+  }, []);
 
   const chromeFlags = usePageChromeFlags(
     renderOwnChrome,
@@ -289,7 +799,11 @@ const Agility101: React.FC<IAgility101Props> = (props) => {
             </div>
 
             <div
-              className={styles.outerPanel}
+              className={
+                activeOuterTab === 'what'
+                  ? `${styles.outerPanel} ${styles.outerPanelWhat}`
+                  : styles.outerPanel
+              }
               id={`outer-panel-${activeOuterTab}`}
               role="tabpanel"
               aria-labelledby={`outer-tab-${activeOuterTab}`}
@@ -317,6 +831,7 @@ const Agility101: React.FC<IAgility101Props> = (props) => {
                   })}
                 </div>
 
+                {/* Classic: white intro card only — accordion is a sibling on page bg */}
                 <div
                   className={styles.innerPanel}
                   id={`inner-panel-what-${currentInnerItem.key}`}
@@ -325,7 +840,7 @@ const Agility101: React.FC<IAgility101Props> = (props) => {
                 >
                   <div className={styles.innerContent}>
                     <div className={styles.innerCopy}>
-                      <h3>{currentInnerItem.title}</h3>
+                      {currentInnerItem.title ? <h3>{currentInnerItem.title}</h3> : null}
                       {currentInnerItem.key === 'mindset' ? (
                         <>
                           <p>
@@ -347,6 +862,44 @@ const Agility101: React.FC<IAgility101Props> = (props) => {
                     </div>
                   </div>
                 </div>
+
+                {activeInnerTab === 'values' && (
+                  <ReadMoreSection
+                    expanded={valuesExpanded}
+                    controlsId="values-read-more"
+                    onToggle={() => setValuesExpanded((prev: boolean) => !prev)}
+                  >
+                    <ValuesAccordion openKeys={openValueKeys} onToggle={toggleValueAccordion} />
+                  </ReadMoreSection>
+                )}
+
+                {activeInnerTab === 'principle' && (
+                  <ReadMoreSection
+                    expanded={principleExpanded}
+                    controlsId="principle-read-more"
+                    onToggle={() => setPrincipleExpanded((prev: boolean) => !prev)}
+                  >
+                    <PrinciplesGrid />
+                  </ReadMoreSection>
+                )}
+
+                {activeInnerTab === 'practice' && (
+                  <ReadMoreSection
+                    expanded={practiceExpanded}
+                    controlsId="practice-read-more"
+                    onToggle={() => setPracticeExpanded((prev: boolean) => !prev)}
+                  >
+                    <div className={styles.practiceCompare}>
+                      {practiceCompareItems.map((item: { title: string; description: string }) => (
+                        <div key={item.title} className={styles.practiceCompareCard}>
+                          <h5>{item.title}</h5>
+                          <p>{item.description}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <PracticesAccordion openKeys={openPracticeKeys} onToggle={togglePracticeAccordion} />
+                  </ReadMoreSection>
+                )}
               </>
             )}
 
