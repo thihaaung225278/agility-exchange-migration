@@ -163,14 +163,18 @@ $shadow-soft: 0 1.5rem 3rem rgba(58, 48, 48, 0.08);
   }
 }
 
-/* Classic .header-banner — fills container content (no own max-width; Home parity) */
+/*
+ * Classic stack above purple card:
+ * .agility-101-banner margin-top 20px + .header-banner margin-top 20px = 40px
+ * (merged into one .headerBanner shell — no outer section wrapper)
+ */
 .headerBanner {
   box-sizing: border-box;
   width: 100%;
   background: linear-gradient(0deg, rgba(151, 71, 255, 0) 40.28%, rgba(151, 71, 255, 0.15) 100%),
     linear-gradient(0deg, #f9f7f8, #f9f7f8);
   border-radius: 38px;
-  margin-top: 20px;
+  margin-top: 40px;
   margin-bottom: 24px;
   padding: 12px;
   padding-bottom: 0;
@@ -192,10 +196,11 @@ $shadow-soft: 0 1.5rem 3rem rgba(58, 48, 48, 0.08);
   animation: fadeUp 420ms ease;
 }
 
-/* Classic .left-content — 740px column; image stays intrinsic 496px, centered */
+/* Classic .left-content — width 740px; image ~496px centered (no shrink → computed 740) */
 .heroImageWrap {
   flex: 0 0 740px;
   width: 740px;
+  max-width: 740px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -207,7 +212,7 @@ $shadow-soft: 0 1.5rem 3rem rgba(58, 48, 48, 0.08);
   }
 }
 
-/* Classic .right-content — no max-width (classic had it commented out) */
+/* Classic .right-content — calc(100% - 740px); gap stays on .heroCard (20px) */
 .heroContent {
   flex: 1 1 auto;
   width: calc(100% - 740px);
@@ -215,45 +220,51 @@ $shadow-soft: 0 1.5rem 3rem rgba(58, 48, 48, 0.08);
   align-items: center;
   min-width: 0;
   padding: 0;
+  margin: 0;
 }
 
 /* Classic .content-wrapper */
 .heroCopy {
   width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-/* Nested so pad/size beat SP host heading styles */
+/* Nested so pad/size beat SP host heading styles — classic h1 tokens only */
 .agility101 .heroCopy h1 {
   margin: 0 0 25px;
   padding: 0;
   font-family: 'OpenSans-Light', 'Segoe UI', sans-serif;
   font-size: 56px;
-  font-weight: 400;
+  /* Match OpenSans-Light @font-face descriptor (classic uses family name only) */
+  font-weight: 300;
   line-height: 1.2;
   letter-spacing: normal;
-  color: $text-strong;
+  color: #3a3030;
 }
 
 .heroEyebrow {
   display: inline-block;
   margin: 0 0 12px;
   padding: 0;
-  color: $accent-red;
+  color: #ed1c24;
   font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
   font-size: 18px;
   font-style: italic;
-  font-weight: 400;
-  line-height: 1.4;
+  font-weight: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
 }
 
 .heroBody {
   margin: 0;
   padding: 0;
-  color: $text-muted;
+  color: #766767;
   font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: normal;
   line-height: 1.5;
+  letter-spacing: normal;
 }
 
 .tabsSection {
