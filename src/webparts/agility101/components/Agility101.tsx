@@ -12,10 +12,6 @@ const bgImage1 = require('../assets/bg-image-1.png') as string;
 const innerTabImg = require('../assets/inner-tab-img.webp') as string;
 const leftCardImg = require('../assets/left-card-img.webp') as string;
 const rightCardImg = require('../assets/right-card-img.webp') as string;
-const iconMindset = require('../assets/inner-tab-icon-1.webp') as string;
-const iconValues = require('../assets/inner-tab-icon-2.webp') as string;
-const iconPrinciple = require('../assets/inner-tab-icon-3.webp') as string;
-const iconPractice = require('../assets/inner-tab-icon-4.webp') as string;
 const fourIcon1 = require('../assets/four-icon-1.webp') as string;
 const fourIcon2 = require('../assets/four-icon-2.webp') as string;
 const fourIcon3 = require('../assets/four-icon-3.webp') as string;
@@ -56,10 +52,64 @@ type InnerTabKey = 'mindset' | 'values' | 'principle' | 'practice';
 interface IInnerTabItem {
   key: InnerTabKey;
   label: string;
-  icon: string;
+  icon: React.ReactNode;
   title: string;
   paragraphs: string[];
 }
+
+/** Classic agility-101.aspx inner-tab SVGs (exact viewBox + path). */
+const INNER_TAB_ICON_GRAD_ID = 'aeInnerTabIconGrad';
+
+const InnerTabIconMindset: React.FC = () => (
+  <svg className={styles.innerTabIcon} width={22} height={25} viewBox="0 0 22 25" fill="none" aria-hidden="true" focusable="false">
+    <path
+      d="M11.975 18.175L11 22.075L3.2 23.05V17.2L1.25 16.225L3.2 12.325V9.40001V9.40001C3.2 5.09218 6.69219 1.60001 11 1.60001H11.975C16.8213 1.60001 20.75 5.5287 20.75 10.375V10.8625C20.75 12.4447 20.2368 13.9842 19.2875 15.25V15.25C18.3382 16.5158 17.825 18.0553 17.825 19.6375V24.025M12.1039 5.50001H11.0309C8.76256 5.50001 6.82668 7.13994 6.45376 9.37743V9.37743C6.27629 10.4423 7.04149 11.4333 8.11658 11.5311L14.7797 12.1368C15.8914 12.2379 16.85 11.3625 16.85 10.2461V10.2461C16.85 7.62492 14.7251 5.50001 12.1039 5.50001Z"
+      stroke="#766767"
+      strokeWidth="1.25"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const InnerTabIconValues: React.FC = () => (
+  <svg className={styles.innerTabIcon} width={24} height={22} viewBox="0 0 24 22" fill="none" aria-hidden="true" focusable="false">
+    <path
+      d="M18.5625 10.2812V10.2812C17.9416 11.5231 17.1245 12.6568 16.1427 13.6386L15.75 14.0312M12 5.59375L11.2135 4.21729C9.63988 1.46355 6.00888 0.712088 3.47158 2.61506V2.61506C1.81466 3.85776 1.0387 5.95538 1.48799 7.97722L1.54282 8.22392C2.24318 11.3756 3.99941 14.1933 6.52046 16.2101L12 20.5938L17.4795 16.2101C20.0006 14.1933 21.7568 11.3756 22.4572 8.22392L22.512 7.97722C22.9613 5.95538 22.1853 3.85776 20.5284 2.61506V2.61506C17.9911 0.712088 14.3601 1.46355 12.7865 4.21729L12 5.59375Z"
+      stroke="#766767"
+      strokeOpacity="1"
+      strokeWidth="1.25"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const InnerTabIconPrinciples: React.FC = () => (
+  <svg className={styles.innerTabIcon} width={24} height={18} viewBox="0 0 24 18" fill="none" aria-hidden="true" focusable="false">
+    <path
+      d="M4.5 1.21875L5.52718 2.04049C7.52995 3.64271 10.4611 3.2706 12 1.21875V1.21875M4.5 1.21875L0.75 10.5938M4.5 1.21875L8.25 10.5938M12 1.21875V1.21875C13.5389 3.2706 16.47 3.64271 18.4728 2.04049L19.5 1.21875M12 1.21875V17.1562M19.5 1.21875L15.75 10.5938M19.5 1.21875L23.25 10.5938M0.75 10.5938H8.25M0.75 10.5938V10.5938C0.75 12.6648 2.42893 14.3438 4.5 14.3438V14.3438C6.57107 14.3438 8.25 12.6648 8.25 10.5938V10.5938M15.75 10.5938V10.5938C15.75 12.6648 17.4289 14.3438 19.5 14.3438V14.3438C21.5711 14.3438 23.25 12.6648 23.25 10.5938V10.5938M15.75 10.5938H23.25M6.375 17.1562H17.625"
+      stroke="#766767"
+      strokeOpacity="1"
+      strokeWidth="1.25"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const InnerTabIconPractices: React.FC = () => (
+  <svg className={styles.innerTabIcon} width={24} height={23} viewBox="0 0 24 23" fill="none" aria-hidden="true" focusable="false">
+    <path
+      d="M22.5 18.6023V9.70455C22.5 8.61253 21.6147 7.72728 20.5227 7.72728V7.72728C19.4307 7.72728 18.5455 8.61253 18.5455 9.70455V14.6477V5.75001C18.5455 4.65799 17.6602 3.77273 16.5682 3.77273V3.77273C15.4762 3.77273 14.5909 4.65799 14.5909 5.75001V13.6591V2.7841C14.5909 1.69208 13.7057 0.806824 12.6136 0.806824V0.806824C11.5216 0.806824 10.6364 1.69208 10.6364 2.7841V12.6705V5.75001C10.6364 4.65799 9.75111 3.77273 8.65909 3.77273V3.77273C7.56707 3.77273 6.68182 4.65799 6.68182 5.75001V17.6136M6.68182 15.6364L4.201 14.1479C2.97582 13.4128 1.38871 14.0702 1.04217 15.4563V15.4563C0.86091 16.1814 1.07336 16.9484 1.60183 17.4768L4.00547 19.8805C4.45308 20.3281 4.70455 20.9352 4.70455 21.5682V21.5682"
+      stroke="#766767"
+      strokeOpacity="1"
+      strokeWidth="1.25"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
 interface IOuterTabItem {
   key: OuterTabKey;
@@ -428,10 +478,10 @@ const mindsetShiftRows: Array<{ from: string; to: string }> = [
 ];
 
 const innerTabItems: IInnerTabItem[] = [
-  { key: 'mindset', label: 'Mindset', icon: iconMindset, title: 'Agile Foundation', paragraphs: mindsetParagraphs },
-  { key: 'values', label: 'Values', icon: iconValues, title: 'Agile Foundation 2', paragraphs: valuesParagraphs },
-  { key: 'principle', label: 'Principle', icon: iconPrinciple, title: '', paragraphs: principleParagraphs },
-  { key: 'practice', label: 'Practices', icon: iconPractice, title: '', paragraphs: practiceParagraphs }
+  { key: 'mindset', label: 'Mindset', icon: <InnerTabIconMindset />, title: 'Agile Foundation', paragraphs: mindsetParagraphs },
+  { key: 'values', label: 'Values', icon: <InnerTabIconValues />, title: 'Agile Foundation 2', paragraphs: valuesParagraphs },
+  { key: 'principle', label: 'Principles', icon: <InnerTabIconPrinciples />, title: '', paragraphs: principleParagraphs },
+  { key: 'practice', label: 'Practices', icon: <InnerTabIconPractices />, title: '', paragraphs: practiceParagraphs }
 ];
 
 const outerTabs: IOuterTabItem[] = [
@@ -811,6 +861,22 @@ const Agility101: React.FC<IAgility101Props> = (props) => {
             {activeOuterTab === 'what' && (
               <>
                 <div className={styles.innerTabs} role="tablist" aria-label="What topics">
+                  {/* Shared gradient for classic active icon stroke */}
+                  <svg className={styles.srOnly} width={0} height={0} aria-hidden="true" focusable="false">
+                    <defs>
+                      <linearGradient
+                        id={INNER_TAB_ICON_GRAD_ID}
+                        x1="1.25"
+                        y1="1.60001"
+                        x2="20.8046"
+                        y2="1.64773"
+                        gradientUnits="userSpaceOnUse"
+                      >
+                        <stop stopColor="#ED1C24" />
+                        <stop offset="1" stopColor="#9747FF" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
                   {innerTabItems.map((item: IInnerTabItem) => {
                     const isSelected = item.key === currentInnerItem.key;
                     return (
@@ -824,7 +890,7 @@ const Agility101: React.FC<IAgility101Props> = (props) => {
                         className={isSelected ? `${styles.innerTab} ${styles.innerTabActive}` : styles.innerTab}
                         onClick={() => setActiveInnerTab(item.key)}
                       >
-                        <img src={item.icon} alt="" aria-hidden="true" />
+                        {item.icon}
                         <span>{item.label}</span>
                       </button>
                     );
