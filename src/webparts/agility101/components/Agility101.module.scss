@@ -557,8 +557,13 @@ $outer-tab-shape-overhang: 30px;
     line-height: 1.5;
     letter-spacing: normal;
 
+    /* Classic How h3 — 48px Light (no clamp); @960 → 25px Regular */
     &.howHeading {
-      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-size: 3rem;
+      font-family: 'OpenSans-Light', 'Segoe UI', sans-serif;
+      font-weight: 300;
+      line-height: 1.5;
+      letter-spacing: normal;
     }
   }
 
@@ -803,11 +808,13 @@ $outer-tab-shape-overhang: 30px;
   }
 }
 
+/* Classic .read-more-content .image — margin 20px 0; img width 70% */
 .howDiagram {
-  margin: 1.25rem 0;
+  margin: 20px 0;
   text-align: center;
 
   img {
+    display: block;
     width: 70%;
     max-width: 100%;
     height: auto;
@@ -1237,9 +1244,10 @@ $outer-tab-shape-overhang: 30px;
   }
 }
 
+/* Classic How .inner-tab-content-wrapper — padding 0 16px 16px; gap 24px */
 .topicPanel .innerContent {
-  padding-left: 0;
-  padding-right: 0;
+  gap: 1.5rem;
+  padding: 0 1rem 1rem;
 }
 
 /* Mindset cards sit on page gray — do not force a white panel wrapper */
@@ -1564,6 +1572,11 @@ $outer-tab-shape-overhang: 30px;
     padding: 0 0.75rem;
   }
 
+  /* Classic How .contents keeps padding 0 28px until @640 */
+  .topicPanel .innerCopy {
+    padding: 0 1.75rem;
+  }
+
   .outerTab {
     font-size: 22px;
   }
@@ -1588,6 +1601,16 @@ $outer-tab-shape-overhang: 30px;
   /* Classic +screen-1024: h1 35px */
   .agility101 .heroCopy h1 {
     font-size: 35px !important;
+  }
+}
+
+/* Classic .inner-tab-content-wrapper h3 +respond(960px) — How heading only */
+@media (max-width: 960px) {
+  .innerCopy h3.howHeading {
+    font-size: 25px;
+    font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
   }
 }
 
@@ -1771,6 +1794,12 @@ $outer-tab-shape-overhang: 30px;
     padding-right: 0.75rem;
   }
 
+  /* Classic How wrapper keeps gap 24px / pad 0 16px 16px @640 */
+  .topicPanel .innerContent {
+    gap: 1.5rem;
+    padding: 0 1rem 1rem;
+  }
+
   .mindsetText {
     padding: 1.25rem 0.75rem 0.75rem;
 
@@ -1800,6 +1829,14 @@ $outer-tab-shape-overhang: 30px;
       font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
       font-weight: 400;
       line-height: 1.35;
+    }
+
+    /* Classic How h3 @960 already Regular 25px / lh 1.5 — do not inherit 1.35 */
+    h3.howHeading {
+      font-size: 25px;
+      font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+      font-weight: 400;
+      line-height: 1.5;
     }
 
     p {

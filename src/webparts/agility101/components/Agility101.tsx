@@ -1010,7 +1010,7 @@ const Agility101: React.FC<IAgility101Props> = (props) => {
                   <div className={styles.innerContent}>
                     <div className={styles.innerCopy}>
                       <h3 className={styles.howHeading}>
-                        <span className={styles.accentText}>HOW</span> CAN DBS ACHIEVE ENTERPRISE AGILITY
+                        <span className={styles.textRed}>HOW</span> CAN DBS ACHIEVE ENTERPRISE AGILITY
                       </h3>
                       <p>
                         At DBS, we strive to achieve enterprise agility by changing the way we work, through embracing the Agile mindset, values, principles and leveraging on a set of practices and tools.
