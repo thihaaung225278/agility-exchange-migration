@@ -654,8 +654,7 @@ $outer-tab-shape-overhang: 30px;
 }
 
 .outerPanelWhat > .readMore {
-  /* Classic read-more-div sibling of white intro — page #F1EEEE shows between pills */
-  margin-top: 0.5rem;
+  /* Classic .read-more-div: margin-top 24px (from .readMore) + padding 6px 0 16px */
   padding-bottom: 1.5rem;
 }
 
@@ -883,15 +882,14 @@ $outer-tab-shape-overhang: 30px;
 
 .valuesAccordionTitle {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0;
   position: relative;
   box-sizing: border-box;
   width: 100%;
+  /* Classic .uk-accordion-title padding: 24px — chevron is absolute, not extra padding */
   padding: 1.5rem;
-  /* Classic what-values chevron sits in the right padding lane */
-  padding-right: 4.5rem;
   border: 0;
   border-radius: 2.625rem;
   background: #fefbfc;
@@ -916,7 +914,7 @@ $outer-tab-shape-overhang: 30px;
 
 .valuesTitleLeft {
   order: 1;
-  flex: 2 1 0;
+  flex: 2;
   min-width: 0;
   color: $accent-red;
   font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
@@ -927,14 +925,10 @@ $outer-tab-shape-overhang: 30px;
 
 .valuesAccImg {
   order: 2;
-  flex: 1 1 auto;
+  flex: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-  width: auto;
-  min-width: 5rem;
-  max-width: none;
+  width: 5rem;
 
   img {
     display: block;
@@ -945,14 +939,14 @@ $outer-tab-shape-overhang: 30px;
 
 .valuesTitleRight {
   order: 3;
-  flex: 2 1 0;
+  flex: 2;
   min-width: 0;
 }
 
 .valuesGrayTitle {
   display: block;
-  /* Classic .what-values .gray-title — leave chevron lane clear */
-  max-width: calc(100% - 0.25rem);
+  /* Classic .what-values .gray-title — chevron lane inside the right column */
+  max-width: calc(100% - 3.125rem);
   color: #766767;
   font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
   font-size: 1.5rem;
@@ -960,7 +954,7 @@ $outer-tab-shape-overhang: 30px;
   line-height: 1.25;
 }
 
-/* Classic ::before chevron — 50px circle; open = solid red + white arrow */
+/* Classic ::before chevron — 50px #F4F4F4 circle + PNG; open = rotate only */
 .valuesChevron {
   position: absolute;
   top: 50%;
@@ -976,29 +970,11 @@ $outer-tab-shape-overhang: 30px;
   background-repeat: no-repeat;
   background-size: 0.875rem 0.5rem;
   transform: translateY(-50%);
-  transition:
-    transform 300ms ease,
-    background-color 180ms ease;
+  transition: transform 300ms ease;
 }
 
 .valuesAccordionItemOpen .valuesChevron {
-  background-color: $accent-red;
-  background-image: none;
   transform: translateY(-50%) rotate(-180deg);
-
-  /* White down-chevron (rotates to up when open) — PNG is red-only */
-  &::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0.625rem;
-    height: 0.625rem;
-    margin-top: -0.2rem;
-    border-right: 0.125rem solid #ffffff;
-    border-bottom: 0.125rem solid #ffffff;
-    transform: translate(-50%, -50%) rotate(45deg);
-  }
 }
 
 .valuesAccordionPanel {
@@ -1576,6 +1552,11 @@ $outer-tab-shape-overhang: 30px;
     gap: 5px;
     margin: 0;
   }
+
+  /* Classic .accordion-width-image @1200px */
+  .valuesAccordionTitle {
+    gap: 1.25rem;
+  }
 }
 
 @media (max-width: 1024px) {
@@ -1682,14 +1663,6 @@ $outer-tab-shape-overhang: 30px;
 
   .valuesAccImg {
     justify-content: center;
-  }
-
-  .valuesAccordionTitle {
-    gap: 1.25rem;
-  }
-
-  .valuesGrayTitle {
-    max-width: 100%;
   }
 
   .valuesChevron {
@@ -1913,9 +1886,9 @@ $outer-tab-shape-overhang: 30px;
   .valuesAccordionTitle {
     flex-direction: column;
     gap: 0.625rem;
-    padding: 0.9375rem 2.75rem 0.9375rem 0.9375rem;
+    /* Classic compiled padding stays 24px (`pading: 15px` typo is ignored) */
+    padding: 1.5rem;
     font-size: 1.25rem;
-    border-radius: 1.875rem;
   }
 
   .valuesTitleLeft,
@@ -1933,9 +1906,9 @@ $outer-tab-shape-overhang: 30px;
   }
 
   .valuesAccImg {
-    width: auto;
-    max-width: none;
+    width: 100%;
     flex: none;
+    justify-content: center;
 
     img {
       /* Classic .accordion-width-image mobile: img width 50% */
