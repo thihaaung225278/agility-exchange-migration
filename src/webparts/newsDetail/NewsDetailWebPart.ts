@@ -8,38 +8,40 @@ import {
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 
-import * as strings from 'AboutTgWebPartStrings';
-import AboutTg from './components/AboutTg';
-import { IAboutTgProps } from './components/IAboutTgProps';
+import * as strings from 'NewsDetailWebPartStrings';
+import NewsDetail from './components/NewsDetail';
+import { INewsDetailProps } from './components/INewsDetailProps';
 import { getRawPageServerRelativeUrl } from '../../shared/pageChrome';
 import { resolveHomeUrl } from '../../shared/chrome/resolveHomeUrl';
 
-export interface IAboutTgWebPartProps {
+export interface INewsDetailWebPartProps {
   homeUrl: string;
   newsEventsUrl: string;
   aboutUrl: string;
   agility101Url: string;
   jitPackUrl: string;
+  newsListTitle: string;
   contactEmail: string;
   renderOwnChrome: boolean;
 }
 
-const ABOUT_FULLWIDTH_CLASS = 'ae-about-fullwidth';
+const NEWS_DETAIL_FULLWIDTH_CLASS = 'ae-news-detail-fullwidth';
 
-export default class AboutTgWebPart extends BaseClientSideWebPart<IAboutTgWebPartProps> {
+export default class NewsDetailWebPart extends BaseClientSideWebPart<INewsDetailWebPartProps> {
 
   protected onInit(): Promise<void> {
-    document.body.classList.add(ABOUT_FULLWIDTH_CLASS);
+    document.body.classList.add(NEWS_DETAIL_FULLWIDTH_CLASS);
     return Promise.resolve();
   }
 
   public render(): void {
-    const element: React.ReactElement<IAboutTgProps> = React.createElement(AboutTg, {
+    const element: React.ReactElement<INewsDetailProps> = React.createElement(NewsDetail, {
       homeUrl: resolveHomeUrl(this.properties.homeUrl),
       newsEventsUrl: this.properties.newsEventsUrl || 'news-events.aspx',
       aboutUrl: this.properties.aboutUrl || 'about-tg.aspx',
       agility101Url: this.properties.agility101Url || 'agility-101.aspx',
       jitPackUrl: this.properties.jitPackUrl || 'JIT-pack.aspx',
+      newsListTitle: this.properties.newsListTitle || 'News',
       contactEmail: this.properties.contactEmail || 'agilityexchange@dbs.com',
       renderOwnChrome: this.properties.renderOwnChrome !== false,
       spHttpClient: this.context.spHttpClient,
@@ -54,7 +56,7 @@ export default class AboutTgWebPart extends BaseClientSideWebPart<IAboutTgWebPar
   }
 
   protected onDispose(): void {
-    document.body.classList.remove(ABOUT_FULLWIDTH_CLASS);
+    document.body.classList.remove(NEWS_DETAIL_FULLWIDTH_CLASS);
     ReactDom.unmountComponentAtNode(this.domElement);
   }
 
@@ -78,6 +80,12 @@ export default class AboutTgWebPart extends BaseClientSideWebPart<IAboutTgWebPar
                 PropertyPaneTextField('aboutUrl', { label: strings.AboutUrlFieldLabel }),
                 PropertyPaneTextField('agility101Url', { label: strings.Agility101UrlFieldLabel }),
                 PropertyPaneTextField('jitPackUrl', { label: strings.JitPackUrlFieldLabel })
+              ]
+            },
+            {
+              groupName: strings.ListsGroupName,
+              groupFields: [
+                PropertyPaneTextField('newsListTitle', { label: strings.NewsListTitleFieldLabel })
               ]
             },
             {

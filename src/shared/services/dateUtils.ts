@@ -199,11 +199,45 @@ export function isSafeJoinUrl(raw: string | undefined): string | undefined {
   return undefined;
 }
 
+/** Site Pages treat `id` as the page list-item ID and strip it — do not use `id`. */
+export const NEWS_DETAIL_QUERY_PARAM = 'newsId';
+
+function parsePositiveId(raw?: string): number | undefined {
+  if (!raw || !/^\d+$/.test(raw)) {
+    return undefined;
+  }
+  const value = parseInt(raw, 10);
+  return value > 0 ? value : undefined;
+}
+
 export function newsDetailHref(base: string, id: number): string {
   if (!base || base === '#') {
     return '#';
   }
-  return base.indexOf('?') >= 0 ? base + '&id=' + id : base + '?id=' + id;
+  const sep = base.indexOf('?') >= 0 ? '&' : '?';
+  return base + sep + NEWS_DETAIL_QUERY_PARAM + '=' + id;
+}
+
+export function readNewsDetailId(): number | undefined {
+  if (typeof window === 'undefined' || !window.location) {
+    return undefined;
+  }
+
+  const search = new URLSearchParams(window.location.search || '');
+  const fromQuery = parsePositiveId(search.get(NEWS_DETAIL_QUERY_PARAM) || undefined);
+  if (fromQuery) {
+    return fromQuery;
+  }
+
+  const hash = (window.location.hash || '').replace(/^#/, '');
+  if (hash) {
+    const fromHash = parsePositiveId(new URLSearchParams(hash).get(NEWS_DETAIL_QUERY_PARAM) || undefined);
+    if (fromHash) {
+      return fromHash;
+    }
+  }
+
+  return parsePositiveId(search.get('id') || undefined);
 }
 
 export function readViewParam(): string | undefined {

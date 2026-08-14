@@ -12,6 +12,7 @@ import * as strings from 'HomeWebPartStrings';
 import Home from './components/Home';
 import { IHomeProps } from './components/IHomeProps';
 import { getRawPageServerRelativeUrl } from '../../shared/pageChrome';
+import { resolveHomeUrl } from '../../shared/chrome/resolveHomeUrl';
 
 export interface IHomeWebPartProps {
   homeUrl: string;
@@ -38,7 +39,7 @@ export default class HomeWebPart extends BaseClientSideWebPart<IHomeWebPartProps
 
   public render(): void {
     const element: React.ReactElement<IHomeProps> = React.createElement(Home, {
-      homeUrl: this.properties.homeUrl || '#',
+      homeUrl: resolveHomeUrl(this.properties.homeUrl),
       newsEventsUrl: this.properties.newsEventsUrl || 'news-events.aspx',
       aboutUrl: this.properties.aboutUrl || 'about-tg.aspx',
       agility101Url: this.properties.agility101Url || 'agility-101.aspx',

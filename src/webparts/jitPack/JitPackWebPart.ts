@@ -12,6 +12,7 @@ import * as strings from 'JitPackWebPartStrings';
 import JitPack from './components/JitPack';
 import { IJitPackProps } from './components/IJitPackProps';
 import { getRawPageServerRelativeUrl } from '../../shared/pageChrome';
+import { resolveHomeUrl } from '../../shared/chrome/resolveHomeUrl';
 import { DEFAULT_JIT_ASSET_BASE_PATH, DEFAULT_JIT_LIST_TITLES } from '../../shared/services/jitPackService';
 
 export interface IJitPackWebPartProps {
@@ -74,7 +75,7 @@ export default class JitPackWebPart extends BaseClientSideWebPart<IJitPackWebPar
 
   public render(): void {
     const element = React.createElement<IJitPackProps>(JitPack, {
-      homeUrl: this.properties.homeUrl || '#',
+      homeUrl: resolveHomeUrl(this.properties.homeUrl),
       newsEventsUrl: this.properties.newsEventsUrl || 'news-events.aspx',
       aboutUrl: this.properties.aboutUrl || 'about-tg.aspx',
       agility101Url: this.properties.agility101Url || 'agility-101.aspx',

@@ -12,6 +12,7 @@ import * as strings from 'Agility101WebPartStrings';
 import Agility101 from './components/Agility101';
 import { IAgility101Props } from './components/IAgility101Props';
 import { getRawPageServerRelativeUrl } from '../../shared/pageChrome';
+import { resolveHomeUrl } from '../../shared/chrome/resolveHomeUrl';
 
 export interface IAgility101WebPartProps {
   homeUrl: string;
@@ -66,7 +67,7 @@ export default class Agility101WebPart extends BaseClientSideWebPart<IAgility101
 
   public render(): void {
     const element = React.createElement<IAgility101Props>(Agility101, {
-      homeUrl: this.properties.homeUrl || '#',
+      homeUrl: resolveHomeUrl(this.properties.homeUrl),
       newsEventsUrl: this.properties.newsEventsUrl || 'news-events.aspx',
       aboutUrl: this.properties.aboutUrl || 'about-tg.aspx',
       agility101Url: this.properties.agility101Url || 'agility-101.aspx',

@@ -12,6 +12,7 @@ import * as strings from 'NewsEventsWebPartStrings';
 import NewsEvents from './components/NewsEvents';
 import { INewsEventsProps } from './components/INewsEventsProps';
 import { getRawPageServerRelativeUrl } from '../../shared/pageChrome';
+import { resolveHomeUrl } from '../../shared/chrome/resolveHomeUrl';
 
 export interface INewsEventsWebPartProps {
   homeUrl: string;
@@ -32,12 +33,12 @@ const NEWS_FULLWIDTH_CLASS = 'ae-news-fullwidth';
 const DEFAULT_YAMMER =
   'https://www.yammer.com/dbs.com/#/threads/inGroup?type=in_group&feedId=9349680&view=all';
 
-/** Canonical Events list — remaps blank / legacy "Events" saved in property pane. */
-const CANONICAL_EVENTS_LIST = 'Agility Exchange Events';
+/** Canonical Events list — remaps blank / legacy "Agility Exchange Events" saved in property pane. */
+const CANONICAL_EVENTS_LIST = 'Events';
 
 function resolveEventsListTitle(raw?: string): string {
   const title = (raw || '').trim();
-  if (!title || /^events$/i.test(title)) {
+  if (!title || /^agility exchange events$/i.test(title)) {
     return CANONICAL_EVENTS_LIST;
   }
   return title;
@@ -52,7 +53,7 @@ export default class NewsEventsWebPart extends BaseClientSideWebPart<INewsEvents
 
   public render(): void {
     const element: React.ReactElement<INewsEventsProps> = React.createElement(NewsEvents, {
-      homeUrl: this.properties.homeUrl || '#',
+      homeUrl: resolveHomeUrl(this.properties.homeUrl),
       newsEventsUrl: this.properties.newsEventsUrl || 'news-events.aspx',
       aboutUrl: this.properties.aboutUrl || 'about-tg.aspx',
       agility101Url: this.properties.agility101Url || 'agility-101.aspx',

@@ -12,6 +12,7 @@
     "test": "gulp test",
     "serve": "gulp serve",
     "serve:news": "gulp serve --config=newsEvents",
+    "serve:newsDetail": "gulp serve --config=newsDetail",
     "serve:about": "gulp serve --config=aboutTg",
     "serve:home": "gulp serve --config=home",
     "serve:agility101": "gulp serve --config=agility101",

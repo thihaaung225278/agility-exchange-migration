@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SPHttpClient } from '@microsoft/sp-http';
-import styles from './NewsEvents.module.scss';
+import styles from './NewsDetail.module.scss';
 import { formatNewsDate } from '../../../shared/services/dateUtils';
 import { getPublishedNewsDetail, type INewsDetailItem } from '../../../shared/services/newsService';
 
@@ -9,7 +9,7 @@ export interface INewsDetailViewProps {
   webAbsoluteUrl: string;
   listTitle: string;
   newsEventsUrl: string;
-  itemId: number;
+  itemId?: number;
 }
 
 type DetailStatus = 'loading' | 'ready' | 'error' | 'notFound';
@@ -143,10 +143,16 @@ function sanitizeBodyHtml(html: string): string {
 }
 
 const NewsDetailView: React.FC<INewsDetailViewProps> = (props) => {
-  const [status, setStatus] = React.useState<DetailStatus>('loading');
+  const [status, setStatus] = React.useState<DetailStatus>(props.itemId ? 'loading' : 'notFound');
   const [item, setItem] = React.useState<INewsDetailItem | undefined>();
 
   React.useEffect(() => {
+    if (!props.itemId) {
+      setItem(undefined);
+      setStatus('notFound');
+      return;
+    }
+
     let cancelled = false;
     setStatus('loading');
     getPublishedNewsDetail(props.spHttpClient, props.webAbsoluteUrl, props.listTitle, props.itemId)

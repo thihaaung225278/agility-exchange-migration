@@ -10,6 +10,7 @@ import SiteHeader from '../../shared/chrome/SiteHeader';
 import SiteFooter from '../../shared/chrome/SiteFooter';
 import { chromeAssets } from '../../shared/chrome/chromeAssets';
 import { resolveSiteNavKey } from '../../shared/chrome/resolveSiteNavKey';
+import { resolveHomeUrl } from '../../shared/chrome/resolveHomeUrl';
 import chromeStyles from '../../shared/chrome/Chrome.module.scss';
 import { getPageChromeFlags, getRawPageServerRelativeUrl } from '../../shared/pageChrome';
 
@@ -104,7 +105,7 @@ export default class PageChromeApplicationCustomizer
         'div',
         { className: chromeStyles.chromeContainer },
         React.createElement(SiteHeader, {
-          homeUrl: properties.homeUrl || 'index.aspx',
+          homeUrl: resolveHomeUrl(properties.homeUrl),
           newsEventsUrl: properties.newsEventsUrl || 'news-events.aspx',
           aboutUrl: properties.aboutUrl || 'about-tg.aspx',
           agility101Url: properties.agility101Url || 'agility-101.aspx',
