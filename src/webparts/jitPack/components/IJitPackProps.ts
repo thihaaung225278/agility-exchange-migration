@@ -14,6 +14,8 @@ export interface IJitPackProps {
   toolsCategoryListTitle: string;
   mtjAgileListTitle: string;
   mtjAgileCategoryListTitle: string;
+  /** Classic workingDir for relative list Url images (default `/Shared%20Documents/main/`). */
+  jitAssetBasePath: string;
   spHttpClient: SPHttpClient;
   webAbsoluteUrl: string;
   webServerRelativeUrl: string;

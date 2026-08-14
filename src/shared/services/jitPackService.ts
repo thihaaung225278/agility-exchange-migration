@@ -45,15 +45,27 @@ export const DEFAULT_JIT_LIST_TITLES: IJitPackListTitles = {
   mtjAgileCategory: 'MtJ Agile Category'
 };
 
+/**
+ * Classic `config.workingDir` — list `Url` values are relative to this folder
+ * (classic image = `config.homeURL + data.Url`).
+ */
+export const DEFAULT_JIT_ASSET_BASE_PATH = '/Shared%20Documents/main/';
+
 interface IAttachmentFile {
   ServerRelativeUrl?: string;
+}
+
+interface ISpHyperlink {
+  Url?: string;
+  Description?: string;
 }
 
 interface ISpListItem {
   Id?: number;
   ID?: number;
   Title?: string;
-  Url?: string;
+  /** Text path or Hyperlink field object from REST. */
+  Url?: string | ISpHyperlink;
   ExternalUrl?: string;
   CategoryId?: number;
   OrderNo?: number;
@@ -84,7 +96,51 @@ function firstAttachmentUrl(item: ISpListItem): string | undefined {
   return files[0].ServerRelativeUrl;
 }
 
-function resolveAssetUrl(webAbsoluteUrl: string, raw?: string): string | undefined {
+/** Normalize list Url field (plain text or Hyperlink { Url }). */
+function coerceUrlField(raw: string | ISpHyperlink | undefined): string | undefined {
+  if (raw === null || raw === undefined) {
+    return undefined;
+  }
+  if (typeof raw === 'string') {
+    return raw;
+  }
+  if (typeof raw === 'object' && typeof raw.Url === 'string') {
+    return raw.Url;
+  }
+  return undefined;
+}
+
+function normalizeAssetBasePath(assetBasePath?: string): string {
+  const raw = (assetBasePath || DEFAULT_JIT_ASSET_BASE_PATH).trim();
+  if (!raw) {
+    return DEFAULT_JIT_ASSET_BASE_PATH;
+  }
+  let path = raw.replace(/\\/g, '/');
+  if (path.charAt(0) !== '/') {
+    path = '/' + path;
+  }
+  if (path.charAt(path.length - 1) !== '/') {
+    path = path + '/';
+  }
+  return path;
+}
+
+/** Encode spaces only — preserve existing %XX and slashes (classic homeURL concat). */
+function encodeSpaces(url: string): string {
+  return url.replace(/ /g, '%20');
+}
+
+/**
+ * Resolve list/attachment paths to absolute URLs.
+ * - Absolute http(s) → unchanged
+ * - Server-relative (`/…`) → origin + path (attachments, Site Assets)
+ * - Relative (`public/images/…`) → web + assetBase (classic homeURL + Url)
+ */
+function resolveAssetUrl(
+  webAbsoluteUrl: string,
+  raw: string | undefined,
+  options?: { useAssetBase?: boolean; assetBasePath?: string }
+): string | undefined {
   if (!raw) {
     return undefined;
   }
@@ -93,29 +149,46 @@ function resolveAssetUrl(webAbsoluteUrl: string, raw?: string): string | undefin
     return undefined;
   }
   if (/^https?:\/\//i.test(trimmed)) {
-    return trimmed;
+    return encodeSpaces(trimmed);
   }
+
   const web = webAbsoluteUrl.replace(/\/$/, '');
-  if (trimmed.charAt(0) === '/') {
-    // Server-relative — keep origin from webAbsoluteUrl
-    try {
-      const origin = new URL(web).origin;
-      return origin + trimmed;
-    } catch {
-      return web + trimmed;
-    }
+  let origin = web;
+  try {
+    origin = new URL(web).origin;
+  } catch {
+    /* keep web */
   }
-  return web + '/' + trimmed.replace(/^\.\//, '');
+
+  if (trimmed.charAt(0) === '/') {
+    return encodeSpaces(origin + trimmed);
+  }
+
+  const relative = trimmed.replace(/^\.\//, '');
+  if (options && options.useAssetBase) {
+    const base = normalizeAssetBasePath(options.assetBasePath);
+    return encodeSpaces(web + base + relative);
+  }
+
+  return encodeSpaces(web + '/' + relative);
 }
 
-function mapCard(webAbsoluteUrl: string, row: ISpListItem): IJitCardItem | undefined {
+function mapCard(
+  webAbsoluteUrl: string,
+  row: ISpListItem,
+  assetBasePath?: string
+): IJitCardItem | undefined {
   const id = itemId(row);
   if (!id) {
     return undefined;
   }
 
   const categoryId = typeof row.CategoryId === 'number' ? row.CategoryId : 0;
-  const imageUrl = resolveAssetUrl(webAbsoluteUrl, row.Url);
+  const urlField = coerceUrlField(row.Url);
+  const imageUrl = resolveAssetUrl(webAbsoluteUrl, urlField, {
+    useAssetBase: true,
+    assetBasePath
+  });
   const attachment = firstAttachmentUrl(row);
   const attachmentAbs = resolveAssetUrl(webAbsoluteUrl, attachment);
   const external = (row.ExternalUrl || '').trim();
@@ -182,7 +255,8 @@ async function getCategories(
 async function getCards(
   client: SPHttpClient,
   webAbsoluteUrl: string,
-  listTitle: string
+  listTitle: string,
+  assetBasePath?: string
 ): Promise<IJitCardItem[]> {
   const web = webAbsoluteUrl.replace(/\/$/, '');
   const title = escapeODataString(listTitle);
@@ -200,7 +274,7 @@ async function getCards(
   const rows = json.value || [];
   const cards: IJitCardItem[] = [];
   for (let i = 0; i < rows.length; i++) {
-    const card = mapCard(webAbsoluteUrl, rows[i]);
+    const card = mapCard(webAbsoluteUrl, rows[i], assetBasePath);
     if (card) {
       cards.push(card);
     }
@@ -218,11 +292,12 @@ function groupByCategory(categories: IJitCategory[], cards: IJitCardItem[]): IJi
 export async function loadJitPackSections(
   client: SPHttpClient,
   webAbsoluteUrl: string,
-  lists: IJitPackListTitles
+  lists: IJitPackListTitles,
+  assetBasePath?: string
 ): Promise<IJitAccordionSection[]> {
   const [categories, cards] = await Promise.all([
     getCategories(client, webAbsoluteUrl, lists.jitPacksCategory, 'Order_NO'),
-    getCards(client, webAbsoluteUrl, lists.jitPacks)
+    getCards(client, webAbsoluteUrl, lists.jitPacks, assetBasePath)
   ]);
   return groupByCategory(categories, cards);
 }
@@ -230,11 +305,12 @@ export async function loadJitPackSections(
 export async function loadToolsSections(
   client: SPHttpClient,
   webAbsoluteUrl: string,
-  lists: IJitPackListTitles
+  lists: IJitPackListTitles,
+  assetBasePath?: string
 ): Promise<IJitAccordionSection[]> {
   const [categories, cards] = await Promise.all([
     getCategories(client, webAbsoluteUrl, lists.toolsCategory, 'OrderNo'),
-    getCards(client, webAbsoluteUrl, lists.tools)
+    getCards(client, webAbsoluteUrl, lists.tools, assetBasePath)
   ]);
   return groupByCategory(categories, cards);
 }
@@ -242,11 +318,12 @@ export async function loadToolsSections(
 export async function loadMtjAgileSections(
   client: SPHttpClient,
   webAbsoluteUrl: string,
-  lists: IJitPackListTitles
+  lists: IJitPackListTitles,
+  assetBasePath?: string
 ): Promise<IJitAccordionSection[]> {
   const [categories, cards] = await Promise.all([
     getCategories(client, webAbsoluteUrl, lists.mtjAgileCategory, 'OrderNo'),
-    getCards(client, webAbsoluteUrl, lists.mtjAgile)
+    getCards(client, webAbsoluteUrl, lists.mtjAgile, assetBasePath)
   ]);
   return groupByCategory(categories, cards);
 }

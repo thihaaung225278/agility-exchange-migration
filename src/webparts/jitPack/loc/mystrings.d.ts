@@ -14,6 +14,7 @@ declare interface IJitPackWebPartStrings {
   ToolsCategoryListTitleFieldLabel: string;
   MtjAgileListTitleFieldLabel: string;
   MtjAgileCategoryListTitleFieldLabel: string;
+  JitAssetBasePathFieldLabel: string;
   ContactEmailFieldLabel: string;
   RenderOwnChromeFieldLabel: string;
 }

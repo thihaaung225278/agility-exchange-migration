@@ -12,7 +12,7 @@ import * as strings from 'JitPackWebPartStrings';
 import JitPack from './components/JitPack';
 import { IJitPackProps } from './components/IJitPackProps';
 import { getRawPageServerRelativeUrl } from '../../shared/pageChrome';
-import { DEFAULT_JIT_LIST_TITLES } from '../../shared/services/jitPackService';
+import { DEFAULT_JIT_ASSET_BASE_PATH, DEFAULT_JIT_LIST_TITLES } from '../../shared/services/jitPackService';
 
 export interface IJitPackWebPartProps {
   homeUrl: string;
@@ -28,6 +28,8 @@ export interface IJitPackWebPartProps {
   toolsCategoryListTitle: string;
   mtjAgileListTitle: string;
   mtjAgileCategoryListTitle: string;
+  /** Classic `config.workingDir` — relative card Url images. */
+  jitAssetBasePath: string;
 }
 
 const JIT_FULLWIDTH_CLASS = 'ae-jitpack-fullwidth';
@@ -88,6 +90,7 @@ export default class JitPackWebPart extends BaseClientSideWebPart<IJitPackWebPar
       mtjAgileListTitle: this.properties.mtjAgileListTitle || DEFAULT_JIT_LIST_TITLES.mtjAgile,
       mtjAgileCategoryListTitle:
         this.properties.mtjAgileCategoryListTitle || DEFAULT_JIT_LIST_TITLES.mtjAgileCategory,
+      jitAssetBasePath: this.properties.jitAssetBasePath || DEFAULT_JIT_ASSET_BASE_PATH,
       spHttpClient: this.context.spHttpClient,
       webAbsoluteUrl: this.context.pageContext.web.absoluteUrl,
       webServerRelativeUrl: this.context.pageContext.web.serverRelativeUrl,
@@ -235,6 +238,10 @@ export default class JitPackWebPart extends BaseClientSideWebPart<IJitPackWebPar
                 }),
                 PropertyPaneTextField('mtjAgileCategoryListTitle', {
                   label: strings.MtjAgileCategoryListTitleFieldLabel
+                }),
+                PropertyPaneTextField('jitAssetBasePath', {
+                  label: strings.JitAssetBasePathFieldLabel,
+                  description: 'Classic workingDir for relative Url images (e.g. /Shared%20Documents/main/)'
                 })
               ]
             },

@@ -477,6 +477,7 @@ $card-violet-fill: radial-gradient(
   border: 1px solid $border-soft;
   border-radius: 30px;
   background-color: transparent;
+  /* Classic inactive — #766767 */
   color: $text-muted;
   cursor: pointer;
   font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
@@ -553,7 +554,9 @@ $card-violet-fill: radial-gradient(
 }
 
 .innerPanel {
+  /* Classic .inner-tab-content-wrapper — margin-bottom 24px (gap before accordion) */
   background: $panel-bg;
+  margin-bottom: 24px;
   border-bottom-left-radius: 42px;
   border-bottom-right-radius: 42px;
   overflow: hidden;
@@ -637,7 +640,8 @@ $card-violet-fill: radial-gradient(
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  /* Classic UIkit ::before margin-left: 10px */
+  gap: 10px;
   position: relative;
   box-sizing: border-box;
   width: 100%;
@@ -651,7 +655,9 @@ $card-violet-fill: radial-gradient(
   font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
   font-size: 24px;
   font-weight: 400;
-  line-height: 1.5;
+  /* Classic UIkit .uk-accordion-title line-height: 1.4 */
+  line-height: 1.4;
+  letter-spacing: normal;
   text-align: left;
   text-transform: capitalize;
   transition: color 180ms ease;
@@ -699,9 +705,20 @@ $card-violet-fill: radial-gradient(
   opacity: 1;
 }
 
+/*
+ * Collapse shell (direct child of .accordionPanel 0fr grid).
+ * Padding must NOT live here — padded 0fr children leave residual height when closed
+ * (classic UIkit hides content entirely → title-to-title spacing = gap 20px only).
+ */
 .accordionBody {
   overflow: hidden;
   min-height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* Classic accordion text contents padding — training TextAccordion uses textAccordionBodyInner */
+.accordionBodyInner {
   margin: 0;
   padding: 24px 36px;
 
@@ -716,7 +733,8 @@ $card-violet-fill: radial-gradient(
     font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
     font-size: 24px;
     font-weight: 400;
-    line-height: 1.5;
+    line-height: 1.4;
+    letter-spacing: normal;
   }
 
   p {
@@ -748,6 +766,15 @@ $card-violet-fill: radial-gradient(
   }
 }
 
+/*
+ * Classic JIT pack cards: card-wrapper sits in uk-accordion-content with no L/R pad
+ * (UIkit only adds margin-top). Keep a small top gap so titles aren't flush to cards.
+ */
+.accordionCardsInner {
+  margin: 0;
+  padding: 20px 0 0;
+}
+
 /* Card grid inside accordion body / tools panels */
 .cardWrapper {
   display: flex;
@@ -760,9 +787,25 @@ $card-violet-fill: radial-gradient(
 
 .shortCard,
 .longCard {
+  box-sizing: border-box;
+  display: block;
   background: $accordion-pill-bg;
   border-radius: 38px;
   height: 200px;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid $accent-red;
+    outline-offset: 0.125rem;
+  }
 }
 
 .shortCard {
@@ -829,7 +872,8 @@ $card-violet-fill: radial-gradient(
   font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
   font-size: 24px;
   font-weight: 400;
-  line-height: 1.5;
+  /* Classic card titles unset line-height → UIkit/body rhythm 1.4 */
+  line-height: 1.4;
   letter-spacing: normal;
   color: $text-muted;
 }
@@ -851,10 +895,17 @@ $card-violet-fill: radial-gradient(
 
 /* -------------------------------------------------------------------------- */
 /* Additional information                                                      */
+/* Classic: .there-have-no-img h3 / .additional-info-content /                */
+/*          .additional-info-column-heading / .padding-l-r-10 / .btn-link-detail */
 /* -------------------------------------------------------------------------- */
 
 .additionalInfo {
   padding: 0 16px 16px;
+  color: $text-main;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: normal;
 }
 
 .additionalInfoHeading {
@@ -864,21 +915,27 @@ $card-violet-fill: radial-gradient(
   font-size: 24px;
   font-weight: 400;
   line-height: 1.5;
+  letter-spacing: normal;
   text-align: center;
 }
 
 .additionalInfoGrid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
   text-align: center;
   color: $text-main;
   font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
-  gap: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: normal;
 }
 
 .additionalInfoColumn {
   min-width: 0;
+  /* Classic .padding-l-r-10 */
   padding: 0 10px;
+  margin: 0;
 }
 
 .additionalInfoColumnHeading {
@@ -887,22 +944,37 @@ $card-violet-fill: radial-gradient(
   font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
   font-size: 20px;
   font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
   text-align: center;
   padding-bottom: 10px;
   margin: 0 0 10px;
 }
 
 .additionalInfoItem {
-  margin: 0 0 8px;
+  /* Classic cells have no extra bottom margin — spacing from .btn-link-detail */
+  margin: 0;
   padding: 0;
   color: $text-main;
   font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
   font-size: 16px;
+  font-weight: 400;
   line-height: 1.5;
+  letter-spacing: normal;
   text-align: center;
+
+  strong {
+    font-family: 'OpenSans-SemiBold', 'Segoe UI', sans-serif;
+    font-weight: 400;
+    letter-spacing: normal;
+  }
 }
 
-/* Classic .btn-link.btn-link-detail */
+/*
+ * Classic .btn-link.btn-link-detail
+ * Parent margin only (skip classic a margin-top/bottom double-stack).
+ * Shared with Training Learning Hub link — keep tokens identical to classic.
+ */
 .btnLink {
   margin: 30px 0;
 
@@ -921,6 +993,7 @@ $card-violet-fill: radial-gradient(
     font-size: 14px;
     font-weight: 400;
     line-height: 1.3;
+    letter-spacing: normal;
     text-decoration: none;
     transition: color 180ms ease, background-color 180ms ease;
   }
@@ -1054,7 +1127,8 @@ $card-violet-fill: radial-gradient(
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  /* Classic UIkit ::before margin-left: 10px */
+  gap: 10px;
   position: relative;
   box-sizing: border-box;
   width: 100%;
@@ -1068,7 +1142,8 @@ $card-violet-fill: radial-gradient(
   font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
   font-size: 24px;
   font-weight: 400;
-  line-height: 1.5;
+  /* Classic UIkit .uk-accordion-title line-height: 1.4 */
+  line-height: 1.4;
   letter-spacing: normal;
   text-align: left;
   text-transform: capitalize;
@@ -1132,7 +1207,7 @@ $card-violet-fill: radial-gradient(
     font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
     font-size: 24px;
     font-weight: 400;
-    line-height: 1.5;
+    line-height: 1.4;
     letter-spacing: normal;
   }
 

@@ -15,6 +15,7 @@ define([], function() {
     "ToolsCategoryListTitleFieldLabel": "Tools Category list",
     "MtjAgileListTitleFieldLabel": "Mtj Agile list",
     "MtjAgileCategoryListTitleFieldLabel": "MtJ Agile Category list",
+    "JitAssetBasePathFieldLabel": "Card image asset base path",
     "ContactEmailFieldLabel": "Contact email",
     "RenderOwnChromeFieldLabel": "Render header/footer in this web part"
   }

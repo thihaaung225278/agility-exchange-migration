@@ -6,6 +6,7 @@ import SiteFooter from '../../../shared/chrome/SiteFooter';
 import { chromeAssets } from '../../../shared/chrome/chromeAssets';
 import { usePageChromeFlags } from '../../../shared/pageChrome';
 import {
+  DEFAULT_JIT_ASSET_BASE_PATH,
   DEFAULT_JIT_LIST_TITLES,
   loadJitPackSections,
   loadToolsSections,
@@ -183,6 +184,18 @@ function sectionKey(section: IJitAccordionSection): string {
   return String(section.category.id);
 }
 
+/** Classic-safe CSS url() — encode spaces; skip only if quotes/backslash remain. */
+function toCssBackgroundImage(url: string | undefined): React.CSSProperties | undefined {
+  if (!url) {
+    return undefined;
+  }
+  const safe = url.replace(/ /g, '%20');
+  if (/[\\"']/.test(safe)) {
+    return undefined;
+  }
+  return { backgroundImage: 'url("' + safe + '")' };
+}
+
 interface IPackCardProps {
   card: IJitCardItem;
 }
@@ -199,11 +212,7 @@ const PackCard: React.FC<IPackCardProps> = ({ card }) => {
       <div className={styles.cardRight}>
         <div
           className={styles.cardBgImg}
-          style={
-            card.imageUrl && !/[\\"')\s]/.test(card.imageUrl)
-              ? { backgroundImage: 'url("' + card.imageUrl + '")' }
-              : undefined
-          }
+          style={toCssBackgroundImage(card.imageUrl)}
           aria-hidden="true"
         />
       </div>
@@ -306,10 +315,13 @@ const PackAccordion: React.FC<IPackAccordionProps> = ({
                 aria-hidden={!isOpen}
               >
                 <div className={styles.accordionBody}>
-                  <div className={styles.cardWrapper}>
-                    {section.cards.map((card: IJitCardItem) => (
-                      <PackCard key={card.id} card={card} />
-                    ))}
+                  {/* Classic: card-wrapper directly in uk-accordion-content (no 24px 36px L/R) */}
+                  <div className={styles.accordionCardsInner}>
+                    <div className={styles.cardWrapper}>
+                      {section.cards.map((card: IJitCardItem) => (
+                        <PackCard key={card.id} card={card} />
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -479,6 +491,7 @@ const JitPack: React.FC<IJitPackProps> = (props) => {
     toolsCategoryListTitle,
     mtjAgileListTitle,
     mtjAgileCategoryListTitle,
+    jitAssetBasePath,
     spHttpClient,
     webAbsoluteUrl,
     webServerRelativeUrl,
@@ -486,6 +499,8 @@ const JitPack: React.FC<IJitPackProps> = (props) => {
     listId,
     listItemId
   } = props;
+
+  const assetBasePath = jitAssetBasePath || DEFAULT_JIT_ASSET_BASE_PATH;
 
   const [activeOuterTab, setActiveOuterTab] = React.useState<OuterTabKey>('selfHelp');
   const [activeSelfHelpInner, setActiveSelfHelpInner] = React.useState<SelfHelpInner>('jit');
@@ -534,7 +549,7 @@ const JitPack: React.FC<IJitPackProps> = (props) => {
     setErrorTools(undefined);
     setErrorMtj(undefined);
 
-    loadJitPackSections(spHttpClient, webAbsoluteUrl, lists)
+    loadJitPackSections(spHttpClient, webAbsoluteUrl, lists, assetBasePath)
       .then((sections: IJitAccordionSection[]) => {
         if (!cancelled) {
           setJitSections(sections);
@@ -548,7 +563,7 @@ const JitPack: React.FC<IJitPackProps> = (props) => {
         }
       });
 
-    loadToolsSections(spHttpClient, webAbsoluteUrl, lists)
+    loadToolsSections(spHttpClient, webAbsoluteUrl, lists, assetBasePath)
       .then((sections: IJitAccordionSection[]) => {
         if (!cancelled) {
           setToolsSections(sections);
@@ -562,7 +577,7 @@ const JitPack: React.FC<IJitPackProps> = (props) => {
         }
       });
 
-    loadMtjAgileSections(spHttpClient, webAbsoluteUrl, lists)
+    loadMtjAgileSections(spHttpClient, webAbsoluteUrl, lists, assetBasePath)
       .then((sections: IJitAccordionSection[]) => {
         if (!cancelled) {
           setMtjSections(sections);
@@ -582,6 +597,7 @@ const JitPack: React.FC<IJitPackProps> = (props) => {
   }, [
     spHttpClient,
     webAbsoluteUrl,
+    assetBasePath,
     jitPacksListTitle,
     jitPacksCategoryListTitle,
     toolsListTitle,
