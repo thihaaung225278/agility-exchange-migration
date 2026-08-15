@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as ReactDom from 'react-dom';
 import styles from './Chrome.module.scss';
 import { withWebViewEnv } from './webViewEnv';
 
@@ -74,42 +75,58 @@ const SiteHeader: React.FC<ISiteHeaderProps> = (props) => {
     return () => document.removeEventListener('mousedown', onDocClick);
   }, []);
 
+  const closeMobileMenu = React.useCallback((): void => {
+    setMobileOpen(false);
+    setMobileFocusOpen(false);
+  }, []);
+
   React.useEffect(() => {
     if (!mobileOpen) {
       return;
     }
+
+    const prevHtmlOverflow = document.documentElement.style.overflow;
+    const prevBodyOverflow = document.body.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+
     const onKey = (e: KeyboardEvent): void => {
       if (e.key === 'Escape') {
-        setMobileOpen(false);
+        closeMobileMenu();
       }
     };
     document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [mobileOpen]);
+
+    return () => {
+      document.documentElement.style.overflow = prevHtmlOverflow;
+      document.body.style.overflow = prevBodyOverflow;
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [mobileOpen, closeMobileMenu]);
 
   const focusPanel = (
     <div className={styles.ddWrapper}>
       <div className={styles.ddList}>
-        <a href={agility101Url} className={styles.ddThumbLink} aria-hidden="true" tabIndex={-1}>
+        <a href={agility101Url} className={styles.ddThumbLink} aria-hidden="true" tabIndex={-1} onClick={closeMobileMenu}>
           <div
             className={`${styles.leftContent} ${styles.ddThumbAgile}`}
             style={{ backgroundImage: `url(${props.cardAgileSrc})` }}
           />
         </a>
         <div className={styles.rightContent}>
-          <h4><a href={agility101Url}>Agile 101</a></h4>
+          <h4><a href={agility101Url} onClick={closeMobileMenu}>Agile 101</a></h4>
           <p>Agile is a way of working for teams to collaborate to get work done and deliver products &amp; services that drive business value and mitigate risk.</p>
         </div>
       </div>
       <div className={styles.ddList}>
-        <a href={jitPackUrl} className={styles.ddThumbLink} aria-hidden="true" tabIndex={-1}>
+        <a href={jitPackUrl} className={styles.ddThumbLink} aria-hidden="true" tabIndex={-1} onClick={closeMobileMenu}>
           <div
             className={`${styles.leftContent} ${styles.ddThumbJit}`}
             style={{ backgroundImage: `url(${props.cardJitSrc})` }}
           />
         </a>
         <div className={styles.rightContent}>
-          <h4><a href={jitPackUrl}>Agile Practices for Deep Learners</a></h4>
+          <h4><a href={jitPackUrl} onClick={closeMobileMenu}>Agile Practices for Deep Learners</a></h4>
           <p>JIT Training Packs are self-hub guides that you can use in your own time</p>
         </div>
       </div>
@@ -176,57 +193,88 @@ const SiteHeader: React.FC<ISiteHeaderProps> = (props) => {
           aria-expanded={mobileOpen}
           aria-controls="ae-site-mobile-menu"
           aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-          onClick={() => setMobileOpen((v) => !v)}
+          onClick={() => {
+            if (mobileOpen) {
+              closeMobileMenu();
+            } else {
+              setMobileOpen(true);
+            }
+          }}
         >
-          <span className={styles.menuIcon} aria-hidden="true" />
+          <svg className={styles.menuIcon} width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+            <rect x="2" y="4" width="16" height="1" fill="currentColor" />
+            <rect x="2" y="9" width="16" height="1" fill="currentColor" />
+            <rect x="2" y="14" width="16" height="1" fill="currentColor" />
+          </svg>
         </button>
       </div>
 
-      {mobileOpen && (
-        <div className={styles.offcanvas} id="ae-site-mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation">
-          <button
-            type="button"
-            className={styles.offcanvasClose}
-            aria-label="Close menu"
-            onClick={() => setMobileOpen(false)}
-          >
-            ×
-          </button>
-          <ul className={styles.offcanvasList}>
-            <li className={isHomeActive ? styles.navActive : undefined}>
-              <a href={homeUrl} data-active="home" aria-current={isHomeActive ? 'page' : undefined} onClick={() => setMobileOpen(false)}>
-                <span><img src={props.iconHome} alt="" /></span>Home
-              </a>
-            </li>
-            <li className={isNewsActive ? styles.navActive : undefined}>
-              <a href={newsEventsUrl} data-active="news-events" aria-current={isNewsActive ? 'page' : undefined} onClick={() => setMobileOpen(false)}>
-                <span><img src={props.iconNews} alt="" /></span>News &amp; Events
-              </a>
-            </li>
-            <li className={isAboutActive ? styles.navActive : undefined}>
-              <a href={aboutUrl} data-active="about-tg" aria-current={isAboutActive ? 'page' : undefined} onClick={() => setMobileOpen(false)}>
-                <span><img src={props.iconAbout} alt="" /></span>
-                <span>About A<span className={styles.axLower}>x</span></span>
-              </a>
-            </li>
-            <li>
+      {mobileOpen &&
+        ReactDom.createPortal(
+          <div className={styles.offcanvas} id="ae-site-mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+            <div
+              className={`${styles.offcanvasBar}${mobileFocusOpen ? ` ${styles.offcanvasBarFocusOpen}` : ''}`}
+            >
               <button
                 type="button"
-                className={styles.mobileFocusToggle}
-                aria-expanded={mobileFocusOpen}
-                onClick={() => setMobileFocusOpen((v) => !v)}
+                className={styles.offcanvasClose}
+                aria-label="Close menu"
+                onClick={closeMobileMenu}
               >
-                Focus Area
+                <svg className={styles.offcanvasCloseIcon} width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                  <path fill="none" stroke="currentColor" strokeWidth="1.06" d="M16,16 L4,4" />
+                  <path fill="none" stroke="currentColor" strokeWidth="1.06" d="M16,4 L4,16" />
+                </svg>
               </button>
-              {mobileFocusOpen && (
-                <div className={styles.mobileFocusPanel}>
-                  {focusPanel}
-                </div>
-              )}
-            </li>
-          </ul>
-        </div>
-      )}
+              <ul className={styles.offcanvasList}>
+                <li className={isHomeActive ? styles.navActive : undefined}>
+                  <a href={homeUrl} data-active="home" aria-current={isHomeActive ? 'page' : undefined} onClick={closeMobileMenu}>
+                    <span><img src={props.iconHome} alt="" /></span>Home
+                  </a>
+                </li>
+                <li className={isNewsActive ? styles.navActive : undefined}>
+                  <a href={newsEventsUrl} data-active="news-events" aria-current={isNewsActive ? 'page' : undefined} onClick={closeMobileMenu}>
+                    <span><img src={props.iconNews} alt="" /></span>News &amp; Events
+                  </a>
+                </li>
+                <li className={isAboutActive ? styles.navActive : undefined}>
+                  <a href={aboutUrl} data-active="about-tg" aria-current={isAboutActive ? 'page' : undefined} onClick={closeMobileMenu}>
+                    <span><img src={props.iconAbout} alt="" /></span>
+                    <span>About A<span className={styles.axLower}>x</span></span>
+                  </a>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    className={styles.mobileFocusToggle}
+                    aria-expanded={mobileFocusOpen}
+                    onClick={() => setMobileFocusOpen((v) => !v)}
+                  >
+                    <span><img src={props.iconFocus} alt="" /></span>
+                    Focus Area
+                    <svg
+                      className={`${styles.mobileFocusChevron}${mobileFocusOpen ? ` ${styles.mobileFocusChevronOpen}` : ''}`}
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6l-6-6l1.41-1.41z"
+                      />
+                    </svg>
+                  </button>
+                  {mobileFocusOpen && (
+                    <div className={styles.mobileFocusPanel}>
+                      {focusPanel}
+                    </div>
+                  )}
+                </li>
+              </ul>
+            </div>
+          </div>,
+          document.body
+        )}
     </header>
   );
 };

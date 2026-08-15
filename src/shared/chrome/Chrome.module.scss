@@ -330,127 +330,247 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #fff;
-  border-radius: 42px;
-  padding: 8px 12px;
+  background: transparent;
+  background-color: transparent;
+  padding: 0;
 
   @media screen and (min-width: 960px) {
     display: none;
   }
 }
 
-.menuButton {
+/* Classic .uk-navbar-mobile .uk-button — border none, no fill; beat page `button { background: none }` */
+.mobileNav button.menuButton {
   border: none;
   background: transparent;
+  background-color: transparent;
+  color: #1e1e1e;
   cursor: pointer;
-  padding: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 0;
+  line-height: 0;
 }
 
-.menuIcon,
-.menuIcon::before,
-.menuIcon::after {
+.mobileNav button.menuButton:focus-visible {
+  outline: 0.125rem solid #9747ff;
+  outline-offset: 0.125rem;
+}
+
+/* Classic .uk-navbar-mobile .uk-button svg { width: 35px } — no extra button box */
+.menuIcon {
   display: block;
-  width: 28px;
-  height: 2.4px;
-  background: #1e1e1e;
-  border-radius: 2px;
-  position: relative;
+  width: 35px;
+  height: auto;
+  flex-shrink: 0;
 }
 
-.menuIcon::before,
-.menuIcon::after {
-  content: '';
-  position: absolute;
-  left: 0;
-}
-
-.menuIcon::before {
-  top: -7.2px;
-}
-
-.menuIcon::after {
-  top: 7.2px;
-}
-
+/* Classic uk-offcanvas-bar: full-width lavender → white (also on overlay so portal always paints) */
 .offcanvas {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: 1000001;
+  background: linear-gradient(#ede2fa, #fff);
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  color: #1e1e1e;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 1rem;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+.offcanvasBar {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100%;
   background: linear-gradient(#ede2fa, #fff);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px 24px;
+  text-align: center;
+  padding: 40px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Focus sheet open — classic dropbar pushes content toward top */
+.offcanvasBarFocusOpen {
+  align-items: flex-start;
 }
 
 .offcanvasClose {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 20px;
+  right: 20px;
   border: none;
   background: transparent;
-  font-size: 2em;
-  line-height: 1;
   cursor: pointer;
+  padding: 5px;
+  line-height: 0;
   color: #1e1e1e;
+  z-index: 2;
 }
 
+.offcanvasClose:focus-visible {
+  outline: 0.125rem solid #9747ff;
+  outline-offset: 0.125rem;
+}
+
+/* Classic .uk-offcanvas-bar button svg { width: 22px } — UIkit close stroke 1.06 */
+.offcanvasCloseIcon {
+  display: block;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+/* Classic .uk-offcanvas-bar ul { width: 100%; flex-direction: column } */
 .offcanvasList {
   list-style: none;
   margin: 0;
   padding: 0;
-  width: min(100%, 352px);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
 }
 
-.offcanvasList li a,
-.offcanvasList li a:visited,
+.offcanvasList li {
+  width: 100%;
+}
+
+/* Classic UIkit .uk-navbar-nav > li > a { min-height: 80px } — direct children only */
+.offcanvasList > li > a,
+.offcanvasList > li > a:visited,
 .mobileFocusToggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  color: #1e1e1e;
-  font-size: 1em;
-  padding: 12px;
+  column-gap: 0;
+  color: #1e1e1e !important;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  min-height: 80px;
+  padding: 0 15px;
   width: 100%;
   border: none;
   background: transparent;
   cursor: pointer;
-  font-family: inherit;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  line-height: 1.5;
+  box-sizing: border-box;
+  transition: color 0.1s ease-in-out;
 }
 
 .mobileFocusToggle {
-  font-weight: 700;
-  font-family: 'OpenSans-Bold', 'Segoe UI', sans-serif;
+  font-weight: 400;
 }
 
-.offcanvasList li a:hover,
-.offcanvasList .navActive > a,
-.offcanvasList .navActive > a:visited,
-.offcanvasList .navActive > a:hover,
+.offcanvasList > li > a:hover,
+.offcanvasList > li.navActive > a,
+.offcanvasList > li.navActive > a:visited,
+.offcanvasList > li.navActive > a:hover,
 .mobileFocusToggle:hover {
-  color: #ed1c24;
+  color: #ed1c24 !important;
 }
 
-.offcanvasList li a span img {
+/* PNG icons do not inherit color — match classic active/hover red (#ED1C24) */
+.offcanvasList > li > a:hover > span:first-child img,
+.offcanvasList > li.navActive > a > span:first-child img,
+.mobileFocusToggle:hover > span:first-child img {
+  filter: brightness(0) saturate(100%) invert(18%) sepia(95%) saturate(7498%) hue-rotate(348deg) brightness(96%) contrast(95%);
+}
+
+.offcanvasList > li > a:focus-visible,
+.mobileFocusToggle:focus-visible {
+  outline: 0.125rem solid #9747ff;
+  outline-offset: 0.125rem;
+}
+
+.offcanvasList > li > a span img,
+.mobileFocusToggle > span img {
   width: 20px;
+  height: auto;
+  max-width: none;
+  display: block;
+  margin-right: 10px;
 }
 
+/* Classic offcanvas Focus chevron SVG: #8b8b8b, 20px */
+.mobileFocusChevron {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #8b8b8b;
+  display: block;
+  margin-left: 0.25em;
+  transition: transform 0.3s ease-out;
+}
+
+.mobileFocusChevronOpen {
+  transform: rotate(180deg);
+}
+
+/* Classic .uk-navbar-dropdown in offcanvas: white, radius 40px, padding ~25px */
 .mobileFocusPanel {
-  margin-top: 12px;
+  margin-top: 0.25rem;
   text-align: left;
+  width: 100%;
+  border-radius: 2.5rem;
+  padding: 1.5625rem;
+  box-sizing: border-box;
+  background: #fff;
+  box-shadow: 0 0.3125rem 0.75rem rgba(0, 0, 0, 0.15);
 }
 
 .mobileFocusPanel .ddWrapper {
   flex-direction: column;
-  align-items: center;
-  gap: 20px;
+  align-items: stretch;
+  gap: 1.25rem;
+  width: 100%;
 }
 
 .mobileFocusPanel .ddList {
   width: 100%;
   align-items: center;
+}
+
+.mobileFocusPanel .rightContent h4 a,
+.mobileFocusPanel .rightContent h4 a:visited {
+  color: #1e1e1e;
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: 0.875rem;
+  min-height: 0;
+  padding: 0;
+  width: auto;
+  display: inline;
+}
+
+.mobileFocusPanel .rightContent h4 a:hover {
+  color: #ed1c24;
 }
 
 /* —— Footer —— */
@@ -508,6 +628,9 @@
   .siteHeader *,
   .siteHeader *::before,
   .siteHeader *::after,
+  .offcanvas *,
+  .offcanvas *::before,
+  .offcanvas *::after,
   .siteFooter *,
   .siteFooter *::before,
   .siteFooter *::after {
