@@ -164,9 +164,11 @@
 }
 
 .navCenter li a:hover,
-.navActive > a,
-.navActive > a:visited,
-.navActive > a:hover {
+.navCenter li.navActive > a,
+.navCenter li.navActive > a:visited,
+.navCenter li.navActive > a:hover,
+.navCenter li a[aria-current='page'],
+.navCenter li a[aria-current='page']:visited {
   color: #ed1c24;
 }
 

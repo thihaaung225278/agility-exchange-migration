@@ -14,6 +14,10 @@ function getLastSegment(value: string): string {
   return dotIndex > 0 ? segment.substring(0, dotIndex) : segment;
 }
 
+function isHomeSegment(segment: string): boolean {
+  return !segment || segment === 'index' || segment === 'default' || segment === 'home';
+}
+
 function resolveActiveState(targetUrl: string, fallbackKey: SiteNavKey, activeNav?: SiteNavKey): boolean {
   if (typeof window === 'undefined') {
     return activeNav === fallbackKey;
@@ -22,8 +26,8 @@ function resolveActiveState(targetUrl: string, fallbackKey: SiteNavKey, activeNa
   const currentSegment = getLastSegment(window.location.pathname);
   const targetSegment = getLastSegment(targetUrl);
 
-  if (!currentSegment || currentSegment === 'index' || currentSegment === 'default') {
-    return fallbackKey === 'home' && (!targetSegment || targetSegment === 'index' || targetSegment === 'default');
+  if (isHomeSegment(currentSegment)) {
+    return fallbackKey === 'home' && isHomeSegment(targetSegment);
   }
 
   if (targetSegment) {
