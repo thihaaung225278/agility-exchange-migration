@@ -26,6 +26,7 @@
       "quickLinkPlatformUrl": "https://dbs1bank.sharepoint.com/sites/SGPlatform/SitePages/Home.aspx",
       "contactEmail": "agilityexchange@dbs.com",
       "enableRegisterPrompt": false,
+      "allowEmailQueryOverride": false,
       "renderOwnChrome": true
     }
   }]

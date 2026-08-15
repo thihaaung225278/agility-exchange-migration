@@ -12,6 +12,7 @@ declare interface IHomeWebPartStrings {
   QuickLinkPlatformUrlFieldLabel: string;
   ContactEmailFieldLabel: string;
   EnableRegisterPromptFieldLabel: string;
+  AllowEmailQueryOverrideFieldLabel: string;
   RenderOwnChromeFieldLabel: string;
 }
 

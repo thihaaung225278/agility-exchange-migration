@@ -1,0 +1,342 @@
+@font-face {
+  font-family: 'OpenSans-SemiBold';
+  src: url('../../webparts/home/assets/OpenSans-SemiBold.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenSans-Regular';
+  src: url('../../webparts/home/assets/OpenSans-Regular.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenSans-Light';
+  src: url('../../webparts/home/assets/OpenSans-Light.woff') format('woff');
+  font-display: swap;
+}
+
+.overlay {
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.dialog {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 55.1875rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  outline: none;
+}
+
+.dialog *,
+.dialog *::before,
+.dialog *::after {
+  box-sizing: border-box;
+}
+
+.form {
+  margin: 0;
+}
+
+.contentWrap {
+  display: flex;
+  overflow: hidden;
+  background:
+    radial-gradient(98.39% 162.27% at 50% 141.46%, rgba(151, 71, 255, 0) 70.14%, rgba(151, 71, 255, 0.15) 100%),
+    linear-gradient(0deg, #f9f7f8, #f9f7f8);
+  border-radius: 2.375rem;
+}
+
+.left {
+  width: 25rem;
+  min-height: 16rem;
+}
+
+.bgImage {
+  width: 100%;
+  height: 100%;
+  min-height: 16rem;
+  background-image: url('./assets/popup-img.webp');
+  background-size: contain;
+  background-position: bottom;
+  background-repeat: no-repeat;
+}
+
+.right {
+  width: calc(100% - 25rem);
+  padding: 3.125rem 2.8125rem;
+}
+
+.title {
+  margin: 0 0 1.5rem;
+  color: #3a3030;
+  font-family: 'OpenSans-Light', 'Segoe UI', sans-serif;
+  font-size: 2.25rem;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+.radioGroup {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.radioRow {
+  position: relative;
+  padding: 0.75rem 0;
+}
+
+.radioInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.radioLabel {
+  display: block;
+  padding-right: 3.5rem;
+  color: #766767;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.radioLabel::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: #fff;
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+
+.radioLabel::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 1.25rem;
+  z-index: 1;
+  display: inline-block;
+  padding: 0.3125rem;
+  border: solid #ed1c24;
+  border-width: 0 2px 2px 0;
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+.radioInput:checked + .radioLabel {
+  color: #ed1c24;
+}
+
+.radioInput:checked + .radioLabel::after {
+  background: #ed1c24;
+}
+
+.radioInput:checked + .radioLabel::before {
+  border-color: #fff;
+}
+
+.radioInput:focus-visible + .radioLabel::after {
+  outline: 2px solid #ed1c24;
+  outline-offset: 2px;
+}
+
+.dropdowns {
+  display: flex;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.field {
+  flex: 1;
+  min-width: 0;
+}
+
+.selectWrap {
+  overflow: hidden;
+  border-radius: 2.375rem;
+}
+
+.selectWrapMarket {
+  background:
+    radial-gradient(98.39% 162.27% at 50% 141.46%, rgba(151, 71, 255, 0) 70.14%, rgba(151, 71, 255, 0.15) 100%),
+    linear-gradient(0deg, #f9f7f8, #f9f7f8);
+}
+
+.selectWrapBusu {
+  background:
+    radial-gradient(98.39% 162.27% at 50% 141.46%, rgba(237, 28, 36, 0) 70.14%, rgba(237, 28, 36, 0.15) 100%),
+    linear-gradient(0deg, #f9f7f8, #f9f7f8);
+}
+
+.select {
+  width: 100%;
+  height: 5.9375rem;
+  padding: 0 3.75rem 0 1.875rem;
+  overflow: hidden;
+  border: 0;
+  background-color: transparent;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%233A3030' stroke-width='2' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.5rem center;
+  background-size: 0.75rem;
+  color: #3a3030;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  font-size: 1.3125rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  appearance: none;
+}
+
+.select:focus-visible {
+  outline: 2px solid #ed1c24;
+  outline-offset: -2px;
+}
+
+.submitWrap {
+  overflow: hidden;
+  background:
+    radial-gradient(98.39% 162.27% at 50% 141.46%, rgba(151, 71, 255, 0) 70.14%, rgba(151, 71, 255, 0.15) 100%),
+    linear-gradient(0deg, #f9f7f8, #f9f7f8);
+  border-radius: 2.375rem;
+  text-align: center;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 0.9375rem 1.25rem;
+  border: 0;
+  border-radius: 1.5rem;
+  background: #ed1c24;
+  color: #fff;
+  font-family: 'OpenSans-SemiBold', 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.submitBtn:hover:not(:disabled) {
+  opacity: 0.7;
+}
+
+.submitBtn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.submitBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.error {
+  display: block;
+  margin-top: 0.75rem;
+  color: #ed1c24;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+}
+
+.saveError {
+  margin: 0.75rem 0 0;
+  color: #ed1c24;
+  font-family: 'OpenSans-Regular', 'Segoe UI', sans-serif;
+  text-align: center;
+}
+
+.loading {
+  padding: 2rem 1.5rem;
+  color: #3a3030;
+  font-size: 1rem;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .submitBtn {
+    transition: none;
+  }
+}
+
+@media (max-width: 59.9375rem) {
+  .left {
+    width: 40%;
+  }
+
+  .right {
+    width: 60%;
+  }
+}
+
+@media (max-width: 46.25rem) {
+  .contentWrap {
+    flex-direction: column;
+  }
+
+  .left,
+  .right {
+    width: 100%;
+  }
+
+  .left {
+    height: 18.75rem;
+  }
+
+  .bgImage {
+    background-position: left;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .radioLabel {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 40rem) {
+  .dropdowns {
+    flex-direction: column;
+  }
+
+  .select {
+    height: 4.5rem;
+    font-size: 1.125rem;
+  }
+}

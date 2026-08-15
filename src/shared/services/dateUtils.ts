@@ -1,3 +1,5 @@
+import { ensureWebViewQuery, withWebViewEnv } from '../chrome/webViewEnv';
+
 const SG_TZ = 'Asia/Singapore';
 
 export function pad2(n: number): string {
@@ -215,7 +217,7 @@ export function newsDetailHref(base: string, id: number): string {
     return '#';
   }
   const sep = base.indexOf('?') >= 0 ? '&' : '?';
-  return base + sep + NEWS_DETAIL_QUERY_PARAM + '=' + id;
+  return withWebViewEnv(base + sep + NEWS_DETAIL_QUERY_PARAM + '=' + id);
 }
 
 export function readNewsDetailId(): number | undefined {
@@ -263,6 +265,7 @@ export function writeViewParam(ymd: string | undefined, today: string): void {
   if (ymd && ymd !== today) {
     params.set('view', ymd);
   }
+  ensureWebViewQuery(params);
   const search = params.toString() ? '?' + params.toString() : '';
   window.history.replaceState(null, '', window.location.pathname + search + window.location.hash);
 }

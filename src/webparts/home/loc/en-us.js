@@ -12,7 +12,8 @@ define([], function() {
     "QuickLinkMtjUrlFieldLabel": "Managing through Journeys URL",
     "QuickLinkPlatformUrlFieldLabel": "Platform Operating Model URL",
     "ContactEmailFieldLabel": "Contact email",
-    "EnableRegisterPromptFieldLabel": "Enable register prompt (deferred)",
+    "EnableRegisterPromptFieldLabel": "Enable register prompt (when Page Chrome is not loaded)",
+    "AllowEmailQueryOverrideFieldLabel": "Allow ?email= override (UAT only)",
     "RenderOwnChromeFieldLabel": "Render header/footer in this web part"
   }
 });

@@ -10,8 +10,11 @@ export interface IHomeProps {
   quickLinkMtjUrl: string;
   quickLinkPlatformUrl: string;
   contactEmail: string;
-  /** Deferred: classic registerPopupController — not implemented in this slice */
   enableRegisterPrompt: boolean;
+  allowEmailQueryOverride: boolean;
+  userEmail?: string;
+  userDisplayName?: string;
+  isEditMode?: boolean;
   /** When true, Home renders chrome (WebView). Set false when Application Customizer owns chrome. */
   renderOwnChrome: boolean;
   spHttpClient: SPHttpClient;

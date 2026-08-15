@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { Version } from '@microsoft/sp-core-library';
+import { Version, DisplayMode } from '@microsoft/sp-core-library';
 import {
   type IPropertyPaneConfiguration,
   PropertyPaneTextField,
@@ -25,6 +25,7 @@ export interface IHomeWebPartProps {
   quickLinkPlatformUrl: string;
   contactEmail: string;
   enableRegisterPrompt: boolean;
+  allowEmailQueryOverride: boolean;
   renderOwnChrome: boolean;
 }
 
@@ -49,6 +50,10 @@ export default class HomeWebPart extends BaseClientSideWebPart<IHomeWebPartProps
       quickLinkPlatformUrl: this.properties.quickLinkPlatformUrl || '',
       contactEmail: this.properties.contactEmail || 'agilityexchange@dbs.com',
       enableRegisterPrompt: !!this.properties.enableRegisterPrompt,
+      allowEmailQueryOverride: !!this.properties.allowEmailQueryOverride,
+      userEmail: this.context.pageContext.user.email,
+      userDisplayName: this.context.pageContext.user.displayName,
+      isEditMode: this.displayMode === DisplayMode.Edit,
       renderOwnChrome: this.properties.renderOwnChrome !== false,
       spHttpClient: this.context.spHttpClient,
       webAbsoluteUrl: this.context.pageContext.web.absoluteUrl,
@@ -97,7 +102,12 @@ export default class HomeWebPart extends BaseClientSideWebPart<IHomeWebPartProps
                 PropertyPaneTextField('contactEmail', { label: strings.ContactEmailFieldLabel }),
                 PropertyPaneToggle('enableRegisterPrompt', {
                   label: strings.EnableRegisterPromptFieldLabel,
-                  onText: 'On (not implemented yet)',
+                  onText: 'On (fallback if Page Chrome is not loaded)',
+                  offText: 'Off'
+                }),
+                PropertyPaneToggle('allowEmailQueryOverride', {
+                  label: strings.AllowEmailQueryOverrideFieldLabel,
+                  onText: 'On (UAT ?email=)',
                   offText: 'Off'
                 }),
                 PropertyPaneToggle('renderOwnChrome', {

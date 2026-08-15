@@ -5,6 +5,7 @@ import HomeHeader from './HomeHeader';
 import HomeFooter from './HomeFooter';
 import BannerSlider, { IBannerSlide } from './BannerSlider';
 import { usePageChromeFlags } from '../../../shared/pageChrome';
+import { RegisterPromptHost } from '../../../shared/register';
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 const logo = require('../assets/logo.webp');
@@ -30,7 +31,6 @@ const ChevronRight: React.FC = () => (
 );
 
 const Home: React.FC<IHomeProps> = (props) => {
-  // enableRegisterPrompt reserved for future registerPopupController port
   const {
     homeUrl,
     newsEventsUrl,
@@ -41,6 +41,11 @@ const Home: React.FC<IHomeProps> = (props) => {
     quickLinkMtjUrl,
     quickLinkPlatformUrl,
     contactEmail,
+    enableRegisterPrompt,
+    allowEmailQueryOverride,
+    userEmail,
+    userDisplayName,
+    isEditMode,
     renderOwnChrome,
     spHttpClient,
     webAbsoluteUrl,
@@ -88,6 +93,15 @@ const Home: React.FC<IHomeProps> = (props) => {
 
   return (
     <div className={styles.home}>
+      <RegisterPromptHost
+        enabled={enableRegisterPrompt}
+        spHttpClient={spHttpClient}
+        webAbsoluteUrl={webAbsoluteUrl}
+        userEmail={userEmail}
+        userDisplayName={userDisplayName}
+        allowEmailQueryOverride={allowEmailQueryOverride}
+        isEditMode={isEditMode}
+      />
       <section>
         <div className={styles.mainContainer}>
           <div className={styles.headerBanner}>

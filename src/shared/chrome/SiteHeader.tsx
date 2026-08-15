@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styles from './Chrome.module.scss';
+import { withWebViewEnv } from './webViewEnv';
 
 export type SiteNavKey = 'home' | 'news' | 'about';
 
@@ -57,6 +58,11 @@ const SiteHeader: React.FC<ISiteHeaderProps> = (props) => {
   const isHomeActive = resolveActiveState(props.homeUrl, 'home', activeNav);
   const isNewsActive = resolveActiveState(props.newsEventsUrl, 'news', activeNav);
   const isAboutActive = resolveActiveState(props.aboutUrl, 'about', activeNav);
+  const homeUrl = withWebViewEnv(props.homeUrl);
+  const newsEventsUrl = withWebViewEnv(props.newsEventsUrl);
+  const aboutUrl = withWebViewEnv(props.aboutUrl);
+  const agility101Url = withWebViewEnv(props.agility101Url);
+  const jitPackUrl = withWebViewEnv(props.jitPackUrl);
 
   React.useEffect(() => {
     const onDocClick = (e: MouseEvent): void => {
@@ -84,26 +90,26 @@ const SiteHeader: React.FC<ISiteHeaderProps> = (props) => {
   const focusPanel = (
     <div className={styles.ddWrapper}>
       <div className={styles.ddList}>
-        <a href={props.agility101Url} className={styles.ddThumbLink} aria-hidden="true" tabIndex={-1}>
+        <a href={agility101Url} className={styles.ddThumbLink} aria-hidden="true" tabIndex={-1}>
           <div
             className={`${styles.leftContent} ${styles.ddThumbAgile}`}
             style={{ backgroundImage: `url(${props.cardAgileSrc})` }}
           />
         </a>
         <div className={styles.rightContent}>
-          <h4><a href={props.agility101Url}>Agile 101</a></h4>
+          <h4><a href={agility101Url}>Agile 101</a></h4>
           <p>Agile is a way of working for teams to collaborate to get work done and deliver products &amp; services that drive business value and mitigate risk.</p>
         </div>
       </div>
       <div className={styles.ddList}>
-        <a href={props.jitPackUrl} className={styles.ddThumbLink} aria-hidden="true" tabIndex={-1}>
+        <a href={jitPackUrl} className={styles.ddThumbLink} aria-hidden="true" tabIndex={-1}>
           <div
             className={`${styles.leftContent} ${styles.ddThumbJit}`}
             style={{ backgroundImage: `url(${props.cardJitSrc})` }}
           />
         </a>
         <div className={styles.rightContent}>
-          <h4><a href={props.jitPackUrl}>Agile Practices for Deep Learners</a></h4>
+          <h4><a href={jitPackUrl}>Agile Practices for Deep Learners</a></h4>
           <p>JIT Training Packs are self-hub guides that you can use in your own time</p>
         </div>
       </div>
@@ -114,25 +120,25 @@ const SiteHeader: React.FC<ISiteHeaderProps> = (props) => {
     <header className={styles.siteHeader} data-ae-site-chrome="header">
       <nav className={styles.desktopNav} aria-label="Primary">
         <div className={styles.navInner}>
-          <a href={props.homeUrl}>
+          <a href={homeUrl}>
             <img className={styles.logo} src={props.logoSrc} alt="Agility Exchange" />
           </a>
 
           <ul className={styles.navCenter}>
             <li className={isHomeActive ? styles.navActive : undefined}>
-              <a href={props.homeUrl} data-active="home" aria-current={isHomeActive ? 'page' : undefined}>
+              <a href={homeUrl} data-active="home" aria-current={isHomeActive ? 'page' : undefined}>
                 <span><img src={props.iconHome} alt="" /></span>
                 HOME
               </a>
             </li>
             <li className={isNewsActive ? styles.navActive : undefined}>
-              <a href={props.newsEventsUrl} data-active="news-events" aria-current={isNewsActive ? 'page' : undefined}>
+              <a href={newsEventsUrl} data-active="news-events" aria-current={isNewsActive ? 'page' : undefined}>
                 <span><img src={props.iconNews} alt="" /></span>
                 News &amp; Events
               </a>
             </li>
             <li className={isAboutActive ? styles.navActive : undefined}>
-              <a href={props.aboutUrl} data-active="about-tg" aria-current={isAboutActive ? 'page' : undefined}>
+              <a href={aboutUrl} data-active="about-tg" aria-current={isAboutActive ? 'page' : undefined}>
                 <span><img src={props.iconAbout} alt="" /></span>
                 <span>ABOUT A<span className={styles.axLower}>x</span></span>
               </a>
@@ -161,7 +167,7 @@ const SiteHeader: React.FC<ISiteHeaderProps> = (props) => {
       </nav>
 
       <div className={styles.mobileNav}>
-        <a href={props.homeUrl}>
+        <a href={homeUrl}>
           <img className={styles.logo} src={props.logoSrc} alt="Agility Exchange" />
         </a>
         <button
@@ -188,17 +194,17 @@ const SiteHeader: React.FC<ISiteHeaderProps> = (props) => {
           </button>
           <ul className={styles.offcanvasList}>
             <li className={isHomeActive ? styles.navActive : undefined}>
-              <a href={props.homeUrl} data-active="home" aria-current={isHomeActive ? 'page' : undefined} onClick={() => setMobileOpen(false)}>
+              <a href={homeUrl} data-active="home" aria-current={isHomeActive ? 'page' : undefined} onClick={() => setMobileOpen(false)}>
                 <span><img src={props.iconHome} alt="" /></span>Home
               </a>
             </li>
             <li className={isNewsActive ? styles.navActive : undefined}>
-              <a href={props.newsEventsUrl} data-active="news-events" aria-current={isNewsActive ? 'page' : undefined} onClick={() => setMobileOpen(false)}>
+              <a href={newsEventsUrl} data-active="news-events" aria-current={isNewsActive ? 'page' : undefined} onClick={() => setMobileOpen(false)}>
                 <span><img src={props.iconNews} alt="" /></span>News &amp; Events
               </a>
             </li>
             <li className={isAboutActive ? styles.navActive : undefined}>
-              <a href={props.aboutUrl} data-active="about-tg" aria-current={isAboutActive ? 'page' : undefined} onClick={() => setMobileOpen(false)}>
+              <a href={aboutUrl} data-active="about-tg" aria-current={isAboutActive ? 'page' : undefined} onClick={() => setMobileOpen(false)}>
                 <span><img src={props.iconAbout} alt="" /></span>
                 <span>About A<span className={styles.axLower}>x</span></span>
               </a>
