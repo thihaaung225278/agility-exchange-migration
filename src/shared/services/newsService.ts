@@ -28,6 +28,7 @@ interface INewsListItem {
   NewsDate?: string;
   isFeatured?: boolean | string | number;
   BodyContent?: string;
+  ImageURL?: string;
   Attachments?: boolean;
   AttachmentFiles?: IAttachmentFile[];
 }
@@ -35,6 +36,9 @@ interface INewsListItem {
 interface INewsListResponse {
   value?: INewsListItem[];
 }
+
+const NEWS_ITEM_SELECT =
+  'Id,Title,Description,NewsDate,isFeatured,BodyContent,ImageURL,Attachments,AttachmentFiles';
 
 function itemId(item: INewsListItem): number {
   if (typeof item.Id === 'number') {
@@ -54,6 +58,75 @@ function firstAttachmentUrl(item: INewsListItem): string | undefined {
   return files[0].ServerRelativeUrl;
 }
 
+function encodeSpaces(url: string): string {
+  return url.replace(/ /g, '%20');
+}
+
+function webOrigin(webAbsoluteUrl: string): string {
+  const web = webAbsoluteUrl.replace(/\/$/, '');
+  try {
+    return new URL(web).origin;
+  } catch {
+    return web;
+  }
+}
+
+/**
+ * Site Assets / attachment paths → absolute URL.
+ * Allow http(s) and site-relative paths only (img src + CSS url('…')).
+ */
+function resolveNewsImageUrl(webAbsoluteUrl: string, raw: string | undefined): string | undefined {
+  if (!raw) {
+    return undefined;
+  }
+  const trimmed = raw.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+  if (trimmed.indexOf("'") >= 0 || trimmed.indexOf('"') >= 0 || trimmed.indexOf(')') >= 0) {
+    return undefined;
+  }
+
+  const lower = trimmed.toLowerCase();
+  const web = webAbsoluteUrl.replace(/\/$/, '');
+  if (lower.indexOf('https://') === 0 || lower.indexOf('http://') === 0) {
+    return encodeSpaces(trimmed);
+  }
+  if (trimmed.indexOf(':') >= 0) {
+    return undefined;
+  }
+  if (trimmed.charAt(0) === '/') {
+    return encodeSpaces(webOrigin(web) + trimmed);
+  }
+
+  const relative = trimmed.replace(/^\.\//, '');
+  return encodeSpaces(web + '/' + relative);
+}
+
+function newsItemImageUrl(webAbsoluteUrl: string, item: INewsListItem): string | undefined {
+  const fromField = resolveNewsImageUrl(webAbsoluteUrl, item.ImageURL);
+  if (fromField) {
+    return fromField;
+  }
+  return resolveNewsImageUrl(webAbsoluteUrl, firstAttachmentUrl(item));
+}
+
+function mapNewsItem(webAbsoluteUrl: string, row: INewsListItem): INewsItem | undefined {
+  const id = itemId(row);
+  if (!id) {
+    return undefined;
+  }
+  return {
+    id,
+    title: row.Title || '',
+    description: row.Description || '',
+    newsDate: row.NewsDate || undefined,
+    isFeatured: parseYesNo(row.isFeatured) === true,
+    hasBody: !!(row.BodyContent && String(row.BodyContent).trim()),
+    imageUrl: newsItemImageUrl(webAbsoluteUrl, row)
+  };
+}
+
 export async function getPublishedNews(
   client: SPHttpClient,
   webAbsoluteUrl: string,
@@ -64,7 +137,7 @@ export async function getPublishedNews(
   const endpoint =
     web +
     "/_api/web/lists/getbytitle('" + title + "')" +
-    '/items?$select=Id,Title,Description,NewsDate,isFeatured,BodyContent,Attachments,AttachmentFiles' +
+    '/items?$select=' + NEWS_ITEM_SELECT +
     '&$expand=AttachmentFiles' +
     "&$filter=Status eq 'Published'" +
     '&$orderby=NewsDate desc' +
@@ -75,20 +148,10 @@ export async function getPublishedNews(
   const items: INewsItem[] = [];
 
   for (let i = 0; i < rows.length; i++) {
-    const row = rows[i];
-    const id = itemId(row);
-    if (!id) {
-      continue;
+    const mapped = mapNewsItem(webAbsoluteUrl, rows[i]);
+    if (mapped) {
+      items.push(mapped);
     }
-    items.push({
-      id,
-      title: row.Title || '',
-      description: row.Description || '',
-      newsDate: row.NewsDate || undefined,
-      isFeatured: parseYesNo(row.isFeatured) === true,
-      hasBody: !!(row.BodyContent && String(row.BodyContent).trim()),
-      imageUrl: firstAttachmentUrl(row)
-    });
   }
 
   return items;
@@ -105,7 +168,7 @@ export async function getPublishedNewsDetail(
   const endpoint =
     web +
     "/_api/web/lists/getbytitle('" + title + "')" +
-    '/items?$select=Id,Title,Description,NewsDate,isFeatured,BodyContent,Attachments,AttachmentFiles' +
+    '/items?$select=' + NEWS_ITEM_SELECT +
     '&$expand=AttachmentFiles' +
     "&$filter=Status eq 'Published' and Id eq " + itemIdValue +
     '&$top=1';
@@ -116,19 +179,19 @@ export async function getPublishedNewsDetail(
     return undefined;
   }
 
-  const id = itemId(row);
-  if (!id) {
+  const mapped = mapNewsItem(webAbsoluteUrl, row);
+  if (!mapped) {
     return undefined;
   }
 
   return {
-    id,
-    title: row.Title || '',
-    description: row.Description || '',
-    newsDate: row.NewsDate || undefined,
-    isFeatured: parseYesNo(row.isFeatured) === true,
-    hasBody: !!(row.BodyContent && String(row.BodyContent).trim()),
-    imageUrl: firstAttachmentUrl(row),
+    id: mapped.id,
+    title: mapped.title,
+    description: mapped.description,
+    newsDate: mapped.newsDate,
+    isFeatured: mapped.isFeatured,
+    hasBody: mapped.hasBody,
+    imageUrl: mapped.imageUrl,
     bodyContent: row.BodyContent || ''
   };
 }
