@@ -10,7 +10,7 @@ export interface IJitCardItem {
   id: number;
   title: string;
   categoryId: number;
-  /** Background illustration path from list Url field (resolved absolute when possible). */
+  /** Cover illustration (JIT `CoverImageUrl`, Tools/MtJ `Url`) resolved to absolute when possible. */
   imageUrl?: string;
   /** Download or open target (attachment preferred, else ExternalUrl). */
   href?: string;
@@ -18,7 +18,7 @@ export interface IJitCardItem {
   isDownload: boolean;
   /** Open in new tab when ExternalUrl (not attachment). */
   openInNewTab: boolean;
-  /** Classic long card when Url (image) is present. */
+  /** Classic long card when a cover image URL is present. */
   isLong: boolean;
 }
 
@@ -46,10 +46,17 @@ export const DEFAULT_JIT_LIST_TITLES: IJitPackListTitles = {
 };
 
 /**
- * Classic `config.workingDir` — list `Url` values are relative to this folder
- * (classic image = `config.homeURL + data.Url`).
+ * Classic `config.workingDir` — relative Tools/MtJ `Url` values join this folder
+ * (classic image = `config.homeURL + data.Url`). JIT Packs use tenant-relative
+ * `CoverImageUrl` (`/sites/…/SiteAssets/…`) and do not need this base.
  */
 export const DEFAULT_JIT_ASSET_BASE_PATH = '/Shared%20Documents/main/';
+
+/** Modern JIT Training Packs cover field (classic list used `Url`). */
+export const JIT_PACKS_IMAGE_FIELD = 'CoverImageUrl';
+
+/** Classic Tools / MtJ cover field. */
+export const JIT_CLASSIC_IMAGE_FIELD = 'Url';
 
 interface IAttachmentFile {
   ServerRelativeUrl?: string;
@@ -64,8 +71,10 @@ interface ISpListItem {
   Id?: number;
   ID?: number;
   Title?: string;
-  /** Text path or Hyperlink field object from REST. */
+  /** Classic Tools/MtJ cover path (text or Hyperlink). */
   Url?: string | ISpHyperlink;
+  /** Modern JIT Training Packs cover path (text or Hyperlink). */
+  CoverImageUrl?: string | ISpHyperlink;
   ExternalUrl?: string;
   CategoryId?: number;
   OrderNo?: number;
@@ -96,7 +105,7 @@ function firstAttachmentUrl(item: ISpListItem): string | undefined {
   return files[0].ServerRelativeUrl;
 }
 
-/** Normalize list Url field (plain text or Hyperlink { Url }). */
+/** Normalize list cover field (plain text or Hyperlink { Url }). */
 function coerceUrlField(raw: string | ISpHyperlink | undefined): string | undefined {
   if (raw === null || raw === undefined) {
     return undefined;
@@ -130,11 +139,31 @@ function encodeSpaces(url: string): string {
   return url.replace(/ /g, '%20');
 }
 
+function isSiteAssetsPath(path: string): boolean {
+  const lower = path.toLowerCase().replace(/\\/g, '/');
+  // Only web-library Site Assets roots — not `/sites/…/SiteAssets/…`
+  return (
+    lower === 'siteassets' ||
+    lower === '/siteassets' ||
+    lower.indexOf('siteassets/') === 0 ||
+    lower.indexOf('/siteassets/') === 0
+  );
+}
+
+/** `/sites/…` (or `sites/…`) is tenant server-relative — join origin only. */
+function isTenantServerRelative(path: string): boolean {
+  const lower = path.toLowerCase().replace(/\\/g, '/');
+  return lower.indexOf('/sites/') === 0 || lower.indexOf('sites/') === 0;
+}
+
 /**
  * Resolve list/attachment paths to absolute URLs.
  * - Absolute http(s) → unchanged
- * - Server-relative (`/…`) → origin + path (attachments, Site Assets)
+ * - Tenant server-relative (`/sites/…`, `sites/…`) → origin + path
+ * - Web-relative Site Assets (`/SiteAssets/…`, `SiteAssets/…`) → web + path
+ *   (do not use origin alone — that drops `/sites/<web>`)
  * - Relative (`public/images/…`) → web + assetBase (classic homeURL + Url)
+ * - Other server-relative (`/Lists/…` attachments) → origin + path
  */
 function resolveAssetUrl(
   webAbsoluteUrl: string,
@@ -148,11 +177,19 @@ function resolveAssetUrl(
   if (!trimmed) {
     return undefined;
   }
-  if (/^https?:\/\//i.test(trimmed)) {
-    return encodeSpaces(trimmed);
+  if (trimmed.indexOf("'") >= 0 || trimmed.indexOf('"') >= 0 || trimmed.indexOf(')') >= 0) {
+    return undefined;
   }
 
+  const lower = trimmed.toLowerCase();
   const web = webAbsoluteUrl.replace(/\/$/, '');
+  if (lower.indexOf('https://') === 0 || lower.indexOf('http://') === 0) {
+    return encodeSpaces(trimmed);
+  }
+  if (trimmed.indexOf(':') >= 0) {
+    return undefined;
+  }
+
   let origin = web;
   try {
     origin = new URL(web).origin;
@@ -160,11 +197,28 @@ function resolveAssetUrl(
     /* keep web */
   }
 
-  if (trimmed.charAt(0) === '/') {
-    return encodeSpaces(origin + trimmed);
+  const normalized = trimmed.replace(/\\/g, '/');
+
+  if (isTenantServerRelative(normalized)) {
+    if (normalized.charAt(0) === '/') {
+      return encodeSpaces(origin + normalized);
+    }
+    return encodeSpaces(origin + '/' + normalized);
   }
 
-  const relative = trimmed.replace(/^\.\//, '');
+  // `/SiteAssets/…` must stay under the current web, not tenant root.
+  if (isSiteAssetsPath(normalized)) {
+    if (normalized.charAt(0) === '/') {
+      return encodeSpaces(web + normalized);
+    }
+    return encodeSpaces(web + '/' + normalized);
+  }
+
+  if (normalized.charAt(0) === '/') {
+    return encodeSpaces(origin + normalized);
+  }
+
+  const relative = normalized.replace(/^\.\//, '');
   if (options && options.useAssetBase) {
     const base = normalizeAssetBasePath(options.assetBasePath);
     return encodeSpaces(web + base + relative);
@@ -184,7 +238,7 @@ function mapCard(
   }
 
   const categoryId = typeof row.CategoryId === 'number' ? row.CategoryId : 0;
-  const urlField = coerceUrlField(row.Url);
+  const urlField = coerceUrlField(row.CoverImageUrl) || coerceUrlField(row.Url);
   const imageUrl = resolveAssetUrl(webAbsoluteUrl, urlField, {
     useAssetBase: true,
     assetBasePath
@@ -252,26 +306,72 @@ async function getCategories(
   return categories;
 }
 
-async function getCards(
-  client: SPHttpClient,
-  webAbsoluteUrl: string,
-  listTitle: string,
-  assetBasePath?: string
-): Promise<IJitCardItem[]> {
-  const web = webAbsoluteUrl.replace(/\/$/, '');
-  const title = escapeODataString(listTitle);
-  const endpoint =
+/** Encode each OData $select name; keep commas as field separators. */
+function odataSelect(fields: string[]): string {
+  const encoded: string[] = [];
+  for (let i = 0; i < fields.length; i++) {
+    const name = fields[i].trim();
+    if (!name) {
+      continue;
+    }
+    encoded.push(encodeURIComponent(name));
+  }
+  return encoded.join(',');
+}
+
+function isSpBadRequest(error: unknown): boolean {
+  return error instanceof Error && error.message.indexOf('(400)') >= 0;
+}
+
+function splitImageFields(imageFieldInternalName: string): string[] {
+  const parts = imageFieldInternalName.split(',');
+  const fields: string[] = [];
+  for (let i = 0; i < parts.length; i++) {
+    const name = parts[i].trim();
+    if (name) {
+      fields.push(name);
+    }
+  }
+  return fields;
+}
+
+/** Primary image $select, then classic `Url`, then no cover field. */
+function imageFieldAttempts(imageFieldInternalName: string): string[][] {
+  const primary = splitImageFields(imageFieldInternalName);
+  const attempts: string[][] = [primary];
+  const primaryIsUrlOnly =
+    primary.length === 1 && primary[0] === JIT_CLASSIC_IMAGE_FIELD;
+  if (primary.length > 0 && !primaryIsUrlOnly) {
+    attempts.push([JIT_CLASSIC_IMAGE_FIELD]);
+  }
+  if (primary.length > 0) {
+    attempts.push([]);
+  }
+  return attempts;
+}
+
+function cardsItemsEndpoint(web: string, listTitle: string, imageFields: string[]): string {
+  const selectFields = ['Id', 'Title']
+    .concat(imageFields)
+    .concat(['ExternalUrl', 'CategoryId', 'OrderNo', 'Attachments', 'AttachmentFiles']);
+  return (
     web +
     "/_api/web/lists/getbytitle('" +
-    title +
+    listTitle +
     "')" +
-    '/items?$select=Id,Title,Url,ExternalUrl,CategoryId,OrderNo,Attachments,AttachmentFiles' +
+    '/items?$select=' +
+    odataSelect(selectFields) +
     '&$expand=AttachmentFiles' +
     '&$orderby=OrderNo asc' +
-    '&$top=5000';
+    '&$top=5000'
+  );
+}
 
-  const json = await getSpJson<ISpListResponse>(client, endpoint);
-  const rows = json.value || [];
+function mapCardRows(
+  webAbsoluteUrl: string,
+  rows: ISpListItem[],
+  assetBasePath?: string
+): IJitCardItem[] {
   const cards: IJitCardItem[] = [];
   for (let i = 0; i < rows.length; i++) {
     const card = mapCard(webAbsoluteUrl, rows[i], assetBasePath);
@@ -280,6 +380,37 @@ async function getCards(
     }
   }
   return cards;
+}
+
+async function getCards(
+  client: SPHttpClient,
+  webAbsoluteUrl: string,
+  listTitle: string,
+  assetBasePath?: string,
+  imageFieldInternalName: string = JIT_CLASSIC_IMAGE_FIELD
+): Promise<IJitCardItem[]> {
+  const web = webAbsoluteUrl.replace(/\/$/, '');
+  const title = escapeODataString(listTitle);
+  const attempts = imageFieldAttempts(imageFieldInternalName);
+
+  let lastError: unknown;
+  for (let i = 0; i < attempts.length; i++) {
+    try {
+      const json = await getSpJson<ISpListResponse>(
+        client,
+        cardsItemsEndpoint(web, title, attempts[i])
+      );
+      return mapCardRows(webAbsoluteUrl, json.value || [], assetBasePath);
+    } catch (error) {
+      lastError = error;
+      const hasMore = i < attempts.length - 1;
+      if (!isSpBadRequest(error) || !hasMore) {
+        throw error;
+      }
+    }
+  }
+
+  throw lastError;
 }
 
 function groupByCategory(categories: IJitCategory[], cards: IJitCardItem[]): IJitAccordionSection[] {
@@ -297,7 +428,7 @@ export async function loadJitPackSections(
 ): Promise<IJitAccordionSection[]> {
   const [categories, cards] = await Promise.all([
     getCategories(client, webAbsoluteUrl, lists.jitPacksCategory, 'Order_NO'),
-    getCards(client, webAbsoluteUrl, lists.jitPacks, assetBasePath)
+    getCards(client, webAbsoluteUrl, lists.jitPacks, assetBasePath, JIT_PACKS_IMAGE_FIELD)
   ]);
   return groupByCategory(categories, cards);
 }

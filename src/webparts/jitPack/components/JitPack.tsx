@@ -184,7 +184,7 @@ function sectionKey(section: IJitAccordionSection): string {
   return String(section.category.id);
 }
 
-/** Classic-safe CSS url() — encode spaces; skip only if quotes/backslash remain. */
+/** Classic-safe CSS url('…') — encode spaces; skip quotes/backslash (style-attr safe). */
 function toCssBackgroundImage(url: string | undefined): React.CSSProperties | undefined {
   if (!url) {
     return undefined;
@@ -193,7 +193,7 @@ function toCssBackgroundImage(url: string | undefined): React.CSSProperties | un
   if (/[\\"']/.test(safe)) {
     return undefined;
   }
-  return { backgroundImage: 'url("' + safe + '")' };
+  return { backgroundImage: "url('" + safe + "')" };
 }
 
 interface IPackCardProps {
