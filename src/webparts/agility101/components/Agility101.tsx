@@ -479,7 +479,7 @@ const mindsetShiftRows: Array<{ from: string; to: string }> = [
 
 const innerTabItems: IInnerTabItem[] = [
   { key: 'mindset', label: 'Mindset', icon: <InnerTabIconMindset />, title: 'Agile Foundation', paragraphs: mindsetParagraphs },
-  { key: 'values', label: 'Values', icon: <InnerTabIconValues />, title: 'Agile Foundation 2', paragraphs: valuesParagraphs },
+  { key: 'values', label: 'Values', icon: <InnerTabIconValues />, title: '', paragraphs: valuesParagraphs },
   { key: 'principle', label: 'Principles', icon: <InnerTabIconPrinciples />, title: '', paragraphs: principleParagraphs },
   { key: 'practice', label: 'Practices', icon: <InnerTabIconPractices />, title: '', paragraphs: practiceParagraphs }
 ];
